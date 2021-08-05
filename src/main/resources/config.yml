@@ -1,0 +1,14 @@
+level-manage-permission: money.edit
+bossbar: true
+chatmsg: "%rank% %1$s -> %2$s"
+enablechat: true
+# %1$s correspond au pseudo du joueur
+# %2$s corresponde au message
+# %rank% correspond au préfix du rank
+money-manage-permission: money.edit
+sql:
+  host: localhost
+  port: 3306
+  database: endoskull
+  user: endoskull
+  password: 9zRQ2Cb03DxdPTmG

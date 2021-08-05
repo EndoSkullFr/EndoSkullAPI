@@ -1,0 +1,21 @@
+name: EndoSkull-API
+version: 1.0
+description: Api of EndoSkull (level, money, keys, rank, moderation)
+website: https://endoskull.fr
+author: BebeDlaStreat
+main: fr.endoskull.api.Main
+commands:
+  level:
+  rank:
+    permission: rank.edit
+  permission:
+    aliases: [perm, perms, permissions]
+    permission: rank.permission.edit
+  endoskullapi:
+    description: reload la config
+  boxset:
+    permission: box.set
+  key:
+    permission: key.edit
+  coins:
+    aliases: [money, bal, balance]
