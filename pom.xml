@@ -89,6 +89,12 @@
             <scope>system</scope>
             <systemPath>${project.basedir}/libs/BossBarAPI_v2.4.1.jar</systemPath>
         </dependency>
+        <dependency>
+            <groupId>net.luckperms</groupId>
+            <artifactId>api</artifactId>
+            <version>5.3</version>
+            <scope>provided</scope>
+        </dependency>
     </dependencies>
 
 </project>

@@ -1,10 +1,10 @@
 package fr.endoskull.api.utils;
 
 import fr.endoskull.api.Main;
-import fr.endoskull.api.database.Account;
 import fr.endoskull.api.database.Keys;
 import fr.endoskull.api.database.Level;
 import fr.endoskull.api.database.Money;
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
 import java.util.List;
@@ -14,18 +14,15 @@ public class EndoSkullPlayer {
     private UUID uuid;
 
     public EndoSkullPlayer(Player player) {
-        if (!Main.getInstance().getUuidsByName().containsKey(player.getName())) {
-            this.uuid = null;
-            return;
-        }
-        this.uuid = Main.getInstance().getUuidsByName().get(player.getName());
+        this.uuid = player.getUniqueId();
     }
     public EndoSkullPlayer(String name) {
-        if (!Main.getInstance().getUuidsByName().containsKey(name)) {
+        Player player = Bukkit.getPlayer(name);
+        if (player == null) {
             this.uuid = null;
             return;
         }
-        this.uuid = Main.getInstance().getUuidsByName().get(name);
+        this.uuid = player.getUniqueId();
     }
     public EndoSkullPlayer(UUID uuid) {
         this.uuid = uuid;
@@ -61,28 +58,6 @@ public class EndoSkullPlayer {
     }
     public double xpToLevelSup() {
         return 20d + (getLevel() * 10d);
-    }
-
-    public List<RankUnit> getRankList() {
-        return Account.getRankList(uuid);
-    }
-    public RankUnit getRank() {
-        RankUnit rank = RankUnit.JOUEUR;
-        for (RankUnit r : getRankList()) {
-            if (r.getPower() < rank.getPower()) {
-                rank = r;
-            }
-        }
-        return rank;
-    }
-    public boolean hasRank(RankUnit rankUnit) {
-        return getRankList().contains(rankUnit);
-    }
-    public void addRank(RankUnit rankUnit) {
-        Account.addRank(rankUnit, uuid);
-    }
-    public void removeRank(RankUnit rankUnit) {
-        Account.removeRank(rankUnit, uuid);
     }
 
     public int getKey(String name) {

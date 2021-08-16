@@ -1,7 +1,9 @@
 package fr.endoskull.api.listeners;
 
 import fr.endoskull.api.Main;
-import fr.endoskull.api.utils.RankApi;
+import net.luckperms.api.LuckPerms;
+import net.luckperms.api.LuckPermsProvider;
+import net.luckperms.api.model.user.User;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -17,8 +19,18 @@ public class PlayerChat implements Listener {
         Player player = e.getPlayer();
 
         if (main.getConfig().getBoolean("enablechat")) {
-            String format = main.getConfig().getString("chatmsg");
+            /*String format = main.getConfig().getString("chatmsg");
             format = format.replace("%rank%", RankApi.getRank(main.getUuidsByName().get(player.getName())).getPrefix());
+            format = format.replace("&", "§");
+            e.setFormat(format);*/
+            User user = LuckPermsProvider.get().getUserManager().getUser(player.getUniqueId());
+            String prefix = user.getCachedData().getMetaData().getPrefix();
+            if (prefix == null) prefix = "&7Joueur";
+            String suffix = user.getCachedData().getMetaData().getSuffix();
+            if (suffix == null) suffix = "";
+            String format = main.getConfig().getString("chatmsg");
+            format = format.replace("%prefix%", prefix);
+            format = format.replace("%suffix%", suffix);
             format = format.replace("&", "§");
             e.setFormat(format);
         }

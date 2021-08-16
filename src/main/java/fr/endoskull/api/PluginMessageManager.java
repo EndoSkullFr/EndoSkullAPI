@@ -37,11 +37,6 @@ public class PluginMessageManager implements org.bukkit.plugin.messaging.PluginM
                 String[] serverList = in.readUTF().split(", ");
                 servers = Arrays.asList(serverList);
             }
-            if (subchannel.equals("UUID")) {
-                StringBuilder uuidBuilder = new StringBuilder(in.readUTF());
-                uuidBuilder.insert(20, "-").insert(16, "-").insert(12, "-").insert(8, "-");
-                main.getUuidsByName().put(player.getName(), UUID.fromString(uuidBuilder.toString()));
-            }
         }
     }
 

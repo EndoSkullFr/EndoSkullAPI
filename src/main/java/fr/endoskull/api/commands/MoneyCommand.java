@@ -24,7 +24,7 @@ public class MoneyCommand implements CommandExecutor {
             Player player = (Player) sender;
             if (!player.hasPermission("coins.edit") || args.length == 0) {
                 player.sendMessage("§7§m--------------------\n" +
-                        "§eVous avez §6" + Money.getMoney(main.getUuidsByName().get(player.getName())) + " §ecoins\n" +
+                        "§eVous avez §6" + Money.getMoney(player.getUniqueId()) + " §ecoins\n" +
                         "§7§m--------------------");
                 return false;
             }

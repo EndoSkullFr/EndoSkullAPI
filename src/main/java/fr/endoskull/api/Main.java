@@ -2,14 +2,12 @@ package fr.endoskull.api;
 
 import fr.endoskull.api.commands.*;
 import fr.endoskull.api.database.MySQL;
-import fr.endoskull.api.database.Permissions;
 import fr.endoskull.api.listeners.ClickListener;
 import fr.endoskull.api.listeners.PlayerChat;
 import fr.endoskull.api.listeners.PlayerInv;
 import fr.endoskull.api.listeners.PlayerJoin;
 import fr.endoskull.api.tasks.BossBarRunnable;
 import fr.endoskull.api.tasks.PlayerCountTask;
-import fr.endoskull.api.utils.Rank;
 import org.apache.commons.dbcp2.BasicDataSource;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -22,9 +20,7 @@ import java.util.HashMap;
 import java.util.UUID;
 
 public class Main extends JavaPlugin {
-    private HashMap<String, UUID> uuidsByName = new HashMap<>();
     private static Main instance;
-    private Rank rank;
     private HashMap<Player, Inventory> openingKeys = new HashMap<>();
     private HashMap<Player, Location> waitingSetting = new HashMap<>();
 
@@ -32,19 +28,12 @@ public class Main extends JavaPlugin {
     private MySQL mysql;
 
     @Override
-    public void onLoad() {
-        rank = new Rank(this);
-    }
-
-    @Override
     public void onEnable() {
         saveDefaultConfig();
         instance = this;
         getServer().getMessenger().registerOutgoingPluginChannel(this, "BungeeCord");
         getServer().getMessenger().registerIncomingPluginChannel(this, "BungeeCord", new PluginMessageManager(this));
-        rank.initScoreboard();
         initConnection();
-        Permissions.setup();
 
         registerCommands();
         registerListeners();
@@ -72,10 +61,6 @@ public class Main extends JavaPlugin {
     private void registerCommands() {
         getCommand("level").setExecutor(new LevelCommand(this));
         getCommand("coins").setExecutor(new MoneyCommand(this));
-        getCommand("rank").setExecutor(new RankCommand(this));
-        getCommand("rank").setTabCompleter(new RankCommand(this));
-        getCommand("permission").setExecutor(new PermissionCommand());
-        getCommand("permission").setTabCompleter(new PermissionCommand());
         getCommand("boxset").setExecutor(new BoxSetCommand(this));
         getCommand("key").setExecutor(new KeyCommand(this));
 
@@ -84,10 +69,10 @@ public class Main extends JavaPlugin {
 
     private void registerListeners() {
         PluginManager pm = Bukkit.getPluginManager();
-        pm.registerEvents(new PlayerJoin(this, rank), this);
         pm.registerEvents(new PlayerChat(this), this);
         pm.registerEvents(new ClickListener(this), this);
         pm.registerEvents(new PlayerInv(this), this);
+        pm.registerEvents(new PlayerJoin(this), this);
     }
 
     public static Main getInstance() {
@@ -96,14 +81,6 @@ public class Main extends JavaPlugin {
 
     public MySQL getMySQL() {
         return mysql;
-    }
-
-    public HashMap<String, UUID> getUuidsByName() {
-        return uuidsByName;
-    }
-
-    public Rank getRank() {
-        return rank;
     }
 
     public HashMap<Player, Location> getWaitingSetting() {

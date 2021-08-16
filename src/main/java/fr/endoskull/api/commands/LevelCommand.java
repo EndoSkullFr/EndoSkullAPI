@@ -26,7 +26,7 @@ public class LevelCommand implements CommandExecutor {
             Player player = (Player) sender;
             if (!player.hasPermission("level.edit") || args.length == 0) {
                 player.sendMessage("§7§m--------------------\n" +
-                        "§eLevel : §6" + Level.getLevel(main.getUuidsByName().get(player.getName())) + " §f| §eXp : §6" + Level.getXp(main.getUuidsByName().get(player.getName())) + "§e/§6" + Level.xpToLevelSup(main.getUuidsByName().get(player.getName())) + "\n" +
+                        "§eLevel : §6" + Level.getLevel(player.getUniqueId()) + " §f| §eXp : §6" + Level.getXp(player.getUniqueId()) + "§e/§6" + Level.xpToLevelSup(player.getUniqueId()) + "\n" +
                         "§7§m--------------------");
                 return false;
             }

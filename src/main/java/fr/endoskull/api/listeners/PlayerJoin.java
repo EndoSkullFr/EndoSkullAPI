@@ -5,7 +5,6 @@ import com.viaversion.viaversion.api.ViaAPI;
 import com.viaversion.viaversion.api.legacy.bossbar.BossColor;
 import com.viaversion.viaversion.api.legacy.bossbar.BossStyle;
 import fr.endoskull.api.Main;
-import fr.endoskull.api.database.Account;
 import fr.endoskull.api.database.Keys;
 import fr.endoskull.api.database.Level;
 import fr.endoskull.api.tasks.BossBarRunnable;
@@ -28,10 +27,8 @@ import java.util.UUID;
 
 public class PlayerJoin implements Listener {
     private Main main;
-    private Rank rank;
-    public PlayerJoin(Main main, Rank rank) {
+    public PlayerJoin(Main main) {
         this.main = main;
-        this.rank = rank;
     }
 
     @EventHandler
@@ -48,23 +45,10 @@ public class PlayerJoin implements Listener {
             }
             //UUID uuid = PlayerInfos.getUuidFromName(player.getName());
             //if (!main.getUuidsByName().containsKey(player)) main.getUuidsByName().put(player.getName(), uuid);
-            UUID uuid;
-            if (main.getUuidsByName().containsKey(player.getName())) {
-                uuid = main.getUuidsByName().get(player.getName());
-            } else {
-                uuid = PlayerInfos.getUuidFromName(player.getName());
-                main.getUuidsByName().put(player.getName(), uuid);
-            }
+            UUID uuid= player.getUniqueId();
             EndoSkullPlayer skullPlayer = new EndoSkullPlayer(player);
             Level.setup(uuid);
-            Account.setup(uuid);
             Keys.setup(uuid);
-            player.setScoreboard(rank.getScoreboard());
-
-            if (!player.hasPlayedBefore()) {
-                skullPlayer.addRank(RankUnit.JOUEUR);
-                //RankApi.addRank(uuid, RankUnit.JOUEUR);
-            }
             if (main.getConfig().getBoolean("bossbar")) {
                 Bukkit.getScheduler().runTaskLater(main, () -> {
                     String message ="§eLevel : §6" + skullPlayer.getLevel() + " §f| §eXp : §6" + skullPlayer.getXp() + "§e/§6" + skullPlayer.xpToLevelSup();
@@ -83,9 +67,6 @@ public class PlayerJoin implements Listener {
     @EventHandler
     public void onQuit(PlayerQuitEvent e) {
         Player player = e.getPlayer();
-        if (!main.getUuidsByName().containsKey(player.getName())) return;
-        rank.deletePlayer(player);
-        main.getUuidsByName().remove(player.getName());
         if (BossBarRunnable.getBars().containsKey(player)) {
             BossBarRunnable.getBars().get(player).removePlayer(player);
             BossBarAPI.removeAllBars(player);

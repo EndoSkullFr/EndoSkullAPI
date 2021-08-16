@@ -16,7 +16,7 @@ public class PlayerInfos {
 
     public static UUID getUuidFromName(String name) {
         if (Bukkit.getPlayer(name) != null) {
-            if (Main.getInstance().getUuidsByName().containsKey(name)) return Main.getInstance().getUuidsByName().get(name);
+            return Bukkit.getPlayer(name).getUniqueId();
         }
         String url = "https://api.mojang.com/users/profiles/minecraft/"+name;
         try {
@@ -34,6 +34,9 @@ public class PlayerInfos {
     }
 
     public static String getNameFromUuid(UUID uuid) {
+        if (Bukkit.getPlayer(uuid) != null) {
+            return Bukkit.getPlayer(uuid).getName();
+        }
         String url = "https://api.mojang.com/user/profiles/"+uuid.toString()+"/names";
         try {
             @SuppressWarnings("deprecation")

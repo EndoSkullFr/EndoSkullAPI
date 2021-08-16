@@ -106,13 +106,13 @@ public class ClickListener implements Listener {
         if (e.getClickedInventory().getName().equals("§4Box Ultime")) {
             e.setCancelled(true);
             if (e.getSlot() == 22 && current.getType().equals(Material.ANVIL)) {
-                if (Keys.getKeys(main.getUuidsByName().get(player.getName()), "ultime") < 1) {
+                if (Keys.getKeys(player.getUniqueId(), "ultime") < 1) {
                     player.closeInventory();
                     player.playSound(player.getLocation(), Sound.VILLAGER_NO, 50, 50);
                     player.sendMessage("§cVous devez posséder une §lClé Ultime §cpour effectuer cette action");
                     return;
                 } else {
-                    Keys.removeKey(main.getUuidsByName().get(player.getName()), "ultime", 1);
+                    Keys.removeKey(player.getUniqueId(), "ultime", 1);
                     BoxInventory.playUltimeAnimation(player);
                 }
             }
@@ -120,13 +120,13 @@ public class ClickListener implements Listener {
         if (e.getClickedInventory().getName().equals("§eBox Vote")) {
             e.setCancelled(true);
             if (e.getSlot() == 22 && current.getType().equals(Material.ANVIL)) {
-                if (Keys.getKeys(main.getUuidsByName().get(player.getName()), "vote") < 1) {
+                if (Keys.getKeys(player.getUniqueId(), "vote") < 1) {
                     player.closeInventory();
                     player.playSound(player.getLocation(), Sound.VILLAGER_NO, 50, 50);
                     player.sendMessage("§cVous devez posséder une §lClé Vote §cpour effectuer cette action");
                     return;
                 } else {
-                    Keys.removeKey(main.getUuidsByName().get(player.getName()), "vote", 1);
+                    Keys.removeKey(player.getUniqueId(), "vote", 1);
                     BoxInventory.playVoteAnimation(player);
                 }
             }

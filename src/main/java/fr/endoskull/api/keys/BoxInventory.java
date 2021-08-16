@@ -53,7 +53,7 @@ public class BoxInventory {
             inv.setItem(i, new CustomItemStack(value.getItem()).setName(value.getName()).setLore("\n§7Probabilité: " + value.getName().substring(0, 2) + value.getPourcent() + "%"));
             i++;
         }
-        inv.setItem(22, new CustomItemStack(Material.ANVIL).setName("§6Ouvrir").setLore("\n§7Vous avez §6" + Keys.getKeys(Main.getInstance().getUuidsByName().get(player.getName()), "ultime") + " §7Clé(s) Ultime(s)"));
+        inv.setItem(22, new CustomItemStack(Material.ANVIL).setName("§6Ouvrir").setLore("\n§7Vous avez §6" + Keys.getKeys(player.getUniqueId(), "ultime") + " §7Clé(s) Ultime(s)"));
         player.openInventory(inv);
         player.playSound(player.getLocation(), Sound.NOTE_PIANO, 50, 50);
     }
@@ -66,7 +66,7 @@ public class BoxInventory {
             inv.setItem(i, new CustomItemStack(value.getItem()).setName(value.getName()).setLore("\n§7Probabilité: " + value.getName().substring(0, 2) + value.getPourcent() + "%"));
             i++;
         }
-        inv.setItem(22, new CustomItemStack(Material.ANVIL).setName("§6Ouvrir").setLore("\n§7Vous avez §6" + Keys.getKeys(Main.getInstance().getUuidsByName().get(player.getName()), "vote") + " §7Clé(s) Vote(s)"));
+        inv.setItem(22, new CustomItemStack(Material.ANVIL).setName("§6Ouvrir").setLore("\n§7Vous avez §6" + Keys.getKeys(player.getUniqueId(), "vote") + " §7Clé(s) Vote(s)"));
         player.openInventory(inv);
         player.playSound(player.getLocation(), Sound.NOTE_PIANO, 50, 50);
     }
