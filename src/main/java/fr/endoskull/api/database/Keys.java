@@ -13,7 +13,7 @@ public class Keys {
         Main.getInstance().getMySQL().query("SELECT * FROM " + TABLE + " WHERE uuid='" + uuid + "'", rs -> {
             try {
                 if(!rs.next()){
-                    Main.getInstance().getMySQL().update("INSERT INTO " + TABLE + " (uuid, ultime, vote) VALUES ('" + uuid + "', '" + 0 + "', '" + 0 + "')");
+                    Main.getInstance().getMySQL().update("INSERT INTO " + TABLE + " (uuid, ultime, vote, coins, kit) VALUES ('" + uuid + "', '" + 0 + "', '" + 0 + "', '" + 0 + "', '" + 0 + "')");
                 }
             } catch (SQLException e) {
                 e.printStackTrace();

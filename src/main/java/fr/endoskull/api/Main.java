@@ -2,10 +2,8 @@ package fr.endoskull.api;
 
 import fr.endoskull.api.commands.*;
 import fr.endoskull.api.database.MySQL;
-import fr.endoskull.api.listeners.ClickListener;
-import fr.endoskull.api.listeners.PlayerChat;
-import fr.endoskull.api.listeners.PlayerInv;
-import fr.endoskull.api.listeners.PlayerJoin;
+import fr.endoskull.api.listeners.*;
+import fr.endoskull.api.papi.EndoSkullPlaceholder;
 import fr.endoskull.api.tasks.BossBarRunnable;
 import fr.endoskull.api.tasks.PlayerCountTask;
 import org.apache.commons.dbcp2.BasicDataSource;
@@ -43,6 +41,8 @@ public class Main extends JavaPlugin {
             Bukkit.getScheduler().runTaskTimer(this, new BossBarRunnable(this), 20L, 20L);
         }
         Bukkit.getScheduler().runTaskTimer(this, new PlayerCountTask(this), 20L, 20L);
+
+        new EndoSkullPlaceholder().register();
         super.onEnable();
     }
 
@@ -63,6 +63,7 @@ public class Main extends JavaPlugin {
         getCommand("coins").setExecutor(new MoneyCommand(this));
         getCommand("boxset").setExecutor(new BoxSetCommand(this));
         getCommand("key").setExecutor(new KeyCommand(this));
+        getCommand("boutique").setExecutor(new BoutiqueCommand());
 
         getCommand("endoskullapi").setExecutor(new EndoSkullApiCommand(this));
     }
@@ -73,6 +74,7 @@ public class Main extends JavaPlugin {
         pm.registerEvents(new ClickListener(this), this);
         pm.registerEvents(new PlayerInv(this), this);
         pm.registerEvents(new PlayerJoin(this), this);
+        pm.registerEvents(new CustomGuiListener(), this);
     }
 
     public static Main getInstance() {

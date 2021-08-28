@@ -35,6 +35,11 @@ public class EndoSkullPlayer {
     public int getLevel() {
         return Level.getLevel(uuid);
     }
+    public double getLevelWithXp() {
+        double level = getLevel();
+        double xp = Double.valueOf(Math.round(getXp() / xpToLevelSup() * 10)) / 10;
+        return level + xp;
+    }
     public void setLevel(int number) {
         Level.setLevel(uuid, number);
     }

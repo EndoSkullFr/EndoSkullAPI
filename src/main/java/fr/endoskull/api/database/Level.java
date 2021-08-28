@@ -6,6 +6,8 @@ import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 public class Level {
@@ -29,6 +31,21 @@ public class Level {
         return (boolean) Main.getInstance().getMySQL().query("SELECT * FROM " + TABLE + " WHERE uuid='" + uuid + "'", rs -> {
             try {
                 return rs.next();
+            } catch (SQLException e) {
+                e.printStackTrace();
+                return false;
+            }
+        });
+    }
+
+    public static List<UUID> getAllUuids() {
+        return (List<UUID>) Main.getInstance().getMySQL().query("SELECT `uuid` FROM `" + TABLE + "` WHERE 1", rs -> {
+            try {
+                List<UUID> result = new ArrayList<>();
+                while (rs.next()) {
+                    result.add(UUID.fromString(rs.getString("uuid")));
+                }
+                return result;
             } catch (SQLException e) {
                 e.printStackTrace();
                 return false;
@@ -97,10 +114,10 @@ public class Level {
         if (getXp(uuid) >= xpToLevelSup(uuid)) {
             removeXp(uuid, xpToLevelSup(uuid));
             addLevel(uuid, 1);
-            /*Player player = Bukkit.getPlayer(uuid);
+            Player player = Bukkit.getPlayer(uuid);
             if (player != null) {
                 player.playSound(player.getLocation(), Sound.LEVEL_UP, 3.0F, 0.5F);
-            }*/
+            }
             checkXp(uuid);
         }
     }

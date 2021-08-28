@@ -83,17 +83,24 @@
             <version>4.0.1</version>
         </dependency>
         <dependency>
-            <groupId>me.confuser</groupId>
-            <artifactId>BarAPI</artifactId>
-            <version>3.0</version>
+            <groupId>com.connorlinfoot</groupId>
+            <artifactId>ActionBarApi</artifactId>
+            <version>1.5.4</version>
             <scope>system</scope>
-            <systemPath>${project.basedir}/libs/BossBarAPI_v2.4.1.jar</systemPath>
+            <systemPath>${project.basedir}/libs/ActionBarAPI-1.5.4.jar</systemPath>
         </dependency>
         <dependency>
             <groupId>net.luckperms</groupId>
             <artifactId>api</artifactId>
             <version>5.3</version>
             <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>me.clip</groupId>
+            <artifactId>placeholderapi</artifactId>
+            <version>2.10.9</version>
+            <scope>system</scope>
+            <systemPath>${project.basedir}/libs/PlaceholderAPI-2.10.9.jar</systemPath>
         </dependency>
     </dependencies>
 

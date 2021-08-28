@@ -19,3 +19,5 @@ commands:
     permission: key.edit
   coins:
     aliases: [money, bal, balance]
+  boutique:
+    description: ouvrir la boutique

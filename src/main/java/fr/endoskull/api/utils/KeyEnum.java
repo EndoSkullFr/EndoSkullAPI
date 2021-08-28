@@ -1,5 +1,5 @@
 package fr.endoskull.api.utils;
 
 public enum KeyEnum {
-    ULTIME, VOTE;
+    ULTIME, VOTE, COINS, KIT;
 }

@@ -26,10 +26,6 @@ public class MySQL {
                 "uuid VARCHAR(255), " +
                 "level INT, " +
                 "xp DOUBLE)");
-        update("CREATE TABLE IF NOT EXISTS ranks (" +
-                "`#` INT NOT NULL AUTO_INCREMENT PRIMARY KEY, " +
-                "uuid VARCHAR(255), " +
-                "grades VARCHAR(1023))");
         update("CREATE TABLE IF NOT EXISTS permissions (" +
                 "`#` INT NOT NULL AUTO_INCREMENT PRIMARY KEY, " +
                 "grade VARCHAR(255), " +
@@ -38,7 +34,9 @@ public class MySQL {
                 "`#` INT NOT NULL AUTO_INCREMENT PRIMARY KEY, " +
                 "uuid VARCHAR(255), " +
                 "ultime INT, " +
-                "vote INT)");
+                "vote INT, " +
+                "coins INT, " +
+                "kit INT)");
         update("CREATE TABLE IF NOT EXISTS location (" +
                 "`#` INT NOT NULL AUTO_INCREMENT PRIMARY KEY, " +
                 "name VARCHAR(255), " +
