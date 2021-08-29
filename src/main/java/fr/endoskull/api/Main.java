@@ -1,11 +1,13 @@
 package fr.endoskull.api;
 
-import fr.endoskull.api.commands.*;
-import fr.endoskull.api.database.MySQL;
-import fr.endoskull.api.listeners.*;
-import fr.endoskull.api.papi.EndoSkullPlaceholder;
-import fr.endoskull.api.tasks.BossBarRunnable;
-import fr.endoskull.api.tasks.PlayerCountTask;
+import fr.endoskull.api.data.redis.RedisAccess;
+import fr.endoskull.api.spigot.PluginMessageManager;
+import fr.endoskull.api.data.sql.MySQL;
+import fr.endoskull.api.spigot.commands.*;
+import fr.endoskull.api.spigot.listeners.*;
+import fr.endoskull.api.spigot.papi.EndoSkullPlaceholder;
+import fr.endoskull.api.spigot.tasks.BossBarRunnable;
+import fr.endoskull.api.spigot.tasks.PlayerCountTask;
 import org.apache.commons.dbcp2.BasicDataSource;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -15,7 +17,6 @@ import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.HashMap;
-import java.util.UUID;
 
 public class Main extends JavaPlugin {
     private static Main instance;
@@ -31,7 +32,9 @@ public class Main extends JavaPlugin {
         instance = this;
         getServer().getMessenger().registerOutgoingPluginChannel(this, "BungeeCord");
         getServer().getMessenger().registerIncomingPluginChannel(this, "BungeeCord", new PluginMessageManager(this));
+
         initConnection();
+        RedisAccess.init();
 
         registerCommands();
         registerListeners();
@@ -44,6 +47,12 @@ public class Main extends JavaPlugin {
 
         new EndoSkullPlaceholder().register();
         super.onEnable();
+    }
+
+    @Override
+    public void onDisable() {
+        RedisAccess.close();
+        super.onDisable();
     }
 
     private void initConnection(){
