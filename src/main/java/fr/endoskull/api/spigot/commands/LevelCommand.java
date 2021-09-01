@@ -26,13 +26,7 @@ public class LevelCommand implements CommandExecutor {
         if (sender instanceof Player) {
             Player player = (Player) sender;
             if (!player.hasPermission("level.edit") || args.length == 0) {
-                Account account;
-                try {
-                    account = new AccountProvider(player.getUniqueId()).getAccount();
-                } catch (AccountNotFoundException e) {
-                    e.printStackTrace();
-                    return false;
-                }
+                Account account = new AccountProvider(player.getUniqueId()).getAccount();
                 player.sendMessage("§7§m--------------------\n" +
                         "§eLevel : §6" + account.getLevel() + " §f| §eXp : §6" + account.getXp() + "§e/§6" + account.xpToLevelSup() + "\n" +
                         "§7§m--------------------");
@@ -50,27 +44,59 @@ public class LevelCommand implements CommandExecutor {
                 sender.sendMessage("§4Ce joueur n'existe pas !");
                 return;
             }
+            Account account = new AccountProvider(targetUUID).getAccount();
+            if (label.equalsIgnoreCase("level")) {
+                int number = 0;
+                try {
+                    number = Integer.parseInt(args[2]);
 
-            double number = 0;
-            try {
-                number = Integer.parseInt(args[2]);
+                } catch (NumberFormatException e) {
+                    sender.sendMessage("§4Le troisième argument n'est pas un nombre !");
+                    return;
+                }
+                if (args[0].equals("add")) {
+                    account.setLevel(account.getLevel() + number).sendToRedis();
+                    sender.sendMessage("§a" + number + " §elevel ont été ajouté à §a" + args[1]);
+                }
+                if (args[0].equals("remove")) {
+                    account.setLevel(account.getLevel() - number).sendToRedis();
+                    sender.sendMessage("§a" + number + " §elevel ont été retiré à §a" + args[1]);
+                }
+                if (args[0].equals("set")) {
+                    account.setLevel(number).sendToRedis();
+                    sender.sendMessage("§a" + number + " §elevel ont été défini à §a" + args[1]);
+                }
+            } else {
+                double number = 0;
+                try {
+                    number = Double.parseDouble(args[2]);
 
-            } catch (NumberFormatException e) {
-                sender.sendMessage("§4Le troisième argument n'est pas un nombre !");
-                return;
+                } catch (NumberFormatException e) {
+                    sender.sendMessage("§4Le troisième argument n'est pas un nombre !");
+                    return;
+                }
+                if (number < 0) {
+                    sender.sendMessage("§cLe nombre doit être supérieur à 0");
+                    return;
+                }
+                if (number < 0) {
+                    sender.sendMessage("§cLe nombre doit être supérieur à 0");
+                    return;
+                }
+                if (args[0].equals("add")) {
+                    account.setXp(account.getXp() + number).sendToRedis();
+                    sender.sendMessage("§a" + number + " §exp ont été ajouté à §a" + args[1]);
+                }
+                if (args[0].equals("remove")) {
+                    account.setXp(account.getXp() - number).sendToRedis();
+                    sender.sendMessage("§a" + number + " §exp ont été retiré à §a" + args[1]);
+                }
+                if (args[0].equals("set")) {
+                    account.setXp(number).sendToRedis();
+                    sender.sendMessage("§a" + number + " §exp ont été défini à §a" + args[1]);
+                }
             }
-            if (args[0].equals("add")) {
-                //Level.addXp(targetUUID, number);
-                sender.sendMessage("§a" + number + " §exp ont été ajouté à §a" + args[1]);
-            }
-            if (args[0].equals("remove")) {
-                //Level.removeXp(targetUUID, number);
-                sender.sendMessage("§a" + number + " §exp ont été retiré à §a" + args[1]);
-            }
-            if (args[0].equals("set")) {
-                //Level.setXp(targetUUID, number);
-                sender.sendMessage("§a" + number + " §exp ont été défini à §a" + args[1]);
-            }
+
         });
         return false;
     }

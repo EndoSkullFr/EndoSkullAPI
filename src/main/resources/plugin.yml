@@ -4,10 +4,13 @@ description: Api of EndoSkull (level, money, keys, rank, moderation)
 website: https://endoskull.fr
 author: BebeDlaStreat
 main: fr.endoskull.api.Main
+softdepend:
+  - DeluxeHub_EndoSkull
+  - HologramAPI
+  - ActionBarAPI
 commands:
   level:
-  rank:
-    permission: rank.edit
+    aliases: [xp]
   permission:
     aliases: [perm, perms, permissions]
     permission: rank.permission.edit
@@ -18,6 +21,12 @@ commands:
   key:
     permission: key.edit
   coins:
-    aliases: [money, bal, balance]
+    aliases: [money, bal, balance, solde]
+  booster:
+    aliases: [boost]
   boutique:
     description: ouvrir la boutique
+  discord:
+    aliases: [vote]
+  lobby:
+    aliases: [pvpkit]

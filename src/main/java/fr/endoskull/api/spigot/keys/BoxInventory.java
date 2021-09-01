@@ -50,13 +50,7 @@ public class BoxInventory {
         }
     }};
     public static void openUltime(Player player) {
-        Account account;
-        try {
-            account = new AccountProvider(player.getUniqueId()).getAccount();
-        } catch (AccountNotFoundException e) {
-            e.printStackTrace();
-            return;
-        }
+        Account account = new AccountProvider(player.getUniqueId()).getAccount();
         Inventory inv = Bukkit.createInventory(null, 27, "§4Box Ultime");
         int i = 0;
         for (Ultime value : Ultime.values()) {
@@ -70,13 +64,7 @@ public class BoxInventory {
 
 
     public static void openVote(Player player) {
-        Account account;
-        try {
-            account = new AccountProvider(player.getUniqueId()).getAccount();
-        } catch (AccountNotFoundException e) {
-            e.printStackTrace();
-            return;
-        }
+        Account account = new AccountProvider(player.getUniqueId()).getAccount();
         Inventory inv = Bukkit.createInventory(null, 27, "§eBox Vote");
         int i = 0;
         for (Vote value : Vote.values()) {
@@ -128,7 +116,7 @@ public class BoxInventory {
                     }
                 }
                 Bukkit.dispatchCommand(Bukkit.getConsoleSender(), Ultime.getByName(inv.getItem(13).getItemMeta().getDisplayName()).getCommand().replace("%player%", player.getName()));
-                player.sendMessage("§aFélicitation §7tu as gagné \"" + inv.getItem(13).getItemMeta().getDisplayName() + "§7\" §edans ta Clé Ultime");
+                player.sendMessage("§aFélicitation §etu as gagné \"" + inv.getItem(13).getItemMeta().getDisplayName() + "§7\" §edans ta Clé Ultime");
                 Bukkit.getScheduler().runTaskLater(Main.getInstance(), () -> {
                     Main.getInstance().getOpeningKeys().remove(player);
                     player.closeInventory();
@@ -180,14 +168,14 @@ public class BoxInventory {
                     }
                 }
                 Bukkit.dispatchCommand(Bukkit.getConsoleSender(), Vote.getByName(inv.getItem(13).getItemMeta().getDisplayName()).getCommand().replace("%player%", player.getName()));
-                player.sendMessage("§aFélicitation §7tu as gagné \"" + inv.getItem(13).getItemMeta().getDisplayName() + "§7\" §edans ta Clé Vote");
+                player.sendMessage("§aFélicitation §etu as gagné \"" + inv.getItem(13).getItemMeta().getDisplayName() + "§7\" §edans ta Clé Vote");
                 Bukkit.getScheduler().runTaskLater(Main.getInstance(), () -> {
                     Main.getInstance().getOpeningKeys().remove(player);
                     player.closeInventory();
                 }, 40);
                 return;
             } else {
-                scheduleUltime(inv, items, player, index);
+                scheduleVote(inv, items, player, index);
             }
         }, ticks.get(fIndex));
     }

@@ -6,10 +6,12 @@ import fr.endoskull.api.data.sql.Level;
 import fr.endoskull.api.data.sql.Money;
 import fr.endoskull.api.spigot.utils.EndoSkullPlayer;
 import org.bukkit.Bukkit;
+import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
+import org.bukkit.event.player.PlayerLoginEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 
 import java.io.ByteArrayOutputStream;
@@ -43,5 +45,17 @@ public class PlayerJoin implements Listener {
     @EventHandler
     public void onQuit(PlayerQuitEvent e) {
         Player player = e.getPlayer();
+    }
+
+    @EventHandler
+    public void onLogin(PlayerLoginEvent e) {
+        Player player = e.getPlayer();
+        if (main.getLoad() + 20 * 1000 > System.currentTimeMillis()) {
+            if (!player.isOp()) {
+                e.setKickMessage("§cEndoSkull Network\n\n" +
+                        "§fLe serveur auquel vous avez voulu vous connectez est en train\n" +
+                        "de redémarré, merci de retentez une connection dans quelques secondes");
+            }
+        }
     }
 }

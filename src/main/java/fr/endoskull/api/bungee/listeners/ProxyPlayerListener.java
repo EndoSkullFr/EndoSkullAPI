@@ -24,7 +24,7 @@ public class ProxyPlayerListener implements Listener {
                 account.setName(player.getName());
 
                 accountProvider.sendAccountToRedis(account);
-            } catch (AccountNotFoundException ex) {
+            } catch (Exception ex) {
                 System.err.println(ex.getMessage());
                 player.disconnect(new TextComponent("§cImpossible de trouver ou créer votre compte"));
             }

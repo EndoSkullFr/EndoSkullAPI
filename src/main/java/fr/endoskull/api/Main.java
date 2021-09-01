@@ -7,6 +7,7 @@ import fr.endoskull.api.spigot.commands.*;
 import fr.endoskull.api.spigot.listeners.*;
 import fr.endoskull.api.spigot.papi.EndoSkullPlaceholder;
 import fr.endoskull.api.spigot.tasks.BossBarRunnable;
+import fr.endoskull.api.spigot.tasks.HologramTask;
 import fr.endoskull.api.spigot.tasks.PlayerCountTask;
 import org.apache.commons.dbcp2.BasicDataSource;
 import org.bukkit.Bukkit;
@@ -25,6 +26,13 @@ public class Main extends JavaPlugin {
 
     private BasicDataSource connectionPool;
     private MySQL mysql;
+    private long load;
+
+    @Override
+    public void onLoad() {
+        load = System.currentTimeMillis();
+        super.onLoad();
+    }
 
     @Override
     public void onEnable() {
@@ -46,6 +54,11 @@ public class Main extends JavaPlugin {
         Bukkit.getScheduler().runTaskTimer(this, new PlayerCountTask(this), 20L, 20L);
 
         new EndoSkullPlaceholder().register();
+
+        if (Bukkit.getPluginManager().getPlugin("DeluxeHub_EndoSkull") != null) {
+            Bukkit.getScheduler().runTaskTimer(this, new HologramTask(), 100, 100);
+        }
+
         super.onEnable();
     }
 
@@ -70,9 +83,12 @@ public class Main extends JavaPlugin {
     private void registerCommands() {
         getCommand("level").setExecutor(new LevelCommand(this));
         getCommand("coins").setExecutor(new MoneyCommand(this));
+        getCommand("booster").setExecutor(new BoosterCommand(this));
         getCommand("boxset").setExecutor(new BoxSetCommand(this));
         getCommand("key").setExecutor(new KeyCommand(this));
         getCommand("boutique").setExecutor(new BoutiqueCommand());
+        getCommand("discord").setExecutor(new LinkCommand());
+        getCommand("lobby").setExecutor(new ServerCommand(this));
 
         getCommand("endoskullapi").setExecutor(new EndoSkullApiCommand(this));
     }
@@ -104,7 +120,9 @@ public class Main extends JavaPlugin {
 
     public void reload() {
         reloadConfig();
-        getCommand("rank").setPermission(getConfig().getString("rank-manage-permission"));
-        getCommand("permission").setPermission(getConfig().getString("permission-manage-permission"));
+    }
+
+    public long getLoad() {
+        return load;
     }
 }

@@ -30,7 +30,7 @@ public class BungeeMain extends Plugin {
             BungeeCord.getInstance().getScheduler().runAsync(this, () -> {
                 RedisAccess.sendToDatabase();
             });
-            }, 15, TimeUnit.MINUTES);
+            }, 5, 15, TimeUnit.MINUTES);
 
         System.out.println("EndoSkullAPI Bungee ON");
         super.onEnable();

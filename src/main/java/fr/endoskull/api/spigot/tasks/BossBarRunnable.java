@@ -31,13 +31,7 @@ public class BossBarRunnable implements Runnable {
             bars.put(player, bossBar);
         }*/
         for (Player pls : Bukkit.getOnlinePlayers()) {
-            Account account;
-            try {
-                 account = new AccountProvider(pls.getUniqueId()).getAccount();
-            } catch (AccountNotFoundException e) {
-                e.printStackTrace();
-                return;
-            }
+            Account account = new AccountProvider(pls.getUniqueId()).getAccount();
             ActionBarAPI.sendActionBar(pls, "§eLevel : §6" + account.getLevel() + " §f| §eXp : §6" + account.getXp() + "§e/§6" + account.xpToLevelSup());
         }
 

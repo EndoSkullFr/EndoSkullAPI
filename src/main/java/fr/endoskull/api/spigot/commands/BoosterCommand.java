@@ -3,8 +3,6 @@ package fr.endoskull.api.spigot.commands;
 import fr.endoskull.api.Main;
 import fr.endoskull.api.commons.Account;
 import fr.endoskull.api.commons.AccountProvider;
-import fr.endoskull.api.commons.exceptions.AccountNotFoundException;
-import fr.endoskull.api.data.sql.Money;
 import fr.endoskull.api.spigot.utils.PlayerInfos;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
@@ -14,9 +12,9 @@ import org.bukkit.entity.Player;
 
 import java.util.UUID;
 
-public class MoneyCommand implements CommandExecutor {
+public class BoosterCommand implements CommandExecutor {
     private Main main;
-    public MoneyCommand(Main main) {
+    public BoosterCommand(Main main) {
         this.main = main;
     }
 
@@ -25,11 +23,11 @@ public class MoneyCommand implements CommandExecutor {
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
         if (sender instanceof Player) {
             Player player = (Player) sender;
-            if (!player.hasPermission("coins.edit") || args.length == 0) {
+            if (!player.hasPermission("booster.edit") || args.length == 0) {
                 Account account;
                 account = new AccountProvider(player.getUniqueId()).getAccount();
                 player.sendMessage("§7§m--------------------\n" +
-                        "§eVous avez §6" + account.getSolde() + " §ecoins\n" +
+                        "§eBooster: §6x" + account.getBooster() + "\n" +
                         "§7§m--------------------");
                 return false;
             }
@@ -56,15 +54,15 @@ public class MoneyCommand implements CommandExecutor {
                 return;
             }
             if (args[0].equals("add")) {
-                account.setSolde(account.getSolde() + number).sendToRedis();
+                account.setBooster(account.getBooster() + number).sendToRedis();
                 sender.sendMessage("§a" + number + " §ecoins ont été ajouté à §a" + args[1]);
             }
             if (args[0].equals("remove")) {
-                account.setSolde(account.getSolde() - number).sendToRedis();
+                account.setBooster(account.getBooster() - number).sendToRedis();
                 sender.sendMessage("§a" + number + " §ecoins ont été retiré à §a" + args[1]);
             }
             if (args[0].equals("set")) {
-                account.setSolde(number).sendToRedis();
+                account.setBooster(number).sendToRedis();
                 sender.sendMessage("§a" + number + " §ecoins ont été défini à §a" + args[1]);
             }
         });

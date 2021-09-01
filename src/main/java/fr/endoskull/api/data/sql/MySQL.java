@@ -57,8 +57,6 @@ public class MySQL {
                 "xp DOUBLE, " +
                 "booster DOUBLE, " +
                 "solde DOUBLE)");
-        /*BoxLocation.setup("ULTIME");
-        BoxLocation.setup("VOTE");*/
     }
 
     public void update(String qry){

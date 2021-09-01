@@ -82,24 +82,16 @@ public class EndoSkullPlaceholder extends PlaceholderExpansion {
     public String onRequest(OfflinePlayer player, String identifier){
 
         if(identifier.equals("level")){
-            Account account;
-            try {
-                account = new AccountProvider(player.getUniqueId()).getAccount();
-            } catch (AccountNotFoundException e) {
-                e.printStackTrace();
-                return null;
-            }
-            return String.valueOf(account.getLevelWithXp());
+            Account account = new AccountProvider(player.getUniqueId()).getAccount();
+            return account.getStringLevel();
         }
         if(identifier.equals("money") || identifier.equals("solde")){
-            Account account;
-            try {
-                account = new AccountProvider(player.getUniqueId()).getAccount();
-            } catch (AccountNotFoundException e) {
-                e.printStackTrace();
-                return null;
-            }
-            return String.valueOf(account.getStringSolde());
+            Account account = new AccountProvider(player.getUniqueId()).getAccount();
+            return account.getStringSolde();
+        }
+        if(identifier.equals("boost") || identifier.equals("booster")){
+            Account account = new AccountProvider(player.getUniqueId()).getAccount();
+            return account.getStringBooster();
         }
 
         // We return null if an invalid placeholder (f.e. %example_placeholder3%)

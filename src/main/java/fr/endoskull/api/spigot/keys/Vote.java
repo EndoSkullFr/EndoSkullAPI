@@ -8,8 +8,8 @@ import java.util.Arrays;
 
 public enum Vote {
     ULTIME("§4Clé Ultime", 0.5, "key add %player% ultime 1", new CustomItemStack(Material.TRIPWIRE_HOOK).setGlow()),
-    KITS("§9Clé Kits", 5, "key add %player% kits 1", new ItemStack(Material.TRIPWIRE_HOOK)),
-    COINS("§eClé Coins", 10, "key add %player% coins 1", new ItemStack(Material.TRIPWIRE_HOOK)),
+    KITS("§9Clé Kits", 5, "key add %player% kit 1", new ItemStack(Material.IRON_CHESTPLATE)),
+    COINS("§eClé Coins", 10, "key add %player% coins 1", new ItemStack(Material.GOLD_INGOT)),
     DOUBLE("§e2 Clés Votes", 2.5, "key add %player% VOTE 2", new ItemStack(Material.TRIPWIRE_HOOK, 2)),
     COINS3("§e150 Coins", 12, "coins add %player% 150", new ItemStack(Material.GOLD_NUGGET, 3)),
     COINS2("§e100 Coins", 30, "coins add %player% 100", new ItemStack(Material.GOLD_NUGGET, 2)),

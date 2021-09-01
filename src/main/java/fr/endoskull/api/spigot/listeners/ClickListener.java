@@ -3,9 +3,7 @@ package fr.endoskull.api.spigot.listeners;
 import fr.endoskull.api.Main;
 import fr.endoskull.api.commons.Account;
 import fr.endoskull.api.commons.AccountProvider;
-import fr.endoskull.api.commons.exceptions.AccountNotFoundException;
-import fr.endoskull.api.data.sql.BoxLocation;
-import fr.endoskull.api.data.sql.Keys;
+import fr.endoskull.api.data.yaml.BoxLocation;
 import fr.endoskull.api.spigot.keys.BoxInventory;
 import fr.endoskull.api.spigot.utils.CustomItemStack;
 import org.bukkit.Bukkit;
@@ -34,8 +32,10 @@ public class ClickListener implements Listener {
         if (!main.getWaitingSetting().containsKey(player)) return;
 
         Inventory inv = Bukkit.createInventory(null, 27, "§aType de Box");
-        inv.setItem(12, new CustomItemStack(Material.ENDER_CHEST).setName("§4§LUltime"));
-        inv.setItem(14, new CustomItemStack(Material.CHEST).setName("§eVote"));
+        inv.setItem(10, new CustomItemStack(Material.ENDER_CHEST).setName("§4§LUltime"));
+        inv.setItem(12, new CustomItemStack(Material.CHEST).setName("§eVote"));
+        inv.setItem(14, new CustomItemStack(Material.GOLD_INGOT).setName("§eCoins"));
+        inv.setItem(16, new CustomItemStack(Material.IRON_CHESTPLATE).setName("§eKit"));
         inv.setItem(18, new CustomItemStack(Material.ARROW).setName("§7Retour"));
         inv.setItem(26, new CustomItemStack(Material.BARRIER).setName("§cAnnulé"));
         main.getWaitingSetting().put(player, e.getClickedBlock().getLocation());
@@ -47,7 +47,7 @@ public class ClickListener implements Listener {
         Player player = e.getPlayer();
         if (e.getClickedBlock() == null) return;
         Location loc = e.getClickedBlock().getLocation();
-        /*if (loc.equals(BoxLocation.getLoc("ULTIME"))) {
+        if (loc.equals(BoxLocation.getLocation("ULTIME"))) {
             e.setCancelled(true);
             if (main.getOpeningKeys().containsKey(player)) {
                 player.openInventory(main.getOpeningKeys().get(player));
@@ -55,14 +55,30 @@ public class ClickListener implements Listener {
             }
             BoxInventory.openUltime(player);
         }
-        if (loc.equals(BoxLocation.getLoc("VOTE"))) {
+        if (loc.equals(BoxLocation.getLocation("VOTE"))) {
             e.setCancelled(true);
             if (main.getOpeningKeys().containsKey(player)) {
                 player.openInventory(main.getOpeningKeys().get(player));
                 return;
             }
             BoxInventory.openVote(player);
-        }*/
+        }
+        if (loc.equals(BoxLocation.getLocation("COINS"))) {
+            e.setCancelled(true);
+            if (main.getOpeningKeys().containsKey(player)) {
+                player.openInventory(main.getOpeningKeys().get(player));
+                return;
+            }
+            BoxInventory.openVote(player);
+        }
+        if (loc.equals(BoxLocation.getLocation("KIT"))) {
+            e.setCancelled(true);
+            if (main.getOpeningKeys().containsKey(player)) {
+                player.openInventory(main.getOpeningKeys().get(player));
+                return;
+            }
+            BoxInventory.openVote(player);
+        }
     }
 
     @EventHandler
@@ -84,14 +100,26 @@ public class ClickListener implements Listener {
                     break;
                 case ENDER_CHEST:
                     player.closeInventory();
-                    //BoxLocation.setLocation("ULTIME", main.getWaitingSetting().get(player));
+                    BoxLocation.setLocation("ULTIME", main.getWaitingSetting().get(player));
                     player.sendMessage("§cLa location de la Box Ultime a bien été changé");
                     main.getWaitingSetting().remove(player);
                     break;
                 case CHEST:
                     player.closeInventory();
-                    //BoxLocation.setLocation("VOTE", main.getWaitingSetting().get(player));
+                    BoxLocation.setLocation("VOTE", main.getWaitingSetting().get(player));
                     player.sendMessage("§cLa location de la Box Vote a bien été changé");
+                    main.getWaitingSetting().remove(player);
+                    break;
+                case GOLD_INGOT:
+                    player.closeInventory();
+                    BoxLocation.setLocation("COINS", main.getWaitingSetting().get(player));
+                    player.sendMessage("§cLa location de la Box Coins a bien été changé");
+                    main.getWaitingSetting().remove(player);
+                    break;
+                case IRON_CHESTPLATE:
+                    player.closeInventory();
+                    BoxLocation.setLocation("KIT", main.getWaitingSetting().get(player));
+                    player.sendMessage("§cLa location de la Box Kit a bien été changé");
                     main.getWaitingSetting().remove(player);
                     break;
                 default:
@@ -107,13 +135,7 @@ public class ClickListener implements Listener {
         ItemStack current = e.getCurrentItem();
         if (current == null) return;
         if (e.getClickedInventory().getName().equals("§4Box Ultime")) {
-            Account account;
-            try {
-                account = new AccountProvider(player.getUniqueId()).getAccount();
-            } catch (AccountNotFoundException ex) {
-                ex.printStackTrace();
-                return;
-            }
+            Account account = new AccountProvider(player.getUniqueId()).getAccount();
             e.setCancelled(true);
             if (e.getSlot() == 22 && current.getType().equals(Material.ANVIL)) {
                 if (account.getUltimeKey() < 1) {
@@ -122,19 +144,13 @@ public class ClickListener implements Listener {
                     player.sendMessage("§cVous devez posséder une §lClé Ultime §cpour effectuer cette action");
                     return;
                 } else {
-                    //Keys.removeKey(player.getUniqueId(), "ultime", 1);
+                    account.setUltimeKey(account.getUltimeKey() - 1).sendToRedis();
                     BoxInventory.playUltimeAnimation(player);
                 }
             }
         }
         if (e.getClickedInventory().getName().equals("§eBox Vote")) {
-            Account account;
-            try {
-                account = new AccountProvider(player.getUniqueId()).getAccount();
-            } catch (AccountNotFoundException ex) {
-                ex.printStackTrace();
-                return;
-            }
+            Account account = new AccountProvider(player.getUniqueId()).getAccount();
             e.setCancelled(true);
             if (e.getSlot() == 22 && current.getType().equals(Material.ANVIL)) {
                 if (account.getVoteKey() < 1) {
@@ -143,7 +159,7 @@ public class ClickListener implements Listener {
                     player.sendMessage("§cVous devez posséder une §lClé Vote §cpour effectuer cette action");
                     return;
                 } else {
-                    //Keys.removeKey(player.getUniqueId(), "vote", 1);
+                    account.setVoteKey(account.getVoteKey() - 1).sendToRedis();
                     BoxInventory.playVoteAnimation(player);
                 }
             }

@@ -4,6 +4,7 @@ import fr.endoskull.api.BungeeMain;
 import fr.endoskull.api.Main;
 import fr.endoskull.api.commons.exceptions.AccountNotFoundException;
 import fr.endoskull.api.data.redis.RedisAccess;
+import fr.endoskull.api.data.sql.MySQL;
 import org.redisson.Redisson;
 import org.redisson.api.RBucket;
 import org.redisson.api.RedissonClient;
@@ -24,7 +25,7 @@ public class AccountProvider {
         this.redisAccess = RedisAccess.instance;
     }
 
-    public Account getAccount() throws AccountNotFoundException {
+    public Account getAccount() {
         Account account = getAccountFromRedis();
         if (account == null) {
             account = getAccountFromDatabase();
@@ -48,9 +49,15 @@ public class AccountProvider {
         return accountRBucket.get();
     }
 
-    private Account getAccountFromDatabase() throws AccountNotFoundException {
+    private Account getAccountFromDatabase() {
         //get account
-        return (Account) BungeeMain.getInstance().getMySQL().query("SELECT * FROM " + TABLE + " WHERE uuid='" + uuid + "'", rs -> {
+        MySQL mySQL;
+        try {
+            mySQL = BungeeMain.getInstance().getMySQL();
+        } catch (NoClassDefFoundError e) {
+            mySQL = Main.getInstance().getMySQL();
+        }
+        return (Account) mySQL.query("SELECT * FROM " + TABLE + " WHERE uuid='" + uuid + "'", rs -> {
             try {
                 if(rs.next()){
                     return new Account(rs.getString("uuid"), rs.getString("name"), rs.getInt("voteKey"), rs.getInt("ultimeKey"), rs.getInt("coinsKey"), rs.getInt("kitKey"), rs.getInt("level"), rs.getDouble("xp"), rs.getDouble("booster"), rs.getDouble("solde"));
@@ -68,7 +75,13 @@ public class AccountProvider {
         final Account account = DEFAULT_ACCOUNT.clone();
         account.setUuid(uuid.toString());
 
-        BungeeMain.getInstance().getMySQL().update("INSERT INTO " + TABLE + " (uuid, name, voteKey, ultimeKey, coinsKey, kitKey, level, xp, booster, solde) VALUES ('" + account.getUuid() + "', '" + account.getName() + "', '" + account.getVoteKey() + "', '" + account.getUltimeKey() + "', '" + account.getCoinsKey() + "', '" + account.getKitKey() + "', '" + account.getLevel() + "', '" + account.getXp() + "', '" + account.getBooster() + "', '" + account.getSolde() + "')");
+        MySQL mySQL;
+        try {
+            mySQL = BungeeMain.getInstance().getMySQL();
+        } catch (NoClassDefFoundError e) {
+            mySQL = Main.getInstance().getMySQL();
+        }
+        mySQL.update("INSERT INTO " + TABLE + " (uuid, name, voteKey, ultimeKey, coinsKey, kitKey, level, xp, booster, solde) VALUES ('" + account.getUuid() + "', '" + account.getName() + "', '" + account.getVoteKey() + "', '" + account.getUltimeKey() + "', '" + account.getCoinsKey() + "', '" + account.getKitKey() + "', '" + account.getLevel() + "', '" + account.getXp() + "', '" + account.getBooster() + "', '" + account.getSolde() + "')");
 
         return account;
     }
