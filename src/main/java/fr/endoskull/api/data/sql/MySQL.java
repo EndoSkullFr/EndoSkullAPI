@@ -56,7 +56,9 @@ public class MySQL {
                 "level INT, " +
                 "xp DOUBLE, " +
                 "booster DOUBLE, " +
-                "solde DOUBLE)");
+                "solde DOUBLE, " +
+                "kits VARCHAR(4095), " +
+                "kit_selected VARCHAR(255))");
     }
 
     public void update(String qry){

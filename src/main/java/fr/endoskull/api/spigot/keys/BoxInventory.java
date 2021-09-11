@@ -18,37 +18,7 @@ import java.util.Collections;
 import java.util.List;
 
 public class BoxInventory {
-    /*private static HashMap<Integer, Integer> tickStep = new HashMap<Integer, Integer>() {{
-        put(1, 40);
-        put(2, 20);
-        put(4, 5);
-        put(8, 3);
-        put(15, 2);
-        put(20, 1);
-        put(1, 20);
-        put(2, 10);
-        put(5, 5);
-        put(10, 2);
-        put(20, 1);
-    }
-    };*/
-    private static List<Integer> ticks = new ArrayList<Integer>() {{
-        for (int i = 0; i < 20; i++) {
-            add(1);
-        }
-        for (int i = 0; i < 10; i++) {
-            add(2);
-        }
-        for (int i = 0; i < 5; i++) {
-            add(5);
-        }
-        for (int i = 0; i < 2; i++) {
-            add(10);
-        }
-        for (int i = 0; i < 1; i++) {
-            add(20);
-        }
-    }};
+
     public static void openUltime(Player player) {
         Account account = new AccountProvider(player.getUniqueId()).getAccount();
         Inventory inv = Bukkit.createInventory(null, 27, "§4Box Ultime");
@@ -84,48 +54,43 @@ public class BoxInventory {
             }
         }
         Collections.shuffle(items);
-        Inventory inv = Bukkit.createInventory(null, 27, "§4Clé Ultime");
+        Inventory inv = Bukkit.createInventory(null, 27, "§eClé Vote");
         for (int i = 0; i < 27; i++) {
             inv.setItem(i, CustomItemStack.getPane(14).setName("§7").setGlow(i == 4 || i == 22));
         }
-        int[] slots = {9, 10, 11, 12, 13, 14, 15, 16, 17};
-        int avancement = 0;
+
         for (int i = 0; i < 9; i++) {
-            inv.setItem(slots[i], items.get(avancement + i));
+            inv.setItem(9 + i, items.get(i));
         }
 
         player.openInventory(inv);
         if (!Main.getInstance().getOpeningKeys().containsKey(player)) Main.getInstance().getOpeningKeys().put(player, inv);
-        scheduleUltime(inv, items, player, 0);
+        scheduleUltime(inv, items, player, 1);
 
     }
     public static void scheduleUltime(Inventory inv, final List<ItemStack> items, Player player, final int fIndex) {
-        int[] slots = {9, 10, 11, 12, 13, 14, 15, 16, 17};
         Bukkit.getScheduler().runTaskLater(Main.getInstance(), () -> {
             int index = fIndex;
             for (int i = 0; i < 9; i++) {
-                inv.setItem(slots[i], items.get(index + i));
+                inv.setItem(9 + i, items.get(index + i));
             }
-            player.playSound(player.getLocation(), Sound.NOTE_STICKS, 1.0f, 0.5f);
+
             index++;
-            if (index + 1 > ticks.size()) {
+            if (index > 50) {
                 player.playSound(player.getLocation(), Sound.LEVEL_UP, 50, 50);
-                for (int i = 0; i < 9; i++) {
-                    if (i != 4) {
-                        inv.setItem(slots[i], new ItemStack(Material.AIR));
-                    }
-                }
+                System.out.println("Clé ultime " + player.getName() + " " + Ultime.getByName(inv.getItem(13).getItemMeta().getDisplayName()).getName());
                 Bukkit.dispatchCommand(Bukkit.getConsoleSender(), Ultime.getByName(inv.getItem(13).getItemMeta().getDisplayName()).getCommand().replace("%player%", player.getName()));
-                player.sendMessage("§aFélicitation §etu as gagné \"" + inv.getItem(13).getItemMeta().getDisplayName() + "§7\" §edans ta Clé Ultime");
+                player.sendMessage("§aFélicitation §etu as gagné §7\"§e" + inv.getItem(13).getItemMeta().getDisplayName() + "§7\" §edans ta Clé Ultime");
                 Bukkit.getScheduler().runTaskLater(Main.getInstance(), () -> {
                     Main.getInstance().getOpeningKeys().remove(player);
                     player.closeInventory();
                 }, 40);
                 return;
             } else {
+                player.playSound(player.getLocation(), Sound.NOTE_STICKS, 1.0f, 0.5f);
                 scheduleUltime(inv, items, player, index);
             }
-        }, ticks.get(fIndex));
+        }, Math.round(Math.pow(Math.pow(Math.pow(1.000018, fIndex), fIndex), fIndex)));
     }
 
     public static void playVoteAnimation(Player player) {
@@ -140,43 +105,38 @@ public class BoxInventory {
         for (int i = 0; i < 27; i++) {
             inv.setItem(i, CustomItemStack.getPane(14).setName("§7").setGlow(i == 4 || i == 22));
         }
-        int[] slots = {9, 10, 11, 12, 13, 14, 15, 16, 17};
-        int avancement = 0;
+
         for (int i = 0; i < 9; i++) {
-            inv.setItem(slots[i], items.get(avancement + i));
+            inv.setItem(9 + i, items.get(i));
         }
 
         player.openInventory(inv);
         if (!Main.getInstance().getOpeningKeys().containsKey(player)) Main.getInstance().getOpeningKeys().put(player, inv);
-        scheduleVote(inv, items, player, 0);
+        scheduleVote(inv, items, player, 1);
     }
 
     public static void scheduleVote(Inventory inv, final List<ItemStack> items, Player player, final int fIndex) {
-        int[] slots = {9, 10, 11, 12, 13, 14, 15, 16, 17};
         Bukkit.getScheduler().runTaskLater(Main.getInstance(), () -> {
             int index = fIndex;
             for (int i = 0; i < 9; i++) {
-                inv.setItem(slots[i], items.get(index + i));
+                inv.setItem(9 + i, items.get(index + i));
             }
-            player.playSound(player.getLocation(), Sound.NOTE_STICKS, 1.0f, 0.5f);
+
             index++;
-            if (index + 1 > ticks.size()) {
+            if (index > 50) {
                 player.playSound(player.getLocation(), Sound.LEVEL_UP, 50, 50);
-                for (int i = 0; i < 9; i++) {
-                    if (i != 4) {
-                        inv.setItem(slots[i], new ItemStack(Material.AIR));
-                    }
-                }
+                System.out.println("Clé vote " + player.getName() + " " + Vote.getByName(inv.getItem(13).getItemMeta().getDisplayName()).getName());
                 Bukkit.dispatchCommand(Bukkit.getConsoleSender(), Vote.getByName(inv.getItem(13).getItemMeta().getDisplayName()).getCommand().replace("%player%", player.getName()));
-                player.sendMessage("§aFélicitation §etu as gagné \"" + inv.getItem(13).getItemMeta().getDisplayName() + "§7\" §edans ta Clé Vote");
+                player.sendMessage("§aFélicitation §etu as gagné §7\"§e" + inv.getItem(13).getItemMeta().getDisplayName() + "§7\" §edans ta Clé Vote");
                 Bukkit.getScheduler().runTaskLater(Main.getInstance(), () -> {
                     Main.getInstance().getOpeningKeys().remove(player);
                     player.closeInventory();
                 }, 40);
                 return;
             } else {
+                player.playSound(player.getLocation(), Sound.NOTE_STICKS, 1.0f, 0.5f);
                 scheduleVote(inv, items, player, index);
             }
-        }, ticks.get(fIndex));
+        }, Math.round(Math.pow(Math.pow(Math.pow(1.000018, fIndex), fIndex), fIndex)));
     }
 }

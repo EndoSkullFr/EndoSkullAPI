@@ -1,7 +1,9 @@
 package fr.endoskull.api.commons;
 
 import java.text.DecimalFormat;
-import java.util.HashMap;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.UUID;
 
 public class Account implements Cloneable {
@@ -15,10 +17,12 @@ public class Account implements Cloneable {
     private double xp;
     private double booster;
     private double solde;
+    private List<String> kits;
+    private String selectedKit;
 
     public Account() {}
 
-    public Account(String uuid, String name, int voteKey, int ultimeKey, int coinsKey, int kitKey, int level, double xp, double booster, double solde) {
+    public Account(String uuid, String name, int voteKey, int ultimeKey, int coinsKey, int kitKey, int level, double xp, double booster, double solde, String kitsString, String selectedKit) {
         this.uuid = uuid;
         this.name = name;
         this.voteKey = voteKey;
@@ -29,6 +33,8 @@ public class Account implements Cloneable {
         this.xp = xp;
         this.booster = booster;
         this.solde = solde;
+        this.kits = stringToArray(kitsString);
+        this.selectedKit = selectedKit;
     }
 
     public String getName() {
@@ -116,6 +122,7 @@ public class Account implements Cloneable {
         DecimalFormat df = new DecimalFormat();
         df.setMaximumFractionDigits(1);
         df.setMinimumFractionDigits(0);
+        df.setGroupingUsed(false);
         return df.format(booster);
     }
 
@@ -128,6 +135,7 @@ public class Account implements Cloneable {
         DecimalFormat df = new DecimalFormat();
         df.setMaximumFractionDigits(1);
         df.setMinimumFractionDigits(0);
+        df.setGroupingUsed(false);
         return df.format(solde);
     }
 
@@ -168,11 +176,54 @@ public class Account implements Cloneable {
         DecimalFormat df = new DecimalFormat();
         df.setMaximumFractionDigits(2);
         df.setMinimumFractionDigits(0);
+        df.setGroupingUsed(false);
         return df.format(getLevelWithXp());
     }
 
     public void sendToRedis() {
         AccountProvider accountProvider = new AccountProvider(UUID.fromString(uuid));
         accountProvider.sendAccountToRedis(this);
+    }
+
+    public List<String> getKits() {
+        return kits;
+    }
+
+    public Account setKits(List<String> kits) {
+        this.kits = kits;
+        return this;
+    }
+
+    public Account addKit(String kit) {
+        kits.add(kit);
+        return this;
+    }
+
+    public Account removeKit(String kit) {
+        kits.remove(kit);
+        return this;
+    }
+
+
+    private List<String> stringToArray(String kitsString) {
+        if (kitsString.length() == 0) return new ArrayList<>();
+        if (kitsString.contains(",")) {
+            return Arrays.asList(kitsString.split(","));
+        } else {
+            return Arrays.asList(kitsString);
+        }
+    }
+
+    public String getKitsString() {
+        return kits.toString().replace(", ", ",").replace("[", "").replace("]", "");
+    }
+
+    public String getSelectedKit() {
+        return selectedKit;
+    }
+
+    public Account setSelectedKit(String selectedKit) {
+        this.selectedKit = selectedKit;
+        return this;
     }
 }

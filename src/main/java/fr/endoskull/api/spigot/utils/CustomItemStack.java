@@ -92,9 +92,9 @@ public class CustomItemStack extends ItemStack {
 
     public CustomItemStack setLoreAction(String actionName) {
         if (actionName.startsWith("§")) {
-            this.addLineToLore(null, actionName);
+            this.addLineToLore("§7", actionName);
         } else {
-            this.addLineToLore(null, "§6§l» §eCliquez pour " + actionName + " !");
+            this.addLineToLore("§7", "§6§l» §eCliquez pour " + actionName);
         }
         return this;
     }
