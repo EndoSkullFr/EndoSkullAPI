@@ -40,10 +40,9 @@ public class RedisAccess {
             if (s.startsWith("account:")) {
                 RBucket<Account> accountRBucket = redissonClient.getBucket(s);
                 Account account = accountRBucket.get();
-                BungeeMain.getInstance().getMySQL().update("UPDATE " + AccountProvider.TABLE + " SET " + "name" + "='" +  account.getName() + "', voteKey" + "='" +  account.getVoteKey()  + "', ultimeKey" + "='" +  account.getUltimeKey() + "', coinsKey" + "='" +  account.getCoinsKey() + "', kitKey" + "='" +  account.getKitKey() + "', level" + "='" +  account.getLevel() + "', xp" + "='" +  account.getXp() + "', booster" + "='" +  account.getVoteKey() + "', solde" + "='" +  account.getSolde() + "', kits" + "='" +  account.getKitsString() + "', kit_selected" + "='" + account.getSelectedKit() + "' WHERE uuid='" + account.getUuid() + "'");
+                BungeeMain.getInstance().getMySQL().update("UPDATE " + AccountProvider.TABLE + " SET " + "name" + "='" +  account.getName() + "', voteKey" + "='" +  account.getVoteKey()  + "', ultimeKey" + "='" +  account.getUltimeKey() + "', coinsKey" + "='" +  account.getCoinsKey() + "', kitKey" + "='" +  account.getKitKey() + "', level" + "='" +  account.getLevel() + "', xp" + "='" +  account.getXp() + "', booster" + "='" +  account.getBooster() + "', solde" + "='" +  account.getSolde() + "', kits" + "='" +  account.getKitsString() + "', kit_selected" + "='" + account.getSelectedKit() + "', effects" + "='" +  account.getEffectsString() + "', effect_selected" + "='" + account.getSelectedEffect() + "' WHERE uuid='" + account.getUuid() + "'");
             }
         }
-        System.out.println(redissonClient.getKeys().getKeys().iterator().next());
     }
 
     public RedissonClient initRedisson(RedisCredentials redisCredentials) {

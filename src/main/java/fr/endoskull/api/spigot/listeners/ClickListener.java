@@ -4,6 +4,7 @@ import fr.endoskull.api.Main;
 import fr.endoskull.api.commons.Account;
 import fr.endoskull.api.commons.AccountProvider;
 import fr.endoskull.api.data.yaml.BoxLocation;
+import fr.endoskull.api.spigot.inventories.KitKeyInventory;
 import fr.endoskull.api.spigot.keys.BoxInventory;
 import fr.endoskull.api.spigot.utils.CustomItemStack;
 import org.bukkit.Bukkit;
@@ -69,15 +70,17 @@ public class ClickListener implements Listener {
                 player.openInventory(main.getOpeningKeys().get(player));
                 return;
             }
-            BoxInventory.openVote(player);
+            BoxInventory.openCoins(player);
         }
         if (loc.equals(BoxLocation.getLocation("KIT"))) {
             e.setCancelled(true);
-            if (main.getOpeningKeys().containsKey(player)) {
-                player.openInventory(main.getOpeningKeys().get(player));
-                return;
+            if (Bukkit.getPluginManager().getPlugin("EndoSkullPvpKit") != null) {
+                if (main.getOpeningKeys().containsKey(player)) {
+                    player.openInventory(main.getOpeningKeys().get(player));
+                    return;
+                }
+                new KitKeyInventory(player).open(player);
             }
-            BoxInventory.openVote(player);
         }
     }
 
@@ -161,6 +164,21 @@ public class ClickListener implements Listener {
                 } else {
                     account.setVoteKey(account.getVoteKey() - 1).sendToRedis();
                     BoxInventory.playVoteAnimation(player);
+                }
+            }
+        }
+        if (e.getClickedInventory().getName().equals("§eBox Coins")) {
+            Account account = new AccountProvider(player.getUniqueId()).getAccount();
+            e.setCancelled(true);
+            if (e.getSlot() == 22 && current.getType().equals(Material.ANVIL)) {
+                if (account.getCoinsKey() < 1) {
+                    player.closeInventory();
+                    player.playSound(player.getLocation(), Sound.VILLAGER_NO, 50, 50);
+                    player.sendMessage("§cVous devez posséder une §lClé Coins §cpour effectuer cette action");
+                    return;
+                } else {
+                    account.setCoinsKey(account.getCoinsKey() - 1).sendToRedis();
+                    BoxInventory.playCoinsAnimation(player);
                 }
             }
         }

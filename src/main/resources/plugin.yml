@@ -30,3 +30,5 @@ commands:
     aliases: [vote]
   lobby:
     aliases: [pvpkit]
+  tag:
+    permission: endoskull.tag

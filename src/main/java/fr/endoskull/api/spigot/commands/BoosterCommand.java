@@ -27,7 +27,7 @@ public class BoosterCommand implements CommandExecutor {
                 Account account;
                 account = new AccountProvider(player.getUniqueId()).getAccount();
                 player.sendMessage("§7§m--------------------\n" +
-                        "§eBooster: §6x" + account.getBooster() + "\n" +
+                        "§eBooster: §6x" + account.getRealBooster() + "\n" +
                         "§7§m--------------------");
                 return false;
             }

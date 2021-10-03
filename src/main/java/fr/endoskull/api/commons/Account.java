@@ -1,5 +1,9 @@
 package fr.endoskull.api.commons;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import org.bukkit.Bukkit;
+import org.bukkit.entity.Player;
+
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -19,10 +23,12 @@ public class Account implements Cloneable {
     private double solde;
     private List<String> kits;
     private String selectedKit;
+    private List<String> effects;
+    private String selectedEffect;
 
     public Account() {}
 
-    public Account(String uuid, String name, int voteKey, int ultimeKey, int coinsKey, int kitKey, int level, double xp, double booster, double solde, String kitsString, String selectedKit) {
+    public Account(String uuid, String name, int voteKey, int ultimeKey, int coinsKey, int kitKey, int level, double xp, double booster, double solde, String kitsString, String selectedKit, String effectsString, String selectedEffect) {
         this.uuid = uuid;
         this.name = name;
         this.voteKey = voteKey;
@@ -35,6 +41,8 @@ public class Account implements Cloneable {
         this.solde = solde;
         this.kits = stringToArray(kitsString);
         this.selectedKit = selectedKit;
+        this.effects = stringToArray(effectsString);
+        this.selectedEffect = selectedEffect;
     }
 
     public String getName() {
@@ -123,7 +131,7 @@ public class Account implements Cloneable {
         df.setMaximumFractionDigits(1);
         df.setMinimumFractionDigits(0);
         df.setGroupingUsed(false);
-        return df.format(booster);
+        return df.format(getRealBooster());
     }
 
 
@@ -136,6 +144,12 @@ public class Account implements Cloneable {
         df.setMaximumFractionDigits(1);
         df.setMinimumFractionDigits(0);
         df.setGroupingUsed(false);
+        if (solde > 1000000) {
+            return df.format(solde/1000000) + "M";
+        }
+        if (solde > 1000) {
+            return df.format(solde/1000) + "k";
+        }
         return df.format(solde);
     }
 
@@ -225,5 +239,52 @@ public class Account implements Cloneable {
     public Account setSelectedKit(String selectedKit) {
         this.selectedKit = selectedKit;
         return this;
+    }
+
+    public String getEffectsString() {
+        return effects.toString().replace(", ", ",").replace("[", "").replace("]", "");
+    }
+
+    public String getSelectedEffect() {
+        return selectedEffect;
+    }
+
+    public Account setSelectedEffect(String selectedEffect) {
+        this.selectedEffect = selectedEffect;
+        return this;
+    }
+
+    public List<String> getEffects() {
+        return effects;
+    }
+
+    public Account setEffects(List<String> effects) {
+        this.effects = effects;
+        return this;
+    }
+
+    public Account addEffect(String effect) {
+        effects.add(effect);
+        return this;
+    }
+
+    public Account removeEffect(String effect) {
+        effects.remove(effect);
+        return this;
+    }
+
+    public double getRealBooster() {
+        double booster = this.booster;
+        Player player = Bukkit.getPlayer(UUID.fromString(uuid));
+        if (player != null) {
+            if (player.hasPermission("group.general")) {
+                booster += 4;
+
+            }
+            else if (player.hasPermission("group.officer")) {
+                booster += 2;
+            }
+        }
+        return booster;
     }
 }

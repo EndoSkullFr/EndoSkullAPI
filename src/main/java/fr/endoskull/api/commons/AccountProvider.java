@@ -13,7 +13,7 @@ import java.util.UUID;
 public class AccountProvider {
     public static final String REDIS_KEY = "account:";
     public static final String TABLE = "accounts";
-    public static final Account DEFAULT_ACCOUNT = new Account(UUID.randomUUID().toString(), "none", 0, 0, 0, 0, 1, 0, 1, 0, "", "");
+    public static final Account DEFAULT_ACCOUNT = new Account(UUID.randomUUID().toString(), "none", 0, 0, 0, 0, 1, 0, 1, 0, "", "", "", "");
 
     private RedisAccess redisAccess;
     private UUID uuid;
@@ -58,7 +58,7 @@ public class AccountProvider {
         return (Account) mySQL.query("SELECT * FROM " + TABLE + " WHERE uuid='" + uuid + "'", rs -> {
             try {
                 if(rs.next()){
-                    return new Account(rs.getString("uuid"), rs.getString("name"), rs.getInt("voteKey"), rs.getInt("ultimeKey"), rs.getInt("coinsKey"), rs.getInt("kitKey"), rs.getInt("level"), rs.getDouble("xp"), rs.getDouble("booster"), rs.getDouble("solde"), rs.getString("kits"), rs.getString("kit_selected"));
+                    return new Account(rs.getString("uuid"), rs.getString("name"), rs.getInt("voteKey"), rs.getInt("ultimeKey"), rs.getInt("coinsKey"), rs.getInt("kitKey"), rs.getInt("level"), rs.getDouble("xp"), rs.getDouble("booster"), rs.getDouble("solde"), rs.getString("kits"), rs.getString("kit_selected"), rs.getString("effects"), rs.getString("effect_selected"));
                 }
             } catch (SQLException e) {
                 e.printStackTrace();
@@ -79,7 +79,7 @@ public class AccountProvider {
         } catch (NoClassDefFoundError e) {
             mySQL = Main.getInstance().getMySQL();
         }
-        mySQL.update("INSERT INTO " + TABLE + " (uuid, name, voteKey, ultimeKey, coinsKey, kitKey, level, xp, booster, solde, kits, kit_selected) VALUES ('" + account.getUuid() + "', '" + account.getName() + "', '" + account.getVoteKey() + "', '" + account.getUltimeKey() + "', '" + account.getCoinsKey() + "', '" + account.getKitKey() + "', '" + account.getLevel() + "', '" + account.getXp() + "', '" + account.getBooster() + "', '" + account.getSolde() + "', '" + account.getKitsString() + "', '" + account.getSelectedKit() + "')");
+        mySQL.update("INSERT INTO " + TABLE + " (uuid, name, voteKey, ultimeKey, coinsKey, kitKey, level, xp, booster, solde, kits, kit_selected, effects, effect_selected) VALUES ('" + account.getUuid() + "', '" + account.getName() + "', '" + account.getVoteKey() + "', '" + account.getUltimeKey() + "', '" + account.getCoinsKey() + "', '" + account.getKitKey() + "', '" + account.getLevel() + "', '" + account.getXp() + "', '" + account.getBooster() + "', '" + account.getSolde() + "', '" + account.getKitsString() + "', '" + account.getSelectedKit() + "', '" + account.getEffectsString() + "', '" + account.getSelectedEffect() + "')");
 
         return account;
     }

@@ -1,6 +1,9 @@
 package fr.endoskull.api;
 
 import fr.endoskull.api.data.redis.RedisAccess;
+import fr.endoskull.api.spigot.classement.ClassementTask;
+import fr.endoskull.api.spigot.inventories.tag.TagColor;
+import fr.endoskull.api.spigot.listeners.OnSignGUIUpdateEvent;
 import fr.endoskull.api.spigot.PluginMessageManager;
 import fr.endoskull.api.data.sql.MySQL;
 import fr.endoskull.api.spigot.commands.*;
@@ -18,11 +21,13 @@ import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.HashMap;
+import java.util.UUID;
 
 public class Main extends JavaPlugin {
     private static Main instance;
     private HashMap<Player, Inventory> openingKeys = new HashMap<>();
     private HashMap<Player, Location> waitingSetting = new HashMap<>();
+    private HashMap<UUID, TagColor> waitingTag = new HashMap<>();
 
     private BasicDataSource connectionPool;
     private MySQL mysql;
@@ -58,6 +63,9 @@ public class Main extends JavaPlugin {
         if (Bukkit.getPluginManager().getPlugin("DeluxeHub_EndoSkull") != null) {
             Bukkit.getScheduler().runTaskTimer(this, new HologramTask(), 100, 100);
         }
+        if (Bukkit.getPluginManager().getPlugin("EndoSkullPvpKit") != null) {
+            Bukkit.getScheduler().runTaskTimer(this, new ClassementTask(), 100, 100);
+        }
 
         super.onEnable();
     }
@@ -89,6 +97,7 @@ public class Main extends JavaPlugin {
         getCommand("boutique").setExecutor(new BoutiqueCommand());
         getCommand("discord").setExecutor(new LinkCommand());
         getCommand("lobby").setExecutor(new ServerCommand(this));
+        getCommand("tag").setExecutor(new TagCommand(this));
 
         getCommand("endoskullapi").setExecutor(new EndoSkullApiCommand(this));
     }
@@ -100,6 +109,7 @@ public class Main extends JavaPlugin {
         pm.registerEvents(new PlayerInv(this), this);
         pm.registerEvents(new PlayerJoin(this), this);
         pm.registerEvents(new CustomGuiListener(), this);
+        pm.registerEvents(new OnSignGUIUpdateEvent(this), this);
     }
 
     public static Main getInstance() {
@@ -124,5 +134,9 @@ public class Main extends JavaPlugin {
 
     public long getLoad() {
         return load;
+    }
+
+    public HashMap<UUID, TagColor> getWaitingTag() {
+        return waitingTag;
     }
 }
