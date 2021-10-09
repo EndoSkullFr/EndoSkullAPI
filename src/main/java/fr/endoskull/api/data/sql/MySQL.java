@@ -1,11 +1,15 @@
 package fr.endoskull.api.data.sql;
 
+import fr.endoskull.api.commons.AccountProvider;
 import org.apache.commons.dbcp2.BasicDataSource;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.UUID;
 import java.util.function.Consumer;
 import java.util.function.Function;
 
@@ -88,5 +92,20 @@ public class MySQL {
         } catch(SQLException e){
             throw new IllegalStateException(e.getMessage());
         }
+    }
+
+    //SELECT `uuid` FROM `accounts` WHERE 1
+    public List<UUID> getAllUniqueId() {
+        return (List<UUID>) query("SELECT `uuid` FROM " + AccountProvider.TABLE + " WHERE 1", rs -> {
+            List<UUID> result = new ArrayList<>();
+            try {
+                while (rs.next()) {
+                    result.add(UUID.fromString(rs.getString("uuid")));
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+            return result;
+        });
     }
 }

@@ -32,3 +32,4 @@ commands:
     aliases: [pvpkit]
   tag:
     permission: endoskull.tag
+  load:
