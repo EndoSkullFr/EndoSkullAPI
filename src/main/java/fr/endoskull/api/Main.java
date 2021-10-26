@@ -4,7 +4,7 @@ import fr.endoskull.api.data.redis.RedisAccess;
 import fr.endoskull.api.spigot.classement.ClassementTask;
 import fr.endoskull.api.spigot.inventories.tag.TagColor;
 import fr.endoskull.api.spigot.listeners.OnSignGUIUpdateEvent;
-import fr.endoskull.api.spigot.PluginMessageManager;
+import fr.endoskull.api.spigot.ServerCountManager;
 import fr.endoskull.api.data.sql.MySQL;
 import fr.endoskull.api.spigot.commands.*;
 import fr.endoskull.api.spigot.listeners.*;
@@ -28,6 +28,7 @@ public class Main extends JavaPlugin {
     private HashMap<Player, Inventory> openingKeys = new HashMap<>();
     private HashMap<Player, Location> waitingSetting = new HashMap<>();
     private HashMap<UUID, TagColor> waitingTag = new HashMap<>();
+    public String CHANNEL = "EndoSkullChannel";
 
     private BasicDataSource connectionPool;
     private MySQL mysql;
@@ -44,7 +45,8 @@ public class Main extends JavaPlugin {
         saveDefaultConfig();
         instance = this;
         getServer().getMessenger().registerOutgoingPluginChannel(this, "BungeeCord");
-        getServer().getMessenger().registerIncomingPluginChannel(this, "BungeeCord", new PluginMessageManager(this));
+        getServer().getMessenger().registerOutgoingPluginChannel(this, CHANNEL);
+        getServer().getMessenger().registerIncomingPluginChannel(this, "BungeeCord", new ServerCountManager(this));
 
         initConnection();
         RedisAccess.init();
@@ -61,7 +63,7 @@ public class Main extends JavaPlugin {
         new EndoSkullPlaceholder().register();
 
         if (Bukkit.getPluginManager().getPlugin("DeluxeHub_EndoSkull") != null) {
-            Bukkit.getScheduler().runTaskTimer(this, new HologramTask(), 100, 100);
+            //Bukkit.getScheduler().runTaskTimer(this, new HologramTask(), 100, 100);
         }
         if (Bukkit.getPluginManager().getPlugin("EndoSkullPvpKit") != null) {
             Bukkit.getScheduler().runTaskTimer(this, new ClassementTask(), 100, 100);

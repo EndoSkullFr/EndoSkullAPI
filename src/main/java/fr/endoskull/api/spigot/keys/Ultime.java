@@ -9,10 +9,8 @@ public enum Ultime {
     GENERAL("§cGrade Général", 1, "lp user %player% parent add general", new ItemStack(Material.DIAMOND_SWORD)),
     OFFICIER("§eGrade Officier", 3, "lp user %player% parent add officier", new ItemStack(Material.GOLD_SWORD)),
     DOUBLE("§42 Clés Ultimes", 1, "key add %player% ULTIME 2", new ItemStack(Material.TRIPWIRE_HOOK, 2)),
-    BOOSTER4("§eBooster §lx4", 5, "boost add %player% 3", new ItemStack(Material.RED_ROSE, 1, (byte) 4)),
-    BOOSTER3("§eBooster §lx3", 20, "boost add %player% 2", new ItemStack(Material.RED_ROSE, 1, (byte) 5)),
-    BOOSTER2("§eBooster §lx2", 30, "boost add %player% 1", new ItemStack(Material.RED_ROSE, 1, (byte) 7)),
-    BOOSTER1("§eBooster §lx1.5", 40, "boost add %player% 0.5", new ItemStack(Material.RED_ROSE, 1, (byte) 6));
+    BOOSTER2("§eBooster §lx2", 45, "boost add %player% 1", new ItemStack(Material.RED_ROSE, 1, (byte) 7)),
+    BOOSTER1("§eBooster §lx1.5", 50, "boost add %player% 0.5", new ItemStack(Material.RED_ROSE, 1, (byte) 6));
 
     private String name;
     private double probability;

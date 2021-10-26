@@ -42,6 +42,11 @@
       <option name="url" value="https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-annotations" />
     </remote-repository>
     <remote-repository>
+      <option name="id" value="cloudnet-releases" />
+      <option name="name" value="cloudnet-releases" />
+      <option name="url" value="https://repo.cloudnetservice.eu/repository/releases/" />
+    </remote-repository>
+    <remote-repository>
       <option name="id" value="viaversion-repo" />
       <option name="name" value="viaversion-repo" />
       <option name="url" value="https://repo.viaversion.com" />
@@ -75,6 +80,11 @@
       <option name="id" value="redisson" />
       <option name="name" value="redisson" />
       <option name="url" value="https://mvnrepository.com/artifact/org.redisson/redisson" />
+    </remote-repository>
+    <remote-repository>
+      <option name="id" value="cloudnet-snapshots" />
+      <option name="name" value="cloudnet-snapshots" />
+      <option name="url" value="https://repo.cloudnetservice.eu/repository/snapshots/" />
     </remote-repository>
     <remote-repository>
       <option name="id" value="slf4j-api" />

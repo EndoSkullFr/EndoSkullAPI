@@ -1,89 +1,51 @@
 package fr.endoskull.api.spigot.utils;
 
-import org.bukkit.Bukkit;
+import net.minecraft.server.v1_8_R3.IChatBaseComponent;
+import net.minecraft.server.v1_8_R3.PacketPlayOutTitle;
+import net.minecraft.server.v1_8_R3.PlayerConnection;
 import org.bukkit.ChatColor;
+import org.bukkit.craftbukkit.v1_8_R3.entity.CraftPlayer;
 import org.bukkit.entity.Player;
 
-import java.lang.reflect.Constructor;
 
 public class Title {
+    public static void sendTitle(Player player, Integer fadeIn, Integer stay, Integer fadeOut, String message) {
+        sendTitle(player, fadeIn, stay, fadeOut, message, null);
+    }
 
-    public static void sendTitleToAllPlayers(String title, String subtitle, int fadeIn, int stay, int fadeOut) {
-        for (Player online : Bukkit.getOnlinePlayers()) {
-            sendTitle(online, title, subtitle, fadeIn, stay, fadeOut);
+    @Deprecated
+    public static void sendSubtitle(Player player, Integer fadeIn, Integer stay, Integer fadeOut, String message) {
+        sendTitle(player, fadeIn, stay, fadeOut, null, message);
+    }
+
+    @Deprecated
+    public static void sendFullTitle(Player player, Integer fadeIn, Integer stay, Integer fadeOut, String title,
+                              String subtitle) {
+        sendTitle(player, fadeIn, stay, fadeOut, title, subtitle);
+    }
+
+    public static void sendTitle(Player player, Integer fadeIn, Integer stay, Integer fadeOut, String title,
+                          String subtitle) {
+        PlayerConnection connection = ((CraftPlayer) player).getHandle().playerConnection;
+
+        PacketPlayOutTitle packetPlayOutTimes = new PacketPlayOutTitle(PacketPlayOutTitle.EnumTitleAction.TIMES, null,
+                fadeIn.intValue(), stay.intValue(), fadeOut.intValue());
+        connection.sendPacket(packetPlayOutTimes);
+        if (subtitle != null) {
+            subtitle = subtitle.replaceAll("%player%", player.getDisplayName());
+            subtitle = ChatColor.translateAlternateColorCodes('&', subtitle);
+            IChatBaseComponent titleSub = IChatBaseComponent.ChatSerializer.a("{\"text\": \"" + subtitle + "\"}");
+            PacketPlayOutTitle packetPlayOutSubTitle = new PacketPlayOutTitle(
+                    PacketPlayOutTitle.EnumTitleAction.SUBTITLE, titleSub);
+            connection.sendPacket(packetPlayOutSubTitle);
+        }
+        if (title != null) {
+            title = title.replaceAll("%player%", player.getDisplayName());
+            title = ChatColor.translateAlternateColorCodes('&', title);
+            IChatBaseComponent titleMain = IChatBaseComponent.ChatSerializer.a("{\"text\": \"" + title + "\"}");
+            PacketPlayOutTitle packetPlayOutTitle = new PacketPlayOutTitle(PacketPlayOutTitle.EnumTitleAction.TITLE,
+                    titleMain);
+            connection.sendPacket(packetPlayOutTitle);
         }
     }
-
-    @SuppressWarnings("rawtypes")
-    public static void sendTitle(Player player, String title, String subtitle, int fadeIn, int stay, int fadeOut) {
-        try {
-            Object e;
-            Object chatTitle;
-            Object chatSubtitle;
-            Constructor subtitleConstructor;
-            Object titlePacket;
-            Object subtitlePacket;
-
-            if (title != null) {
-                title = ChatColor.translateAlternateColorCodes('&', title);
-                title = title.replaceAll("%player%", player.getDisplayName());
-                // Times packets
-                e = getNMSClass("PacketPlayOutTitle").getDeclaredClasses()[0].getField("TIMES").get(null);
-                chatTitle = getNMSClass("IChatBaseComponent").getDeclaredClasses()[0].getMethod("a", String.class).invoke(null, "{\"text\":\"" + title + "\"}");
-                subtitleConstructor = getNMSClass("PacketPlayOutTitle").getConstructor(getNMSClass("PacketPlayOutTitle").getDeclaredClasses()[0], getNMSClass("IChatBaseComponent"), Integer.TYPE, Integer.TYPE, Integer.TYPE);
-                titlePacket = subtitleConstructor.newInstance(e, chatTitle, fadeIn, stay, fadeOut);
-                sendPacket(player, titlePacket);
-
-                e = getNMSClass("PacketPlayOutTitle").getDeclaredClasses()[0].getField("TITLE").get(null);
-                chatTitle = getNMSClass("IChatBaseComponent").getDeclaredClasses()[0].getMethod("a", String.class).invoke(null, "{\"text\":\"" + title + "\"}");
-                subtitleConstructor = getNMSClass("PacketPlayOutTitle").getConstructor(getNMSClass("PacketPlayOutTitle").getDeclaredClasses()[0], getNMSClass("IChatBaseComponent"));
-                titlePacket = subtitleConstructor.newInstance(e, chatTitle);
-                sendPacket(player, titlePacket);
-            }
-
-            if (subtitle != null) {
-                subtitle = ChatColor.translateAlternateColorCodes('&', subtitle);
-                subtitle = subtitle.replaceAll("%player%", player.getDisplayName());
-                // Times packets
-                e = getNMSClass("PacketPlayOutTitle").getDeclaredClasses()[0].getField("TIMES").get(null);
-                chatSubtitle = getNMSClass("IChatBaseComponent").getDeclaredClasses()[0].getMethod("a", String.class).invoke(null, "{\"text\":\"" + title + "\"}");
-                subtitleConstructor = getNMSClass("PacketPlayOutTitle").getConstructor(getNMSClass("PacketPlayOutTitle").getDeclaredClasses()[0], getNMSClass("IChatBaseComponent"), Integer.TYPE, Integer.TYPE, Integer.TYPE);
-                subtitlePacket = subtitleConstructor.newInstance(e, chatSubtitle, fadeIn, stay, fadeOut);
-                sendPacket(player, subtitlePacket);
-
-                e = getNMSClass("PacketPlayOutTitle").getDeclaredClasses()[0].getField("SUBTITLE").get(null);
-                chatSubtitle = getNMSClass("IChatBaseComponent").getDeclaredClasses()[0].getMethod("a", String.class).invoke(null, "{\"text\":\"" + subtitle + "\"}");
-                subtitleConstructor = getNMSClass("PacketPlayOutTitle").getConstructor(getNMSClass("PacketPlayOutTitle").getDeclaredClasses()[0], getNMSClass("IChatBaseComponent"), Integer.TYPE, Integer.TYPE, Integer.TYPE);
-                subtitlePacket = subtitleConstructor.newInstance(e, chatSubtitle, fadeIn, stay, fadeOut);
-                sendPacket(player, subtitlePacket);
-            }
-        } catch (Exception var11) {
-            var11.printStackTrace();
-        }
-    }
-
-    public static void clearTitle(Player player) {
-        sendTitle(player, "", "", 0, 0, 0);
-    }
-
-    private static void sendPacket(Player player, Object packet) {
-        try {
-            Object handle = player.getClass().getMethod("getHandle").invoke(player);
-            Object playerConnection = handle.getClass().getField("playerConnection").get(handle);
-            playerConnection.getClass().getMethod("sendPacket", getNMSClass("Packet")).invoke(playerConnection, packet);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-    private static Class<?> getNMSClass(String name) {
-        String version = Bukkit.getServer().getClass().getPackage().getName().split("\\.")[3];
-        try {
-            return Class.forName("net.minecraft.server." + version + "." + name);
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-            return null;
-        }
-    }
-
 }

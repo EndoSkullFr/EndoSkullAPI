@@ -3,7 +3,9 @@ package fr.endoskull.api.spigot.papi;
 import fr.endoskull.api.commons.Account;
 import fr.endoskull.api.commons.AccountProvider;
 import fr.endoskull.api.commons.exceptions.AccountNotFoundException;
+import fr.endoskull.api.spigot.ServerCountManager;
 import fr.endoskull.api.spigot.utils.EndoSkullPlayer;
+import fr.endoskull.api.spigot.utils.ServerType;
 import me.clip.placeholderapi.expansion.PlaceholderExpansion;
 import org.bukkit.OfflinePlayer;
 
@@ -92,6 +94,15 @@ public class EndoSkullPlaceholder extends PlaceholderExpansion {
         if(identifier.equals("boost") || identifier.equals("booster")){
             Account account = new AccountProvider(player.getUniqueId()).getAccount();
             return account.getStringBooster();
+        }
+        if(identifier.startsWith("server_")) {
+            String server = identifier.substring(7);
+            for (ServerType value : ServerType.values()) {
+                if (value.getServerName().equalsIgnoreCase(server)) {
+                    return String.valueOf(ServerCountManager.getPlayerCount(value));
+                }
+            }
+            return "-1";
         }
 
         // We return null if an invalid placeholder (f.e. %example_placeholder3%)

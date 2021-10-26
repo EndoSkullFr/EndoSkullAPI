@@ -36,7 +36,7 @@ public class MoneyCommand implements CommandExecutor {
         }
         Bukkit.getScheduler().runTaskAsynchronously(main, () -> {
             if (args.length < 3) {
-                sender.sendMessage("/" + label + " add/set/remove {player} {number}");
+                sender.sendMessage("/" + label + " add/set/remove/give {player} {number}");
                 return;
             }
             String targetName = args[1];
@@ -57,6 +57,10 @@ public class MoneyCommand implements CommandExecutor {
             }
             if (args[0].equals("add")) {
                 account.setSolde(account.getSolde() + number).sendToRedis();
+                sender.sendMessage("§a" + number + " §ecoins ont été ajouté à §a" + args[1]);
+            }
+            if (args[0].equals("give")) {
+                account.setSolde(account.getSolde() + (number * account.getRealBooster())).sendToRedis();
                 sender.sendMessage("§a" + number + " §ecoins ont été ajouté à §a" + args[1]);
             }
             if (args[0].equals("remove")) {

@@ -2,3 +2,5 @@ name: EndoSkullAPI
 author: BebeDlaStreat
 version: 1.0
 main: fr.endoskull.api.BungeeMain
+commands:
+  bedwars:

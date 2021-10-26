@@ -3,22 +3,19 @@ package fr.endoskull.api.spigot;
 import com.google.common.io.ByteArrayDataInput;
 import com.google.common.io.ByteStreams;
 import fr.endoskull.api.Main;
+import fr.endoskull.api.spigot.utils.ServerType;
 import org.bukkit.entity.Player;
 
 import java.util.*;
 
-public class PluginMessageManager implements org.bukkit.plugin.messaging.PluginMessageListener {
-    public PluginMessageManager(Main main) {
+public class ServerCountManager implements org.bukkit.plugin.messaging.PluginMessageListener {
+    public ServerCountManager(Main main) {
         this.main = main;
     }
 
     private Main main;
     private static HashMap<String, Integer> serverCount = new HashMap<>();
     private static List<String> servers = new ArrayList<>();
-
-    public static HashMap<String, Integer> getServerCount() {
-        return serverCount;
-    }
 
     public static List<String> getServers() {
         return servers;
@@ -41,11 +38,13 @@ public class PluginMessageManager implements org.bukkit.plugin.messaging.PluginM
         }
     }
 
-    public static int getPlayerCount(String server) {
-        if (serverCount.containsKey(server)) {
-            return serverCount.get(server);
-        } else {
-            return 0;
+    public static int getPlayerCount(ServerType serverType) {
+        int count = 0;
+        for (String s : serverCount.keySet()) {
+            if (s.startsWith(serverType.getServerName())) {
+                count += serverCount.get(s);
+            }
         }
+        return count;
     }
 }

@@ -22,16 +22,16 @@ public class ServerCommand implements CommandExecutor {
         Player player = (Player) sender;
 
         if (label.equalsIgnoreCase("lobby")) {
-            player.sendMessage("§aTéléportation au lobby...");
             ByteArrayOutputStream b = new ByteArrayOutputStream();
             DataOutputStream out = new DataOutputStream(b);
             try {
-                out.writeUTF("Connect");
-                out.writeUTF("Hub");
-                player.sendPluginMessage(main, "BungeeCord", b.toByteArray());
-            } catch (IOException e) {
+                out.writeUTF("command");
+                out.writeUTF("lobby");
+            } catch(Exception e) {
                 e.printStackTrace();
             }
+
+            player.sendPluginMessage(main, main.CHANNEL, b.toByteArray());
         }
         if (label.equalsIgnoreCase("pvpkit")) {
             player.sendMessage("§aTéléportation vers le PvpKit...");
@@ -39,11 +39,12 @@ public class ServerCommand implements CommandExecutor {
             DataOutputStream out = new DataOutputStream(b);
             try {
                 out.writeUTF("Connect");
-                out.writeUTF("PvpKit");
+                out.writeUTF("PvpKit-1");
                 player.sendPluginMessage(main, "BungeeCord", b.toByteArray());
             } catch (IOException e) {
                 e.printStackTrace();
             }
+
         }
 
         return false;

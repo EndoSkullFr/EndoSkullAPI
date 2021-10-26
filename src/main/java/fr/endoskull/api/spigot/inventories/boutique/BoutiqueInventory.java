@@ -20,7 +20,7 @@ public class BoutiqueInventory extends CustomGui {
             player.playNote(player.getLocation(), Instrument.PIANO, Note.flat(1, Note.Tone.A));
             new RankInventory().open(player);
         });
-        setItem(23, new CustomItemStack(Material.GOLDEN_APPLE).setName("§aBoosters et autres").setLore("\n§7Dans cette catégorie, vous trouverez:\n§7► Des boosters\n§7► Des clés ultimes"), player -> {
+        setItem(23, new CustomItemStack(Material.GOLDEN_APPLE).setName("§aClés").setLore("\n§7Dans cette catégorie, vous trouverez:\n§7► Des Clé Ultimes"), player -> {
             player.playNote(player.getLocation(), Instrument.PIANO, Note.flat(1, Note.Tone.A));
             new OtherInventory().open(player);
         });

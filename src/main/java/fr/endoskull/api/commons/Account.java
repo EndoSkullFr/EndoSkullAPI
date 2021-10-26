@@ -278,11 +278,11 @@ public class Account implements Cloneable {
         Player player = Bukkit.getPlayer(UUID.fromString(uuid));
         if (player != null) {
             if (player.hasPermission("group.general")) {
-                booster += 4;
+                booster += 1;
 
             }
             else if (player.hasPermission("group.officer")) {
-                booster += 2;
+                booster += 0.5;
             }
         }
         return booster;

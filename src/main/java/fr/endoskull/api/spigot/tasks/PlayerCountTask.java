@@ -2,13 +2,9 @@ package fr.endoskull.api.spigot.tasks;
 
 import com.google.common.collect.Iterables;
 import fr.endoskull.api.Main;
-import fr.endoskull.api.data.yaml.BoxLocation;
-import fr.endoskull.api.spigot.PluginMessageManager;
+import fr.endoskull.api.spigot.ServerCountManager;
 import org.bukkit.Bukkit;
-import org.bukkit.Color;
-import org.bukkit.Location;
 import org.bukkit.entity.Player;
-import org.bukkit.scheduler.BukkitRunnable;
 
 import java.io.ByteArrayOutputStream;
 import java.io.DataOutputStream;
@@ -26,7 +22,7 @@ public class PlayerCountTask implements Runnable {
         Player player = Iterables.getFirst(Bukkit.getOnlinePlayers(), null);
         if (player == null) return;
         updateServers(player);
-        for (String server : PluginMessageManager.getServers()) {
+        for (String server : ServerCountManager.getServers()) {
             ByteArrayOutputStream b = new ByteArrayOutputStream();
             DataOutputStream out = new DataOutputStream(b);
             try {
@@ -34,7 +30,6 @@ public class PlayerCountTask implements Runnable {
                 out.writeUTF(server);
                 player.sendPluginMessage(main, "BungeeCord", b.toByteArray());
             } catch (IOException e) {
-                e.printStackTrace();
             }
         }
         //Bukkit.broadcastMessage(PluginMessageManager.getServerCount().toString());
