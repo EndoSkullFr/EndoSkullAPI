@@ -29,7 +29,7 @@ commands:
   discord:
     aliases: [vote]
   lobby:
-    aliases: [pvpkit]
+    aliases: [pvpkit, bedwars]
   tag:
     permission: endoskull.tag
   load:

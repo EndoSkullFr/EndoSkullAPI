@@ -28,7 +28,7 @@ public class ServerTask implements Runnable {
                     String serviceName = serviceInfoSnapshog.getName();
                     String status = RedisManager.get("status/" + serviceName);
                     if (status == null) continue;
-                    if (status.equalsIgnoreCase("LOBBY")) {
+                    if (status.equalsIgnoreCase("READY")) {
                         server = serviceName;
                         break;
                     }

@@ -33,6 +33,18 @@ public class ServerCommand implements CommandExecutor {
 
             player.sendPluginMessage(main, main.CHANNEL, b.toByteArray());
         }
+        if (label.equalsIgnoreCase("bedwars")) {
+            ByteArrayOutputStream b = new ByteArrayOutputStream();
+            DataOutputStream out = new DataOutputStream(b);
+            try {
+                out.writeUTF("command");
+                out.writeUTF("bedwars");
+            } catch(Exception e) {
+                e.printStackTrace();
+            }
+
+            player.sendPluginMessage(main, main.CHANNEL, b.toByteArray());
+        }
         if (label.equalsIgnoreCase("pvpkit")) {
             player.sendMessage("§aTéléportation vers le PvpKit...");
             ByteArrayOutputStream b = new ByteArrayOutputStream();

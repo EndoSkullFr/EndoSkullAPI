@@ -17,7 +17,7 @@ import java.util.concurrent.CompletableFuture;
 public class Classement {
     private static boolean init = false;
     private static List<Account> classement = new ArrayList<>();
-    private static Location loc = new Location(Bukkit.getWorld("world"), 2.5, 133.5, -7.5);
+    private static Location loc = new Location(Bukkit.getWorld("world"), -0.5, 136.5, -16.5);
     private static Hologram holo0;
     private static Hologram holo1;
     private static Hologram holo2;

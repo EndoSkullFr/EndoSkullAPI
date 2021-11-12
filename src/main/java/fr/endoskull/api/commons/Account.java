@@ -99,8 +99,30 @@ public class Account implements Cloneable {
         return this;
     }
 
+    public Account addLevel(int level) {
+        this.level += level;
+        return this;
+    }
+
+    public Account removeLevel(int level) {
+        this.level -= level;
+        return this;
+    }
+
     public double getXp() {
         return xp;
+    }
+
+    public Account addXp(Double xp) {
+        this.xp += xp;
+        checkLevel();
+        return this;
+    }
+
+    public Account removeXp(Double xp) {
+        this.xp -= xp;
+        checkLevel();
+        return this;
     }
 
     public Account setXp(double xp) {
@@ -137,6 +159,16 @@ public class Account implements Cloneable {
 
     public double getSolde() {
         return solde;
+    }
+
+    public Account addMoney(double value) {
+        solde += value;
+        return this;
+    }
+
+    public Account removeMoney(double value) {
+        solde -= value;
+        return this;
     }
 
     public String getStringSolde() {

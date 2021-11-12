@@ -17,7 +17,7 @@ public class BedwarsCommand extends Command {
     private BungeeMain main;
     private static List<UUID> waitingPlayer = new ArrayList<>();
     public BedwarsCommand(BungeeMain main) {
-        super("bedwars", "admin");
+        super("bedwars");
         this.main = main;
     }
 

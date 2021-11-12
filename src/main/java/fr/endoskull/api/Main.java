@@ -8,6 +8,7 @@ import fr.endoskull.api.spigot.ServerCountManager;
 import fr.endoskull.api.data.sql.MySQL;
 import fr.endoskull.api.spigot.commands.*;
 import fr.endoskull.api.spigot.listeners.*;
+import fr.endoskull.api.spigot.papi.CloudNetExpansion;
 import fr.endoskull.api.spigot.papi.EndoSkullPlaceholder;
 import fr.endoskull.api.spigot.tasks.BossBarRunnable;
 import fr.endoskull.api.spigot.tasks.HologramTask;
@@ -61,6 +62,7 @@ public class Main extends JavaPlugin {
         Bukkit.getScheduler().runTaskTimer(this, new PlayerCountTask(this), 20L, 20L);
 
         new EndoSkullPlaceholder().register();
+        new CloudNetExpansion().register();
 
         if (Bukkit.getPluginManager().getPlugin("DeluxeHub_EndoSkull") != null) {
             //Bukkit.getScheduler().runTaskTimer(this, new HologramTask(), 100, 100);
@@ -74,6 +76,9 @@ public class Main extends JavaPlugin {
 
     @Override
     public void onDisable() {
+        for (Player pls : Bukkit.getOnlinePlayers()) {
+            pls.kickPlayer("§eEndoSkull §8>> §cLe serveur sur lequel vous étiez s'est arrêté");
+        }
         RedisAccess.close();
         super.onDisable();
     }
