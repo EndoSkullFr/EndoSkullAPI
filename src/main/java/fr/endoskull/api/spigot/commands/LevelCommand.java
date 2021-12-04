@@ -55,15 +55,15 @@ public class LevelCommand implements CommandExecutor {
                     return;
                 }
                 if (args[0].equals("add")) {
-                    account.setLevel(account.getLevel() + number).sendToRedis();
+                    account.setLevel(account.getLevel() + number);
                     sender.sendMessage("§a" + number + " §elevel ont été ajouté à §a" + args[1]);
                 }
                 if (args[0].equals("remove")) {
-                    account.setLevel(account.getLevel() - number).sendToRedis();
+                    account.setLevel(account.getLevel() - number);
                     sender.sendMessage("§a" + number + " §elevel ont été retiré à §a" + args[1]);
                 }
                 if (args[0].equals("set")) {
-                    account.setLevel(number).sendToRedis();
+                    account.setLevel(number);
                     sender.sendMessage("§a" + number + " §elevel ont été défini à §a" + args[1]);
                 }
             } else {
@@ -84,15 +84,15 @@ public class LevelCommand implements CommandExecutor {
                     return;
                 }
                 if (args[0].equals("add")) {
-                    account.setXp(account.getXp() + number).sendToRedis();
+                    account.setXp(account.getXp() + number);
                     sender.sendMessage("§a" + number + " §exp ont été ajouté à §a" + args[1]);
                 }
                 if (args[0].equals("remove")) {
-                    account.setXp(account.getXp() - number).sendToRedis();
+                    account.setXp(account.getXp() - number);
                     sender.sendMessage("§a" + number + " §exp ont été retiré à §a" + args[1]);
                 }
                 if (args[0].equals("set")) {
-                    account.setXp(number).sendToRedis();
+                    account.setXp(number);
                     sender.sendMessage("§a" + number + " §exp ont été défini à §a" + args[1]);
                 }
             }

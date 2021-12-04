@@ -22,7 +22,7 @@ public class KitKeyInventory extends CustomGui {
                 player.sendMessage("§cVous devez posséder une §lClé Kit §cpour effectuer cette action");
                 return;
             } else {
-                fAccount.setKitKey(fAccount.getKitKey() - 1).sendToRedis();
+                fAccount.setKitKey(fAccount.getKitKey() - 1);
                 BoxInventory.giveKit(player);
             }
         });

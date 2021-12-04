@@ -1,8 +1,9 @@
 package fr.endoskull.api.commons;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
+import fr.endoskull.api.data.redis.RedisAccess;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
+import redis.clients.jedis.Jedis;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
@@ -13,34 +14,14 @@ import java.util.UUID;
 public class Account implements Cloneable {
     private String uuid;
     private String name;
-    private int voteKey;
-    private int ultimeKey;
-    private int coinsKey;
-    private int kitKey;
-    private int level;
-    private double xp;
-    private double booster;
-    private double solde;
-    private String selectedKit;
-    private List<String> effects;
-    private String selectedEffect;
+    private Jedis jedis;
 
     public Account() {}
 
-    public Account(String uuid, String name, int voteKey, int ultimeKey, int coinsKey, int kitKey, int level, double xp, double booster, double solde, String selectedKit, String effectsString, String selectedEffect) {
+    public Account(String uuid, String name) {
         this.uuid = uuid;
         this.name = name;
-        this.voteKey = voteKey;
-        this.ultimeKey = ultimeKey;
-        this.coinsKey = coinsKey;
-        this.kitKey = kitKey;
-        this.level = level;
-        this.xp = xp;
-        this.booster = booster;
-        this.solde = solde;
-        this.selectedKit = selectedKit;
-        this.effects = stringToArray(effectsString);
-        this.selectedEffect = selectedEffect;
+        this.jedis = RedisAccess.get();
     }
 
     public String getName() {
@@ -49,100 +30,101 @@ public class Account implements Cloneable {
 
     public Account setName(String name) {
         this.name = name;
+        jedis.hset("account:" + uuid, "name", name);
         return this;
     }
 
     public int getVoteKey() {
-        return voteKey;
+        return Integer.parseInt(jedis.hget("account:" + uuid, "voteKey"));
     }
 
     public Account setVoteKey(int voteKey) {
-        this.voteKey = voteKey;
+        jedis.hset("account:" + uuid, "voteKey", String.valueOf(voteKey));
         return this;
     }
 
     public int getUltimeKey() {
-        return ultimeKey;
+        return Integer.parseInt(jedis.hget("account:" + uuid, "ultimeKey"));
     }
 
     public Account setUltimeKey(int ultimeKey) {
-        this.ultimeKey = ultimeKey;
+        jedis.hset("account:" + uuid, "ultimeKey", String.valueOf(ultimeKey));
         return this;
     }
 
     public int getCoinsKey() {
-        return coinsKey;
+        return Integer.parseInt(jedis.hget("account:" + uuid, "coinsKey"));
     }
 
     public Account setCoinsKey(int coinsKey) {
-        this.coinsKey = coinsKey;
+        jedis.hset("account:" + uuid, "coinsKey", String.valueOf(coinsKey));
         return this;
     }
 
     public int getKitKey() {
-        return kitKey;
+        return Integer.parseInt(jedis.hget("account:" + uuid, "kitKey"));
     }
 
     public Account setKitKey(int kitKey) {
-        this.kitKey = kitKey;
+        jedis.hset("account:" + uuid, "kitKey", String.valueOf(kitKey));
         return this;
     }
 
     public int getLevel() {
-        return level;
+        return Integer.parseInt(jedis.hget("account:" + uuid, "level"));
     }
 
     public Account setLevel(int level) {
-        this.level = level;
+        jedis.hset("account:" + uuid, "level", String.valueOf(level));
         return this;
     }
 
     public Account addLevel(int level) {
-        this.level += level;
+        setLevel(getLevel() + level);
         return this;
     }
 
     public Account removeLevel(int level) {
-        this.level -= level;
+        setLevel(getLevel() - level);
         return this;
     }
 
     public double getXp() {
-        return xp;
+        return Double.parseDouble(jedis.hget("account:" + uuid, "xp"));
     }
 
     public Account addXp(Double xp) {
-        this.xp += xp;
+        setXp(getXp() + xp);
         checkLevel();
         return this;
     }
 
     public Account removeXp(Double xp) {
-        this.xp -= xp;
+        setXp(getXp() - xp);
         checkLevel();
         return this;
     }
 
     public Account setXp(double xp) {
-        this.xp = xp;
+        jedis.hset("account:" + uuid, "xp", String.valueOf(xp));
         checkLevel();
         return this;
     }
 
     private void checkLevel() {
-        if (xp >= xpToLevelSup()) {
-            xp -= xpToLevelSup();
-            level++;
+        if (getXp() >= xpToLevelSup()) {
+            removeXp(xpToLevelSup());
+            addLevel(1);
             checkLevel();
         }
     }
 
     public double getBooster() {
-        return booster;
+        return Double.parseDouble(jedis.hget("account:" + uuid, "booster"));
     }
 
     public Account setBooster(double booster) {
-        this.booster = booster;
+        jedis.hset("account:" + uuid, "booster", String.valueOf(booster));
         return this;
     }
 
@@ -156,21 +138,21 @@ public class Account implements Cloneable {
 
 
     public double getSolde() {
-        return solde;
+        return Double.parseDouble(jedis.hget("account:" + uuid, "solde"));
     }
 
     public Account addMoney(double value) {
-        solde += value;
+        setSolde(getSolde() + value);
         return this;
     }
 
     public Account addMoneyWithBooster(double value) {
-        solde += value * getRealBooster();
+        addMoney(value * getBooster());
         return this;
     }
 
     public Account removeMoney(double value) {
-        solde -= value;
+        setSolde(getSolde() - value);
         return this;
     }
 
@@ -179,17 +161,17 @@ public class Account implements Cloneable {
         df.setMaximumFractionDigits(1);
         df.setMinimumFractionDigits(0);
         df.setGroupingUsed(false);
-        if (solde > 1000000) {
-            return df.format(solde/1000000) + "M";
+        if (getSolde() > 1000000) {
+            return df.format(getSolde()/1000000) + "M";
         }
-        if (solde > 1000) {
-            return df.format(solde/1000) + "k";
+        if (getSolde() > 1000) {
+            return df.format(getSolde()/1000) + "k";
         }
-        return df.format(solde);
+        return df.format(getSolde());
     }
 
     public Account setSolde(double solde) {
-        this.solde = solde;
+        jedis.hset("account:" + uuid, "solde", String.valueOf(solde));
         return this;
     }
 
@@ -229,11 +211,6 @@ public class Account implements Cloneable {
         return df.format(getLevelWithXp());
     }
 
-    public void sendToRedis() {
-        AccountProvider accountProvider = new AccountProvider(UUID.fromString(uuid));
-        accountProvider.sendAccountToRedis(this);
-    }
-
     private List<String> stringToArray(String kitsString) {
         if (kitsString.length() == 0) return new ArrayList<>();
         if (kitsString.contains(",")) {
@@ -244,48 +221,52 @@ public class Account implements Cloneable {
     }
 
     public String getSelectedKit() {
-        return selectedKit;
+        return jedis.hget("account:" + uuid, "kit_selected");
     }
 
     public Account setSelectedKit(String selectedKit) {
-        this.selectedKit = selectedKit;
+        jedis.hset("account:" + uuid, "kit_selected", selectedKit);
         return this;
     }
 
     public String getEffectsString() {
-        return effects.toString().replace(", ", ",").replace("[", "").replace("]", "");
+        return getEffects().toString().replace(", ", ",").replace("[", "").replace("]", "");
     }
 
     public String getSelectedEffect() {
-        return selectedEffect;
+        return jedis.hget("account:" + uuid, "effect_selected");
     }
 
     public Account setSelectedEffect(String selectedEffect) {
-        this.selectedEffect = selectedEffect;
+        jedis.hset("account:" + uuid, "effect_selected", selectedEffect);
         return this;
     }
 
     public List<String> getEffects() {
-        return effects;
+        return Arrays.asList(jedis.hget("account:" + uuid, "effects").split(","));
     }
 
     public Account setEffects(List<String> effects) {
-        this.effects = effects;
+        jedis.hset("account:" + uuid, "effects", effects.toString().replace(", ", ",").replace("[", "").replace("]", ""));
         return this;
     }
 
     public Account addEffect(String effect) {
+        List<String> effects = getEffects();
         effects.add(effect);
+        setEffects(effects);
         return this;
     }
 
     public Account removeEffect(String effect) {
+        List<String> effects = getEffects();
         effects.remove(effect);
+        setEffects(effects);
         return this;
     }
 
     public double getRealBooster() {
-        double booster = this.booster;
+        double booster = getBooster();
         Player player = Bukkit.getPlayer(UUID.fromString(uuid));
         if (player != null) {
             if (player.hasPermission("group.general")) {

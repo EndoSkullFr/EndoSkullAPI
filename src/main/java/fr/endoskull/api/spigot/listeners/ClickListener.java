@@ -147,7 +147,7 @@ public class ClickListener implements Listener {
                     player.sendMessage("§cVous devez posséder une §lClé Ultime §cpour effectuer cette action");
                     return;
                 } else {
-                    account.setUltimeKey(account.getUltimeKey() - 1).sendToRedis();
+                    account.setUltimeKey(account.getUltimeKey() - 1);
                     BoxInventory.playUltimeAnimation(player);
                 }
             }
@@ -162,7 +162,7 @@ public class ClickListener implements Listener {
                     player.sendMessage("§cVous devez posséder une §lClé Vote §cpour effectuer cette action");
                     return;
                 } else {
-                    account.setVoteKey(account.getVoteKey() - 1).sendToRedis();
+                    account.setVoteKey(account.getVoteKey() - 1);
                     BoxInventory.playVoteAnimation(player);
                 }
             }
@@ -177,7 +177,7 @@ public class ClickListener implements Listener {
                     player.sendMessage("§cVous devez posséder une §lClé Coins §cpour effectuer cette action");
                     return;
                 } else {
-                    account.setCoinsKey(account.getCoinsKey() - 1).sendToRedis();
+                    account.setCoinsKey(account.getCoinsKey() - 1);
                     BoxInventory.playCoinsAnimation(player);
                 }
             }

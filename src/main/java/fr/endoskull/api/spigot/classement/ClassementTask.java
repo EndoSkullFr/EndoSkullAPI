@@ -4,27 +4,16 @@ import fr.endoskull.api.BungeeMain;
 import fr.endoskull.api.commons.Account;
 import fr.endoskull.api.commons.AccountProvider;
 import fr.endoskull.api.data.redis.RedisAccess;
-import org.bukkit.scheduler.BukkitRunnable;
-import org.redisson.api.RBucket;
-import org.redisson.api.RedissonClient;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Iterator;
-import java.util.List;
+import java.util.*;
 
 public class ClassementTask implements Runnable {
     @Override
     public void run() {
         List<Account> accounts = new ArrayList<>();
-        RedissonClient redissonClient = RedisAccess.instance.getRedissonClient();
-        Iterator<String> iterator = redissonClient.getKeys().getKeys().iterator();
-        while (iterator.hasNext()) {
-            String s = iterator.next();
-            if (s.startsWith("account:")) {
-                RBucket<Account> accountRBucket = redissonClient.getBucket(s);
-                accounts.add(accountRBucket.get());
-            }
+        for (String s : RedisAccess.get().keys("account:*")) {
+            s = s.substring(8);
+            accounts.add(AccountProvider.getAccount(UUID.fromString(s)));
         }
         //Collections.sort(accounts, new LevelComparator());
         List<Account> topAccounts = new ArrayList<>();

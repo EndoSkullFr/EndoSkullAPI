@@ -54,15 +54,15 @@ public class BoosterCommand implements CommandExecutor {
                 return;
             }
             if (args[0].equals("add")) {
-                account.setBooster(account.getBooster() + number).sendToRedis();
+                account.setBooster(account.getBooster() + number);
                 sender.sendMessage("§a" + number + " §ebooster ont été ajouté à §a" + args[1]);
             }
             if (args[0].equals("remove")) {
-                account.setBooster(account.getBooster() - number).sendToRedis();
+                account.setBooster(account.getBooster() - number);
                 sender.sendMessage("§a" + number + " §eboster ont été retiré à §a" + args[1]);
             }
             if (args[0].equals("set")) {
-                account.setBooster(number).sendToRedis();
+                account.setBooster(number);
                 sender.sendMessage("§a" + number + " §ebooster ont été défini à §a" + args[1]);
             }
         });

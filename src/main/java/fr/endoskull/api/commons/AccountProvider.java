@@ -4,23 +4,22 @@ import fr.endoskull.api.BungeeMain;
 import fr.endoskull.api.Main;
 import fr.endoskull.api.data.redis.RedisAccess;
 import fr.endoskull.api.data.sql.MySQL;
-import org.redisson.api.RBucket;
-import org.redisson.api.RedissonClient;
+import net.md_5.bungee.api.ProxyServer;
+import org.bukkit.Bukkit;
+import redis.clients.jedis.Jedis;
 
 import java.sql.SQLException;
 import java.util.UUID;
+import java.util.concurrent.TimeUnit;
 
 public class AccountProvider {
     public static final String REDIS_KEY = "account:";
     public static final String TABLE = "accounts";
-    public static final Account DEFAULT_ACCOUNT = new Account(UUID.randomUUID().toString(), "none", 0, 0, 0, 0, 1, 0, 1, 0, "", "", "");
 
-    private RedisAccess redisAccess;
     private UUID uuid;
 
     public AccountProvider(UUID uuid) {
         this.uuid = uuid;
-        this.redisAccess = RedisAccess.instance;
     }
 
     public static Account getAccount(UUID uuid) {
@@ -28,30 +27,20 @@ public class AccountProvider {
     }
 
     public Account getAccount() {
-        Account account = getAccountFromRedis();
-        if (account == null) {
-            account = getAccountFromDatabase();
-            sendAccountToRedis(account);
+        if (!loadAccountFromRedis()) {
+            if (!loadAccountFromDatabase()) {
+                createNewAccount();
+            }
         }
 
-        return account;
+        return new Account(uuid.toString(), RedisAccess.get().hget("account:" + uuid, "name"));
     }
 
-    public void sendAccountToRedis(Account account) {
-        final RedissonClient redisson = redisAccess.getRedissonClient();
-        final String key = REDIS_KEY + uuid.toString();
-        final  RBucket<Account> accountRBucket = redisson.getBucket(key);
-        accountRBucket.set(account);
+    private boolean loadAccountFromRedis() {
+        return RedisAccess.get().exists("account:" + uuid);
     }
 
-    private Account getAccountFromRedis() {
-        final RedissonClient redissonClient = redisAccess.getRedissonClient();
-        final String key = REDIS_KEY + uuid.toString();
-        final RBucket<Account> accountRBucket = redissonClient.getBucket(key);
-        return accountRBucket.get();
-    }
-
-    private Account getAccountFromDatabase() {
+    private boolean loadAccountFromDatabase() {
         //get account
         MySQL mySQL;
         try {
@@ -59,23 +48,34 @@ public class AccountProvider {
         } catch (NoClassDefFoundError e) {
             mySQL = Main.getInstance().getMySQL();
         }
-        return (Account) mySQL.query("SELECT * FROM " + TABLE + " WHERE uuid='" + uuid + "'", rs -> {
+        return (boolean) mySQL.query("SELECT * FROM " + TABLE + " WHERE uuid='" + uuid + "'", rs -> {
+            Jedis jedis = RedisAccess.get();
             try {
                 if(rs.next()){
-                    return new Account(rs.getString("uuid"), rs.getString("name"), rs.getInt("voteKey"), rs.getInt("ultimeKey"), rs.getInt("coinsKey"), rs.getInt("kitKey"), rs.getInt("level"), rs.getDouble("xp"), rs.getDouble("booster"), rs.getDouble("solde"), rs.getString("kit_selected"), rs.getString("effects"), rs.getString("effect_selected"));
+                    UUID uuid = UUID.fromString(rs.getString("uuid"));
+                    jedis.hset("account:" + uuid, "name", rs.getString("name"));
+                    jedis.hset("account:" + uuid, "voteKey", String.valueOf(rs.getInt("voteKey")));
+                    jedis.hset("account:" + uuid, "ultimeKey", String.valueOf(rs.getInt("ultimeKey")));
+                    jedis.hset("account:" + uuid, "coinsKey", String.valueOf(rs.getInt("coinsKey")));
+                    jedis.hset("account:" + uuid, "kitKey", String.valueOf(rs.getInt("kitKey")));
+                    jedis.hset("account:" + uuid, "level", String.valueOf(rs.getInt("level")));
+                    jedis.hset("account:" + uuid, "xp", String.valueOf(rs.getDouble("xp")));
+                    jedis.hset("account:" + uuid, "booster", String.valueOf(rs.getDouble("booster")));
+                    jedis.hset("account:" + uuid, "solde", String.valueOf(rs.getDouble("solde")));
+                    jedis.hset("account:" + uuid, "kit_selected", rs.getString("kit_selected"));
+                    jedis.hset("account:" + uuid, "effects", rs.getString("effects"));
+                    jedis.hset("account:" + uuid, "effect_selected", rs.getString("effect_selected"));
+                    return true;
                 }
             } catch (SQLException e) {
                 e.printStackTrace();
             }
-            return createNewAccount();
+            return false;
         });
         //si non trouver createNewAccount();
     }
 
-    private Account createNewAccount() {
-        //add to data base
-        final Account account = DEFAULT_ACCOUNT.clone();
-        account.setUuid(uuid.toString());
+    private void createNewAccount() {
 
         MySQL mySQL;
         try {
@@ -83,8 +83,16 @@ public class AccountProvider {
         } catch (NoClassDefFoundError e) {
             mySQL = Main.getInstance().getMySQL();
         }
-        mySQL.update("INSERT INTO " + TABLE + " (uuid, name, voteKey, ultimeKey, coinsKey, kitKey, level, xp, booster, solde, kits, kit_selected, effects, effect_selected) VALUES ('" + account.getUuid() + "', '" + account.getName() + "', '" + account.getVoteKey() + "', '" + account.getUltimeKey() + "', '" + account.getCoinsKey() + "', '" + account.getKitKey() + "', '" + account.getLevel() + "', '" + account.getXp() + "', '" + account.getBooster() + "', '" + account.getSolde() + "', '" + account.getSelectedKit() + "', '" + account.getEffectsString() + "', '" + account.getSelectedEffect() + "')");
-
-        return account;
+        mySQL.update("INSERT INTO " + TABLE + " (uuid, name, voteKey, ultimeKey, coinsKey, kitKey, level, xp, booster, solde, kits, kit_selected, effects, effect_selected) VALUES ('" +
+                uuid + "', '" + "none" + "', '" + 0 + "', '" + 0 + "', '" + 0 + "', '" + 0 + "', '" + 1 + "', '" + 0 + "', '" + 1 + "', '" + 0 + "', '" + "" + "', '" + "" + "', '" + "" + "')");
+        try {
+            Bukkit.getScheduler().runTaskLater(Main.getInstance(), () -> {
+                loadAccountFromDatabase();
+            }, 20);
+        } catch (Exception e) {
+            ProxyServer.getInstance().getScheduler().schedule(BungeeMain.getInstance(), () -> {
+                loadAccountFromDatabase();
+            }, 1, TimeUnit.SECONDS);
+        }
     }
 }

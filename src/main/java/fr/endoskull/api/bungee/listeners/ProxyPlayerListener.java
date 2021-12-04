@@ -19,11 +19,8 @@ public class ProxyPlayerListener implements Listener {
 
         BungeeCord.getInstance().getScheduler().runAsync(BungeeMain.getInstance(), () -> {
             try {
-                AccountProvider accountProvider = new AccountProvider(player.getUniqueId());
-                Account account = accountProvider.getAccount();
+                Account account = AccountProvider.getAccount(player.getUniqueId());
                 account.setName(player.getName());
-
-                accountProvider.sendAccountToRedis(account);
             } catch (Exception ex) {
                 System.err.println(ex.getMessage());
                 player.disconnect(new TextComponent("§cImpossible de trouver ou créer votre compte"));
