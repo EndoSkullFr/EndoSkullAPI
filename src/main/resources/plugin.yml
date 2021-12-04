@@ -30,6 +30,4 @@ commands:
     aliases: [vote]
   lobby:
     aliases: [pvpkit, bedwars]
-  tag:
-    permission: endoskull.tag
   load:

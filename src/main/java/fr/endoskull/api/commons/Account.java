@@ -21,14 +21,13 @@ public class Account implements Cloneable {
     private double xp;
     private double booster;
     private double solde;
-    private List<String> kits;
     private String selectedKit;
     private List<String> effects;
     private String selectedEffect;
 
     public Account() {}
 
-    public Account(String uuid, String name, int voteKey, int ultimeKey, int coinsKey, int kitKey, int level, double xp, double booster, double solde, String kitsString, String selectedKit, String effectsString, String selectedEffect) {
+    public Account(String uuid, String name, int voteKey, int ultimeKey, int coinsKey, int kitKey, int level, double xp, double booster, double solde, String selectedKit, String effectsString, String selectedEffect) {
         this.uuid = uuid;
         this.name = name;
         this.voteKey = voteKey;
@@ -39,7 +38,6 @@ public class Account implements Cloneable {
         this.xp = xp;
         this.booster = booster;
         this.solde = solde;
-        this.kits = stringToArray(kitsString);
         this.selectedKit = selectedKit;
         this.effects = stringToArray(effectsString);
         this.selectedEffect = selectedEffect;
@@ -166,6 +164,11 @@ public class Account implements Cloneable {
         return this;
     }
 
+    public Account addMoneyWithBooster(double value) {
+        solde += value * getRealBooster();
+        return this;
+    }
+
     public Account removeMoney(double value) {
         solde -= value;
         return this;
@@ -231,26 +234,6 @@ public class Account implements Cloneable {
         accountProvider.sendAccountToRedis(this);
     }
 
-    public List<String> getKits() {
-        return kits;
-    }
-
-    public Account setKits(List<String> kits) {
-        this.kits = kits;
-        return this;
-    }
-
-    public Account addKit(String kit) {
-        kits.add(kit);
-        return this;
-    }
-
-    public Account removeKit(String kit) {
-        kits.remove(kit);
-        return this;
-    }
-
-
     private List<String> stringToArray(String kitsString) {
         if (kitsString.length() == 0) return new ArrayList<>();
         if (kitsString.contains(",")) {
@@ -258,10 +241,6 @@ public class Account implements Cloneable {
         } else {
             return Arrays.asList(kitsString);
         }
-    }
-
-    public String getKitsString() {
-        return kits.toString().replace(", ", ",").replace("[", "").replace("]", "");
     }
 
     public String getSelectedKit() {
@@ -318,5 +297,9 @@ public class Account implements Cloneable {
             }
         }
         return booster;
+    }
+
+    public AccountProperties getProperties() {
+        return new AccountProperties(UUID.fromString(uuid));
     }
 }

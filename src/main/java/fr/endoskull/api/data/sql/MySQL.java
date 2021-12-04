@@ -61,7 +61,6 @@ public class MySQL {
                 "xp DOUBLE, " +
                 "booster DOUBLE, " +
                 "solde DOUBLE, " +
-                "kits VARCHAR(4095), " +
                 "kit_selected VARCHAR(255))");
     }
 

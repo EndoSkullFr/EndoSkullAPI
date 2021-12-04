@@ -1,6 +1,7 @@
 package fr.endoskull.api.spigot.listeners;
 
 import fr.endoskull.api.Main;
+import me.clip.placeholderapi.PlaceholderAPI;
 import net.luckperms.api.LuckPermsProvider;
 import net.luckperms.api.model.user.User;
 import org.bukkit.entity.Player;
@@ -28,7 +29,7 @@ public class PlayerChat implements Listener {
             prefix = prefix.substring(0, 2);
             String suffix = user.getCachedData().getMetaData().getSuffix();
             if (suffix == null) suffix = "";
-            String format = main.getConfig().getString("chatmsg");
+            String format = PlaceholderAPI.setPlaceholders(player,main.getConfig().getString("chatmsg"));
             format = format.replace("%prefix%", prefix);
             format = format.replace("%suffix%", suffix);
             format = format.replace("&", "§");

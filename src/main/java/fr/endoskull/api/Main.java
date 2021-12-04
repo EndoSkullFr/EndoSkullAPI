@@ -104,7 +104,6 @@ public class Main extends JavaPlugin {
         getCommand("boutique").setExecutor(new BoutiqueCommand());
         getCommand("discord").setExecutor(new LinkCommand());
         getCommand("lobby").setExecutor(new ServerCommand(this));
-        getCommand("tag").setExecutor(new TagCommand(this));
         getCommand("load").setExecutor(new LoadCommand(this));
 
         getCommand("endoskullapi").setExecutor(new EndoSkullApiCommand(this));
