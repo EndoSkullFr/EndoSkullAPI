@@ -1,6 +1,7 @@
 package fr.endoskull.api;
 
 import fr.endoskull.api.bungee.commands.BedwarsCommand;
+import fr.endoskull.api.bungee.commands.ForceCommand;
 import fr.endoskull.api.bungee.listeners.ForwardMessageListener;
 import fr.endoskull.api.bungee.listeners.ProxyPlayerListener;
 import fr.endoskull.api.bungee.tasks.ServerTask;
@@ -33,6 +34,7 @@ public class BungeeMain extends Plugin {
         pm.registerListener(this, new ForwardMessageListener(this));
 
         pm.registerCommand(this, new BedwarsCommand(this));
+        pm.registerCommand(this, new ForceCommand(this));
 
         initConnection();
         RedisAccess.init();
