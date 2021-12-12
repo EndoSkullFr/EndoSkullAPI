@@ -1,6 +1,6 @@
 package fr.endoskull.api.commons;
 
-import fr.endoskull.api.data.redis.RedisAccess;
+import fr.endoskull.api.data.redis.JedisAccess;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import redis.clients.jedis.Jedis;
@@ -14,14 +14,12 @@ import java.util.UUID;
 public class Account implements Cloneable {
     private String uuid;
     private String name;
-    private Jedis jedis;
 
     public Account() {}
 
     public Account(String uuid, String name) {
         this.uuid = uuid;
         this.name = name;
-        this.jedis = RedisAccess.get();
     }
 
     public String getName() {
@@ -30,52 +28,129 @@ public class Account implements Cloneable {
 
     public Account setName(String name) {
         this.name = name;
-        jedis.hset("account:" + uuid, "name", name);
+
+        Jedis j = null;
+        try {
+            j = JedisAccess.get().getResource();
+            j.hset(AccountProvider.REDIS_KEY + uuid, "name", name);
+        } finally {
+            j.close();
+        }
         return this;
     }
 
     public int getVoteKey() {
-        return Integer.parseInt(jedis.hget("account:" + uuid, "voteKey"));
+        Jedis j = null;
+        int var;
+        try {
+            j = JedisAccess.get().getResource();
+            var = Integer.parseInt(j.hget(AccountProvider.REDIS_KEY + uuid, "voteKey"));
+        } finally {
+            j.close();
+        }
+        return var;
     }
 
     public Account setVoteKey(int voteKey) {
-        jedis.hset("account:" + uuid, "voteKey", String.valueOf(voteKey));
+        Jedis j = null;
+        try {
+            j = JedisAccess.get().getResource();
+            j.hset(AccountProvider.REDIS_KEY + uuid, "voteKey", String.valueOf(voteKey));
+        } finally {
+            j.close();
+        }
         return this;
     }
 
     public int getUltimeKey() {
-        return Integer.parseInt(jedis.hget("account:" + uuid, "ultimeKey"));
+        Jedis j = null;
+        int var;
+        try {
+            j = JedisAccess.get().getResource();
+            var = Integer.parseInt(j.hget(AccountProvider.REDIS_KEY + uuid, "ultimeKey"));
+        } finally {
+            j.close();
+        }
+        return var;
     }
 
     public Account setUltimeKey(int ultimeKey) {
-        jedis.hset("account:" + uuid, "ultimeKey", String.valueOf(ultimeKey));
+        Jedis j = null;
+        try {
+            j = JedisAccess.get().getResource();
+            j.hset(AccountProvider.REDIS_KEY + uuid, "ultimeKey", String.valueOf(ultimeKey));
+        } finally {
+            j.close();
+        }
         return this;
     }
 
     public int getCoinsKey() {
-        return Integer.parseInt(jedis.hget("account:" + uuid, "coinsKey"));
+        Jedis j = null;
+        int var;
+        try {
+            j = JedisAccess.get().getResource();
+            var = Integer.parseInt(j.hget(AccountProvider.REDIS_KEY + uuid, "coinsKey"));
+        } finally {
+            j.close();
+        }
+        return var;
     }
 
     public Account setCoinsKey(int coinsKey) {
-        jedis.hset("account:" + uuid, "coinsKey", String.valueOf(coinsKey));
+        Jedis j = null;
+        try {
+            j = JedisAccess.get().getResource();
+            j.hset(AccountProvider.REDIS_KEY + uuid, "coinsKey", String.valueOf(coinsKey));
+        } finally {
+            j.close();
+        }
         return this;
     }
 
     public int getKitKey() {
-        return Integer.parseInt(jedis.hget("account:" + uuid, "kitKey"));
+        Jedis j = null;
+        int var;
+        try {
+            j = JedisAccess.get().getResource();
+            var = Integer.parseInt(j.hget(AccountProvider.REDIS_KEY + uuid, "kitKey"));
+        } finally {
+            j.close();
+        }
+        return var;
     }
 
     public Account setKitKey(int kitKey) {
-        jedis.hset("account:" + uuid, "kitKey", String.valueOf(kitKey));
+        Jedis j = null;
+        try {
+            j = JedisAccess.get().getResource();
+            j.hset(AccountProvider.REDIS_KEY + uuid, "kitKey", String.valueOf(kitKey));
+        } finally {
+            j.close();
+        }
         return this;
     }
 
     public int getLevel() {
-        return Integer.parseInt(jedis.hget("account:" + uuid, "level"));
+        Jedis j = null;
+        int var;
+        try {
+            j = JedisAccess.get().getResource();
+            var = Integer.parseInt(j.hget(AccountProvider.REDIS_KEY + uuid, "level"));
+        } finally {
+            j.close();
+        }
+        return var;
     }
 
     public Account setLevel(int level) {
-        jedis.hset("account:" + uuid, "level", String.valueOf(level));
+        Jedis j = null;
+        try {
+            j = JedisAccess.get().getResource();
+            j.hset(AccountProvider.REDIS_KEY + uuid, "level", String.valueOf(level));
+        } finally {
+            j.close();
+        }
         return this;
     }
 
@@ -85,12 +160,20 @@ public class Account implements Cloneable {
     }
 
     public Account removeLevel(int level) {
-        setLevel(getLevel() - level);
+        setLevel(getLevel() + level);
         return this;
     }
 
     public double getXp() {
-        return Double.parseDouble(jedis.hget("account:" + uuid, "xp"));
+        Jedis j = null;
+        double var;
+        try {
+            j = JedisAccess.get().getResource();
+            var = Double.parseDouble(j.hget(AccountProvider.REDIS_KEY + uuid, "xp"));
+        } finally {
+            j.close();
+        }
+        return var;
     }
 
     public Account addXp(Double xp) {
@@ -100,13 +183,19 @@ public class Account implements Cloneable {
     }
 
     public Account removeXp(Double xp) {
-        setXp(getXp() - xp);
+        setXp(getXp() + xp);
         checkLevel();
         return this;
     }
 
     public Account setXp(double xp) {
-        jedis.hset("account:" + uuid, "xp", String.valueOf(xp));
+        Jedis j = null;
+        try {
+            j = JedisAccess.get().getResource();
+            j.hset(AccountProvider.REDIS_KEY + uuid, "xp", String.valueOf(xp));
+        } finally {
+            j.close();
+        }
         checkLevel();
         return this;
     }
@@ -120,11 +209,25 @@ public class Account implements Cloneable {
     }
 
     public double getBooster() {
-        return Double.parseDouble(jedis.hget("account:" + uuid, "booster"));
+        Jedis j = null;
+        double var;
+        try {
+            j = JedisAccess.get().getResource();
+            var = Double.parseDouble(j.hget(AccountProvider.REDIS_KEY + uuid, "booster"));
+        } finally {
+            j.close();
+        }
+        return var;
     }
 
     public Account setBooster(double booster) {
-        jedis.hset("account:" + uuid, "booster", String.valueOf(booster));
+        Jedis j = null;
+        try {
+            j = JedisAccess.get().getResource();
+            j.hset(AccountProvider.REDIS_KEY + uuid, "booster", String.valueOf(booster));
+        } finally {
+            j.close();
+        }
         return this;
     }
 
@@ -138,7 +241,15 @@ public class Account implements Cloneable {
 
 
     public double getSolde() {
-        return Double.parseDouble(jedis.hget("account:" + uuid, "solde"));
+        Jedis j = null;
+        double var;
+        try {
+            j = JedisAccess.get().getResource();
+            var = Double.parseDouble(j.hget(AccountProvider.REDIS_KEY + uuid, "solde"));
+        } finally {
+            j.close();
+        }
+        return var;
     }
 
     public Account addMoney(double value) {
@@ -147,7 +258,7 @@ public class Account implements Cloneable {
     }
 
     public Account addMoneyWithBooster(double value) {
-        addMoney(value * getBooster());
+        addMoney(value * getRealBooster());
         return this;
     }
 
@@ -171,7 +282,13 @@ public class Account implements Cloneable {
     }
 
     public Account setSolde(double solde) {
-        jedis.hset("account:" + uuid, "solde", String.valueOf(solde));
+        Jedis j = null;
+        try {
+            j = JedisAccess.get().getResource();
+            j.hset(AccountProvider.REDIS_KEY + uuid, "solde", String.valueOf(solde));
+        } finally {
+            j.close();
+        }
         return this;
     }
 
@@ -221,33 +338,79 @@ public class Account implements Cloneable {
     }
 
     public String getSelectedKit() {
-        return jedis.hget("account:" + uuid, "kit_selected");
+        Jedis j = null;
+        String var;
+        try {
+            j = JedisAccess.get().getResource();
+            var = j.hget(AccountProvider.REDIS_KEY + uuid, "selectedKit");
+        } finally {
+            j.close();
+        }
+        return var;
     }
 
     public Account setSelectedKit(String selectedKit) {
-        jedis.hset("account:" + uuid, "kit_selected", selectedKit);
+        Jedis j = null;
+        try {
+            j = JedisAccess.get().getResource();
+            j.hset(AccountProvider.REDIS_KEY + uuid, "selectedKit", String.valueOf(selectedKit));
+        } finally {
+            j.close();
+        }
         return this;
     }
 
     public String getEffectsString() {
-        return getEffects().toString().replace(", ", ",").replace("[", "").replace("]", "");
+        Jedis j = null;
+        String var;
+        try {
+            j = JedisAccess.get().getResource();
+            var = j.hget(AccountProvider.REDIS_KEY + uuid, "effects");
+        } finally {
+            j.close();
+        }
+        return var;
     }
 
     public String getSelectedEffect() {
-        return jedis.hget("account:" + uuid, "effect_selected");
+        Jedis j = null;
+        String var;
+        try {
+            j = JedisAccess.get().getResource();
+            var = j.hget(AccountProvider.REDIS_KEY + uuid, "selectedEffect");
+        } finally {
+            j.close();
+        }
+        return var;
     }
 
     public Account setSelectedEffect(String selectedEffect) {
-        jedis.hset("account:" + uuid, "effect_selected", selectedEffect);
+        Jedis j = null;
+        try {
+            j = JedisAccess.get().getResource();
+            j.hset(AccountProvider.REDIS_KEY + uuid, "selectedEffect", String.valueOf(selectedEffect));
+        } finally {
+            j.close();
+        }
         return this;
     }
 
     public List<String> getEffects() {
-        return Arrays.asList(jedis.hget("account:" + uuid, "effects").split(","));
+        if (getEffectsString().contains(",")) {
+            return Arrays.asList(getEffectsString().split(","));
+        } else {
+            return Arrays.asList(getEffectsString());
+        }
     }
 
     public Account setEffects(List<String> effects) {
-        jedis.hset("account:" + uuid, "effects", effects.toString().replace(", ", ",").replace("[", "").replace("]", ""));
+        Jedis j = null;
+        try {
+            j = JedisAccess.get().getResource();
+            j.hset(AccountProvider.REDIS_KEY + uuid, "effects", effects.toString().replace(", ", ",").replace("[", "").replace("]", ""));
+        } finally {
+            j.close();
+        }
         return this;
     }
 

@@ -1,10 +1,11 @@
 package fr.endoskull.api;
 
 import fr.endoskull.api.bungee.commands.BedwarsCommand;
+import fr.endoskull.api.bungee.commands.ForceCommand;
 import fr.endoskull.api.bungee.listeners.ForwardMessageListener;
 import fr.endoskull.api.bungee.listeners.ProxyPlayerListener;
 import fr.endoskull.api.bungee.tasks.ServerTask;
-import fr.endoskull.api.data.redis.RedisAccess;
+import fr.endoskull.api.data.redis.JedisAccess;
 import fr.endoskull.api.data.sql.MySQL;
 import net.md_5.bungee.BungeeCord;
 import net.md_5.bungee.api.ProxyServer;
@@ -33,13 +34,14 @@ public class BungeeMain extends Plugin {
         pm.registerListener(this, new ForwardMessageListener(this));
 
         pm.registerCommand(this, new BedwarsCommand(this));
+        pm.registerCommand(this, new ForceCommand(this));
 
         initConnection();
-        RedisAccess.init();
+        JedisAccess.init();
 
         BungeeCord.getInstance().getScheduler().schedule(this, () -> {
             BungeeCord.getInstance().getScheduler().runAsync(this, () -> {
-                RedisAccess.sendToDatabase();
+                JedisAccess.sendToDatabase();
             });
             }, 5, 15, TimeUnit.MINUTES);
 
@@ -51,8 +53,8 @@ public class BungeeMain extends Plugin {
 
     @Override
     public void onDisable() {
-        RedisAccess.sendToDatabase();
-        RedisAccess.close();
+        JedisAccess.sendToDatabase();
+        JedisAccess.close();
         super.onDisable();
     }
 

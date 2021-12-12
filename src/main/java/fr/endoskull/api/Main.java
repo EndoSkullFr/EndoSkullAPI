@@ -1,6 +1,6 @@
 package fr.endoskull.api;
 
-import fr.endoskull.api.data.redis.RedisAccess;
+import fr.endoskull.api.data.redis.JedisAccess;
 import fr.endoskull.api.spigot.classement.ClassementTask;
 import fr.endoskull.api.spigot.inventories.tag.TagColor;
 import fr.endoskull.api.spigot.listeners.OnSignGUIUpdateEvent;
@@ -11,7 +11,6 @@ import fr.endoskull.api.spigot.listeners.*;
 import fr.endoskull.api.spigot.papi.CloudNetExpansion;
 import fr.endoskull.api.spigot.papi.EndoSkullPlaceholder;
 import fr.endoskull.api.spigot.tasks.BossBarRunnable;
-import fr.endoskull.api.spigot.tasks.HologramTask;
 import fr.endoskull.api.spigot.tasks.PlayerCountTask;
 import org.apache.commons.dbcp2.BasicDataSource;
 import org.bukkit.Bukkit;
@@ -50,7 +49,7 @@ public class Main extends JavaPlugin {
         getServer().getMessenger().registerIncomingPluginChannel(this, "BungeeCord", new ServerCountManager(this));
 
         initConnection();
-        RedisAccess.init();
+        JedisAccess.init();
 
         registerCommands();
         registerListeners();
@@ -79,7 +78,7 @@ public class Main extends JavaPlugin {
         for (Player pls : Bukkit.getOnlinePlayers()) {
             pls.kickPlayer("§eEndoSkull §8>> §cLe serveur sur lequel vous étiez s'est arrêté");
         }
-        RedisAccess.close();
+        JedisAccess.close();
         super.onDisable();
     }
 
