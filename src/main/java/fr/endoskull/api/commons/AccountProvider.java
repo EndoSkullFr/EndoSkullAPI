@@ -61,9 +61,9 @@ public class AccountProvider {
                         j.hset(AccountProvider.REDIS_KEY + uuid, "xp", String.valueOf(rs.getDouble("xp")));
                         j.hset(AccountProvider.REDIS_KEY + uuid, "booster", String.valueOf(rs.getDouble("booster")));
                         j.hset(AccountProvider.REDIS_KEY + uuid, "solde", String.valueOf(rs.getDouble("solde")));
-                        j.hset(AccountProvider.REDIS_KEY + uuid, "kit_selected", rs.getString("kit_selected"));
+                        j.hset(AccountProvider.REDIS_KEY + uuid, "selectedKit", rs.getString("kit_selected"));
                         j.hset(AccountProvider.REDIS_KEY + uuid, "effects", rs.getString("effects"));
-                        j.hset(AccountProvider.REDIS_KEY + uuid, "effect_selected", rs.getString("effect_selected"));
+                        j.hset(AccountProvider.REDIS_KEY + uuid, "selectedEffect", rs.getString("effect_selected"));
                     } finally {
                         j.close();
                     }

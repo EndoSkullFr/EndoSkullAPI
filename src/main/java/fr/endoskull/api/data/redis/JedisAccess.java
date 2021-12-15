@@ -24,7 +24,7 @@ public class JedisAccess {
         JedisPoolConfig jedisPoolConfig = new JedisPoolConfig();
         jedisPoolConfig.setMaxTotal(1024);
         jedisPoolConfig.setMaxWaitMillis(5000L);
-        jedisPool = new JedisPool(jedisPoolConfig, host, port, 5000, password, 1);
+        jedisPool = new JedisPool(jedisPoolConfig, host, port, 0, password, 1);
     }
 
     public static JedisPool get() {

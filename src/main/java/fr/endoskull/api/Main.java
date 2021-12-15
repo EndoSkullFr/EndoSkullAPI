@@ -67,7 +67,7 @@ public class Main extends JavaPlugin {
             //Bukkit.getScheduler().runTaskTimer(this, new HologramTask(), 100, 100);
         }
         if (Bukkit.getPluginManager().getPlugin("EndoSkullPvpKit") != null) {
-            Bukkit.getScheduler().runTaskTimer(this, new ClassementTask(), 100, 100);
+            Bukkit.getScheduler().runTaskTimer(this, new ClassementTask(), 600, 20 * 60 * 60);
         }
 
         super.onEnable();
