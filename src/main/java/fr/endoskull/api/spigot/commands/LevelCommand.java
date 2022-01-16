@@ -3,8 +3,6 @@ package fr.endoskull.api.spigot.commands;
 import fr.endoskull.api.Main;
 import fr.endoskull.api.commons.Account;
 import fr.endoskull.api.commons.AccountProvider;
-import fr.endoskull.api.commons.exceptions.AccountNotFoundException;
-import fr.endoskull.api.data.sql.Level;
 import fr.endoskull.api.spigot.utils.PlayerInfos;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;

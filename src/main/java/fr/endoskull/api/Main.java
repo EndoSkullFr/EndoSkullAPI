@@ -1,35 +1,42 @@
 package fr.endoskull.api;
 
+import fr.endoskull.api.commons.server.ServerState;
+import fr.endoskull.api.commons.server.ServerType;
+import fr.endoskull.api.data.redis.JedisAccess;
 import fr.endoskull.api.data.redis.RedisAccess;
 import fr.endoskull.api.spigot.classement.ClassementTask;
 import fr.endoskull.api.spigot.inventories.tag.TagColor;
 import fr.endoskull.api.spigot.listeners.OnSignGUIUpdateEvent;
-import fr.endoskull.api.spigot.ServerCountManager;
 import fr.endoskull.api.data.sql.MySQL;
 import fr.endoskull.api.spigot.commands.*;
 import fr.endoskull.api.spigot.listeners.*;
 import fr.endoskull.api.spigot.papi.CloudNetExpansion;
 import fr.endoskull.api.spigot.papi.EndoSkullPlaceholder;
 import fr.endoskull.api.spigot.tasks.BossBarRunnable;
-import fr.endoskull.api.spigot.tasks.HologramTask;
-import fr.endoskull.api.spigot.tasks.PlayerCountTask;
+import fr.endoskull.api.spigot.utils.CustomGui;
 import org.apache.commons.dbcp2.BasicDataSource;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
+import org.bukkit.configuration.InvalidConfigurationException;
+import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
-import org.bukkit.inventory.Inventory;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.bukkit.scheduler.BukkitRunnable;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.UUID;
 
 public class Main extends JavaPlugin {
     private static Main instance;
-    private HashMap<Player, Inventory> openingKeys = new HashMap<>();
+    private JedisAccess jedisAccess;
+    private HashMap<Player, CustomGui> openingKeys = new HashMap<>();
     private HashMap<Player, Location> waitingSetting = new HashMap<>();
     private HashMap<UUID, TagColor> waitingTag = new HashMap<>();
     public String CHANNEL = "EndoSkullChannel";
+    private ServerType serverType;
 
     private BasicDataSource connectionPool;
     private MySQL mysql;
@@ -47,10 +54,13 @@ public class Main extends JavaPlugin {
         instance = this;
         getServer().getMessenger().registerOutgoingPluginChannel(this, "BungeeCord");
         getServer().getMessenger().registerOutgoingPluginChannel(this, CHANNEL);
-        getServer().getMessenger().registerIncomingPluginChannel(this, "BungeeCord", new ServerCountManager(this));
+        getServer().getMessenger().registerIncomingPluginChannel(this, "PartiesChannel", new PartiesChannelListener());
+        getServer().getMessenger().registerOutgoingPluginChannel(this, "PartiesChannel");
 
         initConnection();
         RedisAccess.init();
+        jedisAccess = new JedisAccess("127.0.0.1", 6379, "%]h48Ty7UBC?D+439zg%XeV6Pm#k~&9y");
+        jedisAccess.initConnection();
 
         registerCommands();
         registerListeners();
@@ -59,7 +69,6 @@ public class Main extends JavaPlugin {
         if (getConfig().getBoolean("bossbar")) {
             Bukkit.getScheduler().runTaskTimer(this, new BossBarRunnable(this), 20L, 20L);
         }
-        Bukkit.getScheduler().runTaskTimer(this, new PlayerCountTask(this), 20L, 20L);
 
         new EndoSkullPlaceholder().register();
         new CloudNetExpansion().register();
@@ -67,9 +76,24 @@ public class Main extends JavaPlugin {
         if (Bukkit.getPluginManager().getPlugin("DeluxeHub_EndoSkull") != null) {
             //Bukkit.getScheduler().runTaskTimer(this, new HologramTask(), 100, 100);
         }
-        if (Bukkit.getPluginManager().getPlugin("EndoSkullPvpKit") != null) {
-            Bukkit.getScheduler().runTaskTimer(this, new ClassementTask(), 100, 100);
-        }
+        Bukkit.getScheduler().runTaskTimerAsynchronously(this, new ClassementTask(this), 100, 20 * 20);
+
+        createServerFile();
+        new BukkitRunnable() {
+            @Override
+            public void run() {
+                if (Bukkit.getServerName().contains("-")) {
+                    if (ServerType.getByName(Bukkit.getServerName().split("-")[0]) != null) {
+                        serverType = ServerType.getByName(Bukkit.getServerName().split("-")[0]);
+                        jedisAccess.getServerpool().getResource().set(Bukkit.getServerName(), ServerState.ONLINE.toString());
+                        System.out.println("[EndoSkull] Ajout du serveur dans le redis, prêt à recevoir des joueurs");
+                    } else {
+                        serverType = ServerType.UNKNOW;
+                        System.out.println("[EndoSkull] Type de serveur inconnu");
+                    }
+                }
+            }
+        }.runTaskLaterAsynchronously(this, 3 * 20);
 
         super.onEnable();
     }
@@ -80,6 +104,8 @@ public class Main extends JavaPlugin {
             pls.kickPlayer("§eEndoSkull §8>> §cLe serveur sur lequel vous étiez s'est arrêté");
         }
         RedisAccess.close();
+        jedisAccess.getServerpool().getResource().del(Bukkit.getServerName());
+        jedisAccess.getServerpool().close();
         super.onDisable();
     }
 
@@ -105,6 +131,8 @@ public class Main extends JavaPlugin {
         getCommand("discord").setExecutor(new LinkCommand());
         getCommand("lobby").setExecutor(new ServerCommand(this));
         getCommand("load").setExecutor(new LoadCommand(this));
+        getCommand("motdeditor").setExecutor(new MotdCommand());
+        getCommand("join").setExecutor(new JoinCommand(this));
 
         getCommand("endoskullapi").setExecutor(new EndoSkullApiCommand(this));
     }
@@ -117,6 +145,25 @@ public class Main extends JavaPlugin {
         pm.registerEvents(new PlayerJoin(this), this);
         pm.registerEvents(new CustomGuiListener(), this);
         pm.registerEvents(new OnSignGUIUpdateEvent(this), this);
+        pm.registerEvents(new MotdListener(), this);
+    }
+
+    private void createServerFile() {
+        File file = new File(getDataFolder(), "server.yml");
+
+        if(!file.exists()) {
+            file.getParentFile().mkdirs();
+            saveResource("server.yml", false);
+        }
+        YamlConfiguration config = new YamlConfiguration();
+
+        try {
+            config.load(file);
+        } catch (IOException | InvalidConfigurationException e) {
+            e.printStackTrace();
+        }
+
+
     }
 
     public static Main getInstance() {
@@ -131,7 +178,7 @@ public class Main extends JavaPlugin {
         return waitingSetting;
     }
 
-    public HashMap<Player, Inventory> getOpeningKeys() {
+    public HashMap<Player, CustomGui> getOpeningKeys() {
         return openingKeys;
     }
 
@@ -145,5 +192,13 @@ public class Main extends JavaPlugin {
 
     public HashMap<UUID, TagColor> getWaitingTag() {
         return waitingTag;
+    }
+
+    public JedisAccess getJedisAccess() {
+        return jedisAccess;
+    }
+
+    public ServerType getServerType() {
+        return serverType;
     }
 }

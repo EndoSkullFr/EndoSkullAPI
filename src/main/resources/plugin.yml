@@ -31,3 +31,6 @@ commands:
   lobby:
     aliases: [pvpkit, bedwars]
   load:
+  motdeditor:
+    permission: endoskull.motd
+  join:

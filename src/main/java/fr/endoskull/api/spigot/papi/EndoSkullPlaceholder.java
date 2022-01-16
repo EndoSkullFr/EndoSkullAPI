@@ -2,10 +2,7 @@ package fr.endoskull.api.spigot.papi;
 
 import fr.endoskull.api.commons.Account;
 import fr.endoskull.api.commons.AccountProvider;
-import fr.endoskull.api.commons.exceptions.AccountNotFoundException;
-import fr.endoskull.api.spigot.ServerCountManager;
-import fr.endoskull.api.spigot.utils.EndoSkullPlayer;
-import fr.endoskull.api.spigot.utils.ServerType;
+import fr.endoskull.api.spigot.classement.ClassementTask;
 import me.clip.placeholderapi.expansion.PlaceholderExpansion;
 import org.bukkit.OfflinePlayer;
 
@@ -93,16 +90,22 @@ public class EndoSkullPlaceholder extends PlaceholderExpansion {
         }
         if(identifier.equals("boost") || identifier.equals("booster")){
             Account account = new AccountProvider(player.getUniqueId()).getAccount();
-            return account.getStringBooster();
+            return (int) (account.getBoost().getRealBooster() * 100 - 100) + "%";
         }
-        if(identifier.startsWith("server_")) {
-            String server = identifier.substring(7);
-            for (ServerType value : ServerType.values()) {
-                if (value.getServerName().equalsIgnoreCase(server)) {
-                    return String.valueOf(ServerCountManager.getPlayerCount(value));
-                }
+
+        if(identifier.equals("classement")) {
+            return String.valueOf(1 + ClassementTask.getClassement().indexOf(ClassementTask.getClassement().stream().filter(account -> account.getUuid().equals(player.getUniqueId())).findAny().orElse(new Account())));
+        }
+        if(identifier.startsWith("classement_")) {
+            String[] args = identifier.split("_");
+            int index = Integer.parseInt(args[1]);
+            if (ClassementTask.getClassement().size() <= index) {
+                return "§c✖";
             }
-            return "-1";
+            Account account = ClassementTask.getClassement().get(index);
+            if (args[2].equalsIgnoreCase("uuid")) return account.getUuid().toString();
+            if (args[2].equalsIgnoreCase("name")) return account.getName();
+            if (args[2].equalsIgnoreCase("level")) return account.getStringLevel();
         }
 
         // We return null if an invalid placeholder (f.e. %example_placeholder3%)

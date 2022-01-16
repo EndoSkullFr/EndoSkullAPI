@@ -4,8 +4,6 @@ import com.connorlinfoot.actionbarapi.ActionBarAPI;
 import fr.endoskull.api.Main;
 import fr.endoskull.api.commons.Account;
 import fr.endoskull.api.commons.AccountProvider;
-import fr.endoskull.api.commons.exceptions.AccountNotFoundException;
-import fr.endoskull.api.spigot.utils.EndoSkullPlayer;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 

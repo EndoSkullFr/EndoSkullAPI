@@ -1,10 +1,12 @@
 package fr.endoskull.api.spigot.listeners;
 
 import fr.endoskull.api.Main;
+import fr.endoskull.api.commons.server.ServerState;
 import fr.endoskull.api.data.sql.Keys;
 import fr.endoskull.api.data.sql.Level;
 import fr.endoskull.api.data.sql.Money;
 import fr.endoskull.api.spigot.utils.EndoSkullPlayer;
+import fr.endoskull.api.spigot.utils.ServerConfig;
 import org.bukkit.Bukkit;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
@@ -40,6 +42,13 @@ public class PlayerJoin implements Listener {
             //UUID uuid = PlayerInfos.getUuidFromName(player.getName());
             //if (!main.getUuidsByName().containsKey(player)) main.getUuidsByName().put(player.getName(), uuid);
         });
+
+        if (Bukkit.getOnlinePlayers().size() >= main.getServerType().getSemiFull()) {
+            main.getJedisAccess().getServerpool().getResource().set(Bukkit.getServerName(), ServerState.SEMI_FULL.toString());
+        }
+        if (Bukkit.getOnlinePlayers().size() >= Bukkit.getMaxPlayers()) {
+            main.getJedisAccess().getServerpool().getResource().set(Bukkit.getServerName(), ServerState.FULL.toString());
+        }
     }
 
     @EventHandler
@@ -57,5 +66,12 @@ public class PlayerJoin implements Listener {
                         "de redémarré, merci de retentez une connection dans quelques secondes");
             }
         }
+    }
+
+    @EventHandler
+    public void onLoginStaff(PlayerLoginEvent event){
+        if (event.getResult().equals(PlayerLoginEvent.Result.KICK_FULL))
+            if (event.getPlayer().hasPermission("endoskull.staff"))
+                event.setResult(PlayerLoginEvent.Result.ALLOWED);
     }
 }

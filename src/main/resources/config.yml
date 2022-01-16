@@ -1,5 +1,5 @@
 level-manage-permission: money.edit
-bossbar: true
+bossbar: falseo
 chatmsg: "%rank% %1$s -> %2$s"
 enablechat: true
 # %1$s correspond au pseudo du joueur

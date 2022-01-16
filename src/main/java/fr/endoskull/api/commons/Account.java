@@ -1,6 +1,5 @@
 package fr.endoskull.api.commons;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
@@ -141,6 +140,10 @@ public class Account implements Cloneable {
         return booster;
     }
 
+    public BoosterManager getBoost() {
+        return new BoosterManager(BoosterManager.getBooster(UUID.fromString(uuid)));
+    }
+
     public Account setBooster(double booster) {
         this.booster = booster;
         return this;
@@ -165,7 +168,7 @@ public class Account implements Cloneable {
     }
 
     public Account addMoneyWithBooster(double value) {
-        solde += value * getRealBooster();
+        solde += value * getBoost().getRealBooster();
         return this;
     }
 
@@ -222,11 +225,12 @@ public class Account implements Cloneable {
     }
 
     public String getStringLevel() {
-        DecimalFormat df = new DecimalFormat();
+        /*DecimalFormat df = new DecimalFormat();
         df.setMaximumFractionDigits(2);
         df.setMinimumFractionDigits(0);
         df.setGroupingUsed(false);
-        return df.format(getLevelWithXp());
+        return df.format(getLevelWithXp());*/
+        return level + " (" + Math.round(getXp() / xpToLevelSup() * 100) + "%)";
     }
 
     public void sendToRedis() {
@@ -292,7 +296,7 @@ public class Account implements Cloneable {
                 booster += 1;
 
             }
-            else if (player.hasPermission("group.officer")) {
+            else if (player.hasPermission("group.officier")) {
                 booster += 0.5;
             }
         }

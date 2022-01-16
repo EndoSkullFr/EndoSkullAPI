@@ -15,16 +15,22 @@ public abstract class CustomGui {
     private UUID uuid;
     private Inventory yourInventory;
     private Map<Integer, CustomGuiAction> actions;
+    private int line;
 
     public CustomGui(int line, String invName) {
         uuid = UUID.randomUUID();
         yourInventory = Bukkit.createInventory(null, line * 9, invName);
+        this.line = line;
         actions = new HashMap<>();
         inventoriesByUUID.put(getUuid(), this);
     }
 
     public UUID getUuid() {
         return uuid;
+    }
+
+    public int getLine() {
+        return line;
     }
 
     public interface CustomGuiAction {

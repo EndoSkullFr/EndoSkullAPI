@@ -5,6 +5,8 @@ import fr.endoskull.api.commons.Account;
 import fr.endoskull.api.commons.AccountProvider;
 import fr.endoskull.api.data.yaml.BoxLocation;
 import fr.endoskull.api.spigot.inventories.KitKeyInventory;
+import fr.endoskull.api.spigot.inventories.key.BoxUltimeInventory;
+import fr.endoskull.api.spigot.inventories.key.BoxVoteInventory;
 import fr.endoskull.api.spigot.keys.BoxInventory;
 import fr.endoskull.api.spigot.utils.CustomItemStack;
 import org.bukkit.Bukkit;
@@ -50,24 +52,21 @@ public class ClickListener implements Listener {
         Location loc = e.getClickedBlock().getLocation();
         if (loc.equals(BoxLocation.getLocation("ULTIME"))) {
             e.setCancelled(true);
-            if (main.getOpeningKeys().containsKey(player)) {
-                player.openInventory(main.getOpeningKeys().get(player));
-                return;
-            }
-            BoxInventory.openUltime(player);
+            //BoxInventory.openUltime(player);
+            new BoxUltimeInventory(player).open(player);
         }
         if (loc.equals(BoxLocation.getLocation("VOTE"))) {
             e.setCancelled(true);
             if (main.getOpeningKeys().containsKey(player)) {
-                player.openInventory(main.getOpeningKeys().get(player));
+                main.getOpeningKeys().get(player).open(player);
                 return;
             }
-            BoxInventory.openVote(player);
+            new BoxVoteInventory(player).open(player);
         }
-        if (loc.equals(BoxLocation.getLocation("COINS"))) {
+        /*if (loc.equals(BoxLocation.getLocation("COINS"))) {
             e.setCancelled(true);
             if (main.getOpeningKeys().containsKey(player)) {
-                player.openInventory(main.getOpeningKeys().get(player));
+                //player.openInventory(main.getOpeningKeys().get(player));
                 return;
             }
             BoxInventory.openCoins(player);
@@ -76,12 +75,12 @@ public class ClickListener implements Listener {
             e.setCancelled(true);
             if (Bukkit.getPluginManager().getPlugin("EndoSkullPvpKit") != null) {
                 if (main.getOpeningKeys().containsKey(player)) {
-                    player.openInventory(main.getOpeningKeys().get(player));
+                    //player.openInventory(main.getOpeningKeys().get(player));
                     return;
                 }
                 new KitKeyInventory(player).open(player);
             }
-        }
+        }*/
     }
 
     @EventHandler
@@ -127,59 +126,6 @@ public class ClickListener implements Listener {
                     break;
                 default:
                     break;
-            }
-        }
-    }
-    @EventHandler
-    public void onClickKeyInv(InventoryClickEvent e) {
-        if (!(e.getWhoClicked() instanceof Player)) return;
-        Player player = (Player) e.getWhoClicked();
-        if (e.getClickedInventory() == null) return;
-        ItemStack current = e.getCurrentItem();
-        if (current == null) return;
-        if (e.getClickedInventory().getName().equals("§4Box Ultime")) {
-            Account account = new AccountProvider(player.getUniqueId()).getAccount();
-            e.setCancelled(true);
-            if (e.getSlot() == 22 && current.getType().equals(Material.ANVIL)) {
-                if (account.getUltimeKey() < 1) {
-                    player.closeInventory();
-                    player.playSound(player.getLocation(), Sound.VILLAGER_NO, 50, 50);
-                    player.sendMessage("§cVous devez posséder une §lClé Ultime §cpour effectuer cette action");
-                    return;
-                } else {
-                    account.setUltimeKey(account.getUltimeKey() - 1).sendToRedis();
-                    BoxInventory.playUltimeAnimation(player);
-                }
-            }
-        }
-        if (e.getClickedInventory().getName().equals("§eBox Vote")) {
-            Account account = new AccountProvider(player.getUniqueId()).getAccount();
-            e.setCancelled(true);
-            if (e.getSlot() == 22 && current.getType().equals(Material.ANVIL)) {
-                if (account.getVoteKey() < 1) {
-                    player.closeInventory();
-                    player.playSound(player.getLocation(), Sound.VILLAGER_NO, 50, 50);
-                    player.sendMessage("§cVous devez posséder une §lClé Vote §cpour effectuer cette action");
-                    return;
-                } else {
-                    account.setVoteKey(account.getVoteKey() - 1).sendToRedis();
-                    BoxInventory.playVoteAnimation(player);
-                }
-            }
-        }
-        if (e.getClickedInventory().getName().equals("§eBox Coins")) {
-            Account account = new AccountProvider(player.getUniqueId()).getAccount();
-            e.setCancelled(true);
-            if (e.getSlot() == 22 && current.getType().equals(Material.ANVIL)) {
-                if (account.getCoinsKey() < 1) {
-                    player.closeInventory();
-                    player.playSound(player.getLocation(), Sound.VILLAGER_NO, 50, 50);
-                    player.sendMessage("§cVous devez posséder une §lClé Coins §cpour effectuer cette action");
-                    return;
-                } else {
-                    account.setCoinsKey(account.getCoinsKey() - 1).sendToRedis();
-                    BoxInventory.playCoinsAnimation(player);
-                }
             }
         }
     }

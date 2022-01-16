@@ -1,9 +1,9 @@
 package fr.endoskull.api.data.redis;
 
+import fr.bebedlastreat.cache.CacheAPI;
 import fr.endoskull.api.BungeeMain;
 import fr.endoskull.api.commons.Account;
 import fr.endoskull.api.commons.AccountProvider;
-import io.netty.util.internal.PlatformDependent;
 import org.redisson.Redisson;
 import org.redisson.api.RBucket;
 import org.redisson.api.RedissonClient;
@@ -34,6 +34,7 @@ public class RedisAccess {
         RedisAccess.instance.getRedissonClient().shutdown();
     }
     public static void sendToDatabase() {
+        CacheAPI.set("lastSend", System.currentTimeMillis());
         RedissonClient redissonClient = RedisAccess.instance.getRedissonClient();
         Iterator<String> iterator = redissonClient.getKeys().getKeys().iterator();
         while (iterator.hasNext()) {

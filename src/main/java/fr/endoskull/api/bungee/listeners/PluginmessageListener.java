@@ -9,31 +9,22 @@ import de.simonsator.partyandfriends.api.pafplayers.PAFPlayerManager;
 import de.simonsator.partyandfriends.api.party.PartyManager;
 import de.simonsator.partyandfriends.api.party.PlayerParty;
 import fr.endoskull.api.BungeeMain;
-import net.md_5.bungee.BungeeCord;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
 import net.md_5.bungee.api.event.PluginMessageEvent;
 import net.md_5.bungee.api.plugin.Listener;
-import net.md_5.bungee.event.EventHandler;
+import org.bukkit.event.EventHandler;
 
+import java.io.ByteArrayOutputStream;
 import java.util.UUID;
 
-public class ForwardMessageListener implements Listener {
+public class PluginmessageListener implements Listener {
     private BungeeMain main;
-    public ForwardMessageListener(BungeeMain main) {
+    public PluginmessageListener(BungeeMain main) {
         this.main = main;
     }
 
     @EventHandler
-    public void onPluginMessage(PluginMessageEvent e) {
-        if (e.getTag().equalsIgnoreCase(main.CHANNEL)) {
-            ByteArrayDataInput in = ByteStreams.newDataInput(e.getData());
-            String action = in.readUTF();
-            if (action.equalsIgnoreCase("command")) {
-                String command = in.readUTF();
-                ProxiedPlayer player = (ProxiedPlayer) e.getReceiver();
-                BungeeCord.getInstance().getPluginManager().dispatchCommand(player, command);
-            }
-        }
+    public void onPMessage(PluginMessageEvent e) {
         if (e.getTag().equals("PartiesChannel")) {
             ByteArrayDataInput in = ByteStreams.newDataInput(e.getData());
             String sub = in.readUTF();
@@ -42,9 +33,6 @@ public class ForwardMessageListener implements Listener {
             if (sub.equals("GetPartySize")) {
                 String uuid = in.readUTF();
                 System.out.println(uuid);
-                System.out.println(PAFPlayerManager.getInstance());
-                System.out.println(PartyManager.getInstance());
-                System.out.println(PAFPlayerManager.getInstance().getPlayer(UUID.fromString(uuid)));
                 PAFPlayer pafPlayer = PAFPlayerManager.getInstance().getPlayer(UUID.fromString(uuid));
                 ProxiedPlayer player = main.getProxy().getPlayer(UUID.fromString(uuid));
                 if (player == null) return;
@@ -61,7 +49,7 @@ public class ForwardMessageListener implements Listener {
                 out.writeUTF(uuid);
                 out.writeInt(partySize);
 
-                player.getServer().sendData("PartiesChannel", out.toByteArray());
+                player.sendData("PartiesChannel", out.toByteArray());
 
             }
         }

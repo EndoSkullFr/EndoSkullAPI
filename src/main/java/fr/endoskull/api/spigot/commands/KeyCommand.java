@@ -4,11 +4,20 @@ import fr.endoskull.api.Main;
 import fr.endoskull.api.commons.Account;
 import fr.endoskull.api.commons.AccountProvider;
 import fr.endoskull.api.spigot.utils.PlayerInfos;
+import net.minecraft.server.v1_8_R3.EntityArmorStand;
+import net.minecraft.server.v1_8_R3.PacketPlayOutSpawnEntity;
 import org.bukkit.Bukkit;
+import org.bukkit.Location;
+import org.bukkit.World;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.craftbukkit.v1_8_R3.CraftWorld;
+import org.bukkit.entity.Entity;
+import org.bukkit.entity.EntityType;
+import org.bukkit.entity.Player;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.UUID;
 
 public class KeyCommand implements CommandExecutor {
