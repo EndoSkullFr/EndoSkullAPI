@@ -55,11 +55,11 @@ public class BoosterManager {
         }
         Player player = Bukkit.getPlayer(UUID.fromString(booster.getUuid()));
         if (player != null) {
-            if (player.hasPermission("group.general")) {
+            if (player.hasPermission("group.hero")) {
                 boost += 1;
 
             }
-            else if (player.hasPermission("group.officier")) {
+            else if (player.hasPermission("group.vip")) {
                 boost += 0.5;
             }
         }
@@ -98,11 +98,11 @@ public class BoosterManager {
         double boost = booster.getBoost();
         Player player = Bukkit.getPlayer(UUID.fromString(booster.getUuid()));
         if (player != null) {
-            if (player.hasPermission("group.general")) {
+            if (player.hasPermission("group.hero")) {
                 boost += 1;
 
             }
-            else if (player.hasPermission("group.officier")) {
+            else if (player.hasPermission("group.vip")) {
                 boost += 0.5;
             }
         }

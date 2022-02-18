@@ -23,7 +23,7 @@ public class BoosterInventory extends CustomGui {
         }
         setItem(40, new CustomItemStack(Material.NAME_TAG).setName("§a§lComment obtenir des boosters ?")
                 .setLore("\n§aBOOSTER PERMANENT\n" +
-                        "§7→ §fAvec le grade §cGénéral §7(+100%) §fet le grade §eOfficier §7(+50%)\n\n" +
+                        "§7→ §fAvec le grade §bHero §7(+100%) §fet le grade §eVIP §7(+50%)\n\n" +
                         "§aBOOSTERS TEMPORAIRES\n" +
                         "§7→ §fEn ouvrant des Box Ultimes §7(endoskull.fr/shop)\n" +
                         "§7→ §fEn ouvrant des Box Votes §7(endoskull.fr/vote)\n" +

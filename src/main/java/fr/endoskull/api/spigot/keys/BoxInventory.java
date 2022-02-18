@@ -144,8 +144,8 @@ public class BoxInventory {
     public static void giveKit(Player player) {
         List<Kit> kitList = new ArrayList<>(KitManager.getTier1());
         player.closeInventory();
-        if (player.hasPermission("group.officier")) kitList.addAll(KitManager.getTier2());
-        if (player.hasPermission("group.general")) kitList.addAll(KitManager.getTier3());
+        if (player.hasPermission("group.vip")) kitList.addAll(KitManager.getTier2());
+        if (player.hasPermission("group.hero")) kitList.addAll(KitManager.getTier3());
         Kit kit = kitList.get(new Random().nextInt(kitList.size()));
         player.sendMessage("§aFélicitation §etu as gagné le §a§lKit " + kit.getDisplayName() + " §edans ta Clé kit");
         player.playSound(player.getLocation(), Sound.LEVEL_UP, 50, 50);
