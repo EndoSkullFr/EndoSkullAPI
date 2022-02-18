@@ -71,7 +71,7 @@ public class EndoSkullCommand implements CommandExecutor, TabCompleter {
             File folder = new File("/var/lib/jenkins/workspace/EndoSkull/");
             List<String> subFolders = new ArrayList<>();
             for (File file : folder.listFiles()) {
-                if (file.isDirectory() && file.getName().startsWith(args[1])) subFolders.add(file.getName());
+                if (file.isDirectory() && !file.getName().endsWith("@tmp") && file.getName().startsWith(args[1])) subFolders.add(file.getName());
             }
             return subFolders;
         }
@@ -80,7 +80,7 @@ public class EndoSkullCommand implements CommandExecutor, TabCompleter {
             if (!folder.exists()) return null;
             List<String> jarFiles = new ArrayList<>();
             for (File file : folder.listFiles()) {
-                if (file.getName().endsWith(".jar") && !file.getName().contains("original-") && !file.getName().endsWith("@tmp") && file.getName().startsWith(args[2])) jarFiles.add(file.getName());
+                if (file.getName().endsWith(".jar") && !file.getName().contains("original-") && file.getName().startsWith(args[2])) jarFiles.add(file.getName());
             }
             return jarFiles;
         }
