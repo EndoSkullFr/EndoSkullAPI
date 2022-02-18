@@ -16,7 +16,7 @@ public class BoutiqueInventory extends CustomGui {
         for (int i : glassSlots) {
             setItem(i, CustomItemStack.getPane(5).setName("§r"));
         }
-        setItem(21, new CustomItemStack(Material.ENCHANTED_BOOK).setName("§aGrades").setLore("\n§7Dans cette catégorie, vous trouverez:\n§7► Le grade §eOfficer\n§7► Le grade §cGénéral"), player -> {
+        setItem(21, new CustomItemStack(Material.ENCHANTED_BOOK).setName("§aGrades").setLore("\n§7Dans cette catégorie, vous trouverez:\n§7► Le grade §eVIP\n§7► Le grade §bHero"), player -> {
             player.playNote(player.getLocation(), Instrument.PIANO, Note.flat(1, Note.Tone.A));
             new RankInventory().open(player);
         });
