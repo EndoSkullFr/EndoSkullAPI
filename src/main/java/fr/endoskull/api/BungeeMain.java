@@ -2,21 +2,19 @@ package fr.endoskull.api;
 
 import fr.endoskull.api.bungee.commands.ForceCommand;
 import fr.endoskull.api.bungee.commands.OmgCommand;
+import fr.endoskull.api.bungee.listeners.ChatListener;
 import fr.endoskull.api.bungee.listeners.ForwardMessageListener;
-import fr.endoskull.api.bungee.listeners.PluginmessageListener;
 import fr.endoskull.api.bungee.listeners.ProxyPing;
 import fr.endoskull.api.bungee.listeners.ProxyPlayerListener;
 import fr.endoskull.api.bungee.tasks.AnnouncmentTask;
 import fr.endoskull.api.data.redis.JedisAccess;
-import fr.endoskull.api.data.redis.RedisAccess;
-import fr.endoskull.api.data.redis.RedisCredentials;
+import fr.endoskull.api.data.redis.JedisManager;
 import fr.endoskull.api.data.sql.MySQL;
 import net.md_5.bungee.BungeeCord;
 import net.md_5.bungee.api.ProxyServer;
 import net.md_5.bungee.api.plugin.Plugin;
 import net.md_5.bungee.api.plugin.PluginManager;
 import org.apache.commons.dbcp2.BasicDataSource;
-import redis.clients.jedis.Jedis;
 
 import java.util.HashMap;
 import java.util.UUID;
@@ -39,6 +37,7 @@ public class BungeeMain extends Plugin {
         getProxy().registerChannel("PartiesChannel");
         pm.registerListener(this, new ProxyPlayerListener());
         pm.registerListener(this, new ProxyPing());
+        pm.registerListener(this, new ChatListener());
         pm.registerListener(this, new ForwardMessageListener(this));
         //pm.registerListener(this, new PluginmessageListener(this));
 
@@ -46,12 +45,11 @@ public class BungeeMain extends Plugin {
         pm.registerCommand(this, new OmgCommand());
 
         initConnection();
-        RedisAccess.init();
         new JedisAccess("127.0.0.1", 6379, "%]h48Ty7UBC?D+439zg%XeV6Pm#k~&9y").initConnection();
 
         BungeeCord.getInstance().getScheduler().schedule(this, () -> {
             BungeeCord.getInstance().getScheduler().runAsync(this, () -> {
-                RedisAccess.sendToDatabase();
+                JedisManager.sendToDatabase();
             });
             }, 15, 15, TimeUnit.MINUTES);
 
@@ -63,8 +61,9 @@ public class BungeeMain extends Plugin {
 
     @Override
     public void onDisable() {
-        RedisAccess.sendToDatabase();
-        RedisAccess.close();
+        JedisManager.sendToDatabase();
+        JedisAccess.getUserpool().close();
+        JedisAccess.getServerpool().close();
         super.onDisable();
     }
 

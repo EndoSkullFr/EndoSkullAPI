@@ -34,3 +34,12 @@ commands:
   motdeditor:
     permission: endoskull.motd
   join:
+#  profile:
+#    aliases: [profil, stat, stats]
+  deploy:
+    permission: endoskull.deploy
+  sound:
+    permission: endoskull.admin.sound
+  endoskull:
+    permission: endoskull.admin
+    aliases: [es, endo]

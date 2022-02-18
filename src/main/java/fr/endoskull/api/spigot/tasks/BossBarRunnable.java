@@ -1,10 +1,12 @@
 package fr.endoskull.api.spigot.tasks;
 
-import com.connorlinfoot.actionbarapi.ActionBarAPI;
 import fr.endoskull.api.Main;
 import fr.endoskull.api.commons.Account;
 import fr.endoskull.api.commons.AccountProvider;
+import net.minecraft.server.v1_8_R3.ChatComponentText;
+import net.minecraft.server.v1_8_R3.PacketPlayOutChat;
 import org.bukkit.Bukkit;
+import org.bukkit.craftbukkit.v1_8_R3.entity.CraftPlayer;
 import org.bukkit.entity.Player;
 
 public class BossBarRunnable implements Runnable {
@@ -30,8 +32,13 @@ public class BossBarRunnable implements Runnable {
         }*/
         for (Player pls : Bukkit.getOnlinePlayers()) {
             Account account = new AccountProvider(pls.getUniqueId()).getAccount();
-            ActionBarAPI.sendActionBar(pls, "§eLevel : §6" + account.getLevel() + " §f| §eXp : §6" + account.getXp() + "§e/§6" + account.xpToLevelSup());
+            sendActionBar(pls, "§eLevel : §6" + account.getLevel() + " §f| §eXp : §6" + account.getXp() + "§e/§6" + account.xpToLevelSup());
         }
 
+    }
+
+    public void sendActionBar(Player player, String message){
+        PacketPlayOutChat packet = new PacketPlayOutChat(new ChatComponentText(message), (byte)2);
+        ((CraftPlayer) player).getHandle().playerConnection.sendPacket(packet);
     }
 }

@@ -6,8 +6,8 @@ import org.bukkit.inventory.ItemStack;
 import java.util.Arrays;
 
 public enum Ultime {
-    GENERAL("§cGrade Général §7(1 mois)", 2, "lp user %player% parent addtemp general 1mo", new ItemStack(Material.DIAMOND_SWORD)),
-    OFFICIER("§eGrade Officier §7(1 mois)", 6, "lp user %player% parent addtemp officier 1mo", new ItemStack(Material.GOLD_SWORD)),
+    GENERAL("§cGrade Général §7(1 mois)", 2, "lp user %player% parent addtemp general 1mo accumulate", new ItemStack(Material.DIAMOND_SWORD)),
+    OFFICIER("§eGrade Officier §7(1 mois)", 6, "lp user %player% parent addtemp officier 1mo accumulate", new ItemStack(Material.GOLD_SWORD)),
     DOUBLE("§42 Clés Ultimes", 2, "key add %player% ULTIME 2", new ItemStack(Material.TRIPWIRE_HOOK, 2)),
     BOOSTER0("§eBOOSTER §l+50% §7(30 jours)", 30, "boost addtemp %player% 0.5 30d", new ItemStack(Material.RED_ROSE, 1, (byte) 8)),
     BOOSTER1("§eBOOSTER §l+100% §7(30 jours)", 25, "boost addtemp %player% 1 30d", new ItemStack(Material.RED_ROSE, 1, (byte) 7)),

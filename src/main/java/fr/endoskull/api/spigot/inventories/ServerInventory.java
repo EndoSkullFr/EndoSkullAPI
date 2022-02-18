@@ -24,7 +24,7 @@ public class ServerInventory extends CustomGui {
             .getFirstService(IPlayerManager.class);
 
     public ServerInventory(ServerType serverType, Main main) {
-        super((main.getJedisAccess().getServerpool().getResource().keys(serverType.getServerName() + "-*").size() - 1) / 7 + 3, "§7EndoSkull §8» §aServeurs");
+        super((main.getJedisAccess().getServerpool().getResource().keys(serverType.getServerName() + "-*").size() - 1) / 7 + 3, "§a§lEndoSkull §8» §e§lServeurs");
         for (int i : glass) {
             if (i >= getLine() * 9) continue;
             setItem(i, new CustomItemStack(Material.STAINED_GLASS_PANE, 1, (byte) 7).setName("§r"));

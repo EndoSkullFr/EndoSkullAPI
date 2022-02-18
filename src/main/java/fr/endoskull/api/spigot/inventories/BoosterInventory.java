@@ -16,7 +16,7 @@ import java.util.Date;
 public class BoosterInventory extends CustomGui {
     private int[] glassSlot = {0,1,7,8,9,17,27,35,36,37,43,44};
     public BoosterInventory(Player player) {
-        super(5, "§cEndoSkull §8» §dBOOSTERS");
+        super(5, "§c§lEndoSkull §8» §d§lBoosters");
         player.playSound(player.getLocation(), Sound.ORB_PICKUP, 1f, 1f);
         for (int i : glassSlot) {
             setItem(i, new CustomItemStack(Material.STAINED_GLASS_PANE, 1, (byte) 3).setName("§r"));

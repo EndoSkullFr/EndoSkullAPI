@@ -6,6 +6,8 @@ import fr.endoskull.api.spigot.utils.PartyInfo;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.messaging.PluginMessageListener;
 
+import java.util.ArrayList;
+
 public class PartiesChannelListener implements PluginMessageListener {
     @Override
     public void onPluginMessageReceived(String channel, Player player, byte[] bytes) {
@@ -20,7 +22,7 @@ public class PartiesChannelListener implements PluginMessageListener {
                 if (!uuid.equals(player.getUniqueId().toString())) return;
                 int partySize = in.readInt();
                 System.out.println(partySize);
-                for (PartyInfo partyInfo : PartyInfo.getInstances()) {
+                for (PartyInfo partyInfo : new ArrayList<>(PartyInfo.getInstances())) {
                     System.out.println(partyInfo.getPlayer().getName());
                     if (partyInfo.getPlayer().equals(player)) {
                         System.out.println(partyInfo.getPlayer().getUniqueId());

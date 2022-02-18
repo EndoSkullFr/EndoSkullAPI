@@ -3,6 +3,7 @@ package fr.endoskull.api.spigot.commands;
 import fr.endoskull.api.Main;
 import fr.endoskull.api.commons.Account;
 import fr.endoskull.api.commons.AccountProvider;
+import fr.endoskull.api.data.redis.JedisManager;
 import fr.endoskull.api.spigot.utils.PlayerInfos;
 import net.minecraft.server.v1_8_R3.EntityArmorStand;
 import net.minecraft.server.v1_8_R3.PacketPlayOutSpawnEntity;
@@ -79,7 +80,7 @@ public class KeyCommand implements CommandExecutor {
                     sender.sendMessage("§a" + number + " §eClés §a" + key + " §ea/ont été défini à §a" + args[1]);
                 }
             }
-            if (key.equalsIgnoreCase("coins")) {
+            /*if (key.equalsIgnoreCase("coins")) {
                 if (args[0].equals("add")) {
                     account.setCoinsKey(account.getCoinsKey() + number).sendToRedis();
                     sender.sendMessage("§a" + number + " §eClés §a" + key + " §ea/ont été ajouté à §a" + args[1]);
@@ -106,7 +107,7 @@ public class KeyCommand implements CommandExecutor {
                     account.setKitKey(number).sendToRedis();
                     sender.sendMessage("§a" + number + " §eClés §a" + key + " §ea/ont été défini à §a" + args[1]);
                 }
-            }
+            }*/
         });
         return false;
     }

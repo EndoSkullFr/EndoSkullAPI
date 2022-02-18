@@ -3,10 +3,8 @@ package fr.endoskull.api;
 import fr.endoskull.api.commons.server.ServerState;
 import fr.endoskull.api.commons.server.ServerType;
 import fr.endoskull.api.data.redis.JedisAccess;
-import fr.endoskull.api.data.redis.RedisAccess;
 import fr.endoskull.api.spigot.classement.ClassementTask;
 import fr.endoskull.api.spigot.inventories.tag.TagColor;
-import fr.endoskull.api.spigot.listeners.OnSignGUIUpdateEvent;
 import fr.endoskull.api.data.sql.MySQL;
 import fr.endoskull.api.spigot.commands.*;
 import fr.endoskull.api.spigot.listeners.*;
@@ -58,7 +56,6 @@ public class Main extends JavaPlugin {
         getServer().getMessenger().registerOutgoingPluginChannel(this, "PartiesChannel");
 
         initConnection();
-        RedisAccess.init();
         jedisAccess = new JedisAccess("127.0.0.1", 6379, "%]h48Ty7UBC?D+439zg%XeV6Pm#k~&9y");
         jedisAccess.initConnection();
 
@@ -103,9 +100,9 @@ public class Main extends JavaPlugin {
         for (Player pls : Bukkit.getOnlinePlayers()) {
             pls.kickPlayer("§eEndoSkull §8>> §cLe serveur sur lequel vous étiez s'est arrêté");
         }
-        RedisAccess.close();
         jedisAccess.getServerpool().getResource().del(Bukkit.getServerName());
         jedisAccess.getServerpool().close();
+        JedisAccess.getUserpool().close();
         super.onDisable();
     }
 
@@ -133,6 +130,10 @@ public class Main extends JavaPlugin {
         getCommand("load").setExecutor(new LoadCommand(this));
         getCommand("motdeditor").setExecutor(new MotdCommand());
         getCommand("join").setExecutor(new JoinCommand(this));
+        //getCommand("profile").setExecutor(new ProfileCommand());
+        getCommand("deploy").setExecutor(new DeployCommand(this));
+        getCommand("sound").setExecutor(new SoundCommand());
+        getCommand("endoskull").setExecutor(new EndoSkullCommand());
 
         getCommand("endoskullapi").setExecutor(new EndoSkullApiCommand(this));
     }
@@ -144,8 +145,8 @@ public class Main extends JavaPlugin {
         pm.registerEvents(new PlayerInv(this), this);
         pm.registerEvents(new PlayerJoin(this), this);
         pm.registerEvents(new CustomGuiListener(), this);
-        pm.registerEvents(new OnSignGUIUpdateEvent(this), this);
         pm.registerEvents(new MotdListener(), this);
+        pm.registerEvents(new VanishListener(), this);
     }
 
     private void createServerFile() {

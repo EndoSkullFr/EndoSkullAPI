@@ -22,8 +22,8 @@ public class KitKeyInventory extends CustomGui {
                 player.sendMessage("§cVous devez posséder une §lClé Kit §cpour effectuer cette action");
                 return;
             } else {
-                fAccount.setKitKey(fAccount.getKitKey() - 1).sendToRedis();
-                BoxInventory.giveKit(player);
+                /*fAccount.setKitKey(fAccount.getKitKey() - 1).sendToRedis();
+                BoxInventory.giveKit(player);*/
             }
         });
     }

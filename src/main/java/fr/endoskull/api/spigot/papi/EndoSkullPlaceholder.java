@@ -2,8 +2,13 @@ package fr.endoskull.api.spigot.papi;
 
 import fr.endoskull.api.commons.Account;
 import fr.endoskull.api.commons.AccountProvider;
+import fr.endoskull.api.commons.ClassementAccount;
 import fr.endoskull.api.spigot.classement.ClassementTask;
+import me.clip.placeholderapi.PlaceholderAPI;
 import me.clip.placeholderapi.expansion.PlaceholderExpansion;
+import net.luckperms.api.LuckPerms;
+import net.luckperms.api.LuckPermsProvider;
+import net.luckperms.api.model.user.User;
 import org.bukkit.OfflinePlayer;
 
 /**
@@ -94,7 +99,7 @@ public class EndoSkullPlaceholder extends PlaceholderExpansion {
         }
 
         if(identifier.equals("classement")) {
-            return String.valueOf(1 + ClassementTask.getClassement().indexOf(ClassementTask.getClassement().stream().filter(account -> account.getUuid().equals(player.getUniqueId())).findAny().orElse(new Account())));
+            return String.valueOf(1 + ClassementTask.getClassement().indexOf(ClassementTask.getClassement().stream().filter(account -> account.getUuid().equals(player.getUniqueId())).findAny().orElse(new ClassementAccount())));
         }
         if(identifier.startsWith("classement_")) {
             String[] args = identifier.split("_");
@@ -102,10 +107,39 @@ public class EndoSkullPlaceholder extends PlaceholderExpansion {
             if (ClassementTask.getClassement().size() <= index) {
                 return "§c✖";
             }
-            Account account = ClassementTask.getClassement().get(index);
+            ClassementAccount account = ClassementTask.getClassement().get(index);
             if (args[2].equalsIgnoreCase("uuid")) return account.getUuid().toString();
             if (args[2].equalsIgnoreCase("name")) return account.getName();
             if (args[2].equalsIgnoreCase("level")) return account.getStringLevel();
+        }
+        if(identifier.startsWith("rank")) {
+            LuckPerms luckPerms = LuckPermsProvider.get();
+            User user = luckPerms.getUserManager().getUser(player.getUniqueId());
+            String prefix = user.getCachedData().getMetaData().getPrefix();
+            if (prefix.length() < 5) {
+                return prefix.substring(0, 2);
+            } else {
+                return prefix.substring(3, 5);
+            }
+        }
+        if(identifier.startsWith("statistic_")) {
+            Account account = new AccountProvider(player.getUniqueId()).getAccount();
+            String[] args = identifier.split("_");
+            return String.valueOf(account.getStatistic(args[1]));
+        }
+        if(identifier.startsWith("progression")) {
+            Account account = new AccountProvider(player.getUniqueId()).getAccount();
+            int progression = (int) ((account.getXp() / account.xpToLevelSup()) * 10);
+            String result = "§b" + account.getLevel() + " §7[§b§m";
+            for (int i = 0; i < progression; i++) {
+                result += "-";
+            }
+            result += "§f§m";
+            for (int i = 0; i < 10 - progression; i++) {
+                result += "-";
+            }
+            result += "§7] " + (account.getLevel() + 1);
+            return result;
         }
 
         // We return null if an invalid placeholder (f.e. %example_placeholder3%)

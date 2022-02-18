@@ -12,9 +12,8 @@ import fr.endoskull.api.BungeeMain;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
 import net.md_5.bungee.api.event.PluginMessageEvent;
 import net.md_5.bungee.api.plugin.Listener;
-import org.bukkit.event.EventHandler;
+import net.md_5.bungee.event.EventHandler;
 
-import java.io.ByteArrayOutputStream;
 import java.util.UUID;
 
 public class PluginmessageListener implements Listener {

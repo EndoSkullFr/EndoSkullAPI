@@ -1,7 +1,7 @@
 package fr.endoskull.api.bungee.commands;
 
 import fr.endoskull.api.BungeeMain;
-import fr.endoskull.api.data.redis.RedisAccess;
+import fr.endoskull.api.data.redis.JedisManager;
 import net.md_5.bungee.api.CommandSender;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
 import net.md_5.bungee.api.plugin.Command;
@@ -22,7 +22,7 @@ public class ForceCommand extends Command {
     public void execute(CommandSender sender, String[] args) {
         if (!(sender instanceof ProxiedPlayer)) {
             sender.sendMessage("§cEnvoies vers les bases de données en cours...");
-            RedisAccess.sendToDatabase();
+            JedisManager.sendToDatabase();
             return;
         }
     }

@@ -19,8 +19,8 @@ public class BoxUltimeInventory extends CustomGui {
     private static boolean openingBox = false;
 
     public BoxUltimeInventory(Player player) {
-        super(Ultime.values().length/9 + 3, "§cEndoSkull §8» §cBOX ULTIME");
-        int lines = Ultime.values().length/9 + 3;
+        super((Ultime.values().length-1)/9 + 3, "§c§lEndoSkull §8» §c§lBox Ultime");
+        int lines = (Ultime.values().length-1)/9 + 3;
         player.playSound(player.getLocation(), Sound.CAT_MEOW, 50, 50);
         Account account = new AccountProvider(player.getUniqueId()).getAccount();
         int i = 0;

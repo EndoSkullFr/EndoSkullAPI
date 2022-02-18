@@ -23,8 +23,8 @@ import java.util.Random;
 public class BoxVoteInventory extends CustomGui {
 
     public BoxVoteInventory(Player player) {
-        super(Vote.values().length/9 + 3, "§dEndoSkull §8» §dBOX VOTE");
-        int lines = Vote.values().length/9 + 3;
+        super((Vote.values().length-1)/9 + 3, "§c§lEndoSkull §8» §e§lBox Vote");
+        int lines = (Vote.values().length-1)/9 + 3;
         player.playSound(player.getLocation(), Sound.CAT_MEOW, 50, 50);
         Account account = new AccountProvider(player.getUniqueId()).getAccount();
         int i = 0;
