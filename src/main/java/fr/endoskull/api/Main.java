@@ -91,7 +91,6 @@ public class Main extends JavaPlugin {
                 }
             }
         }.runTaskLaterAsynchronously(this, 3 * 20);
-
         super.onEnable();
     }
 
