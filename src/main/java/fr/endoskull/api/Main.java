@@ -96,7 +96,7 @@ public class Main extends JavaPlugin {
         }.runTaskLaterAsynchronously(this, 3 * 20);
 
 
-        Jedis j;
+        Jedis j = null;
         try {
             j = JedisAccess.getUserpool().getResource();
             for (String key : j.keys("nick/*")) {
