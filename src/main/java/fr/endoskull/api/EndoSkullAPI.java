@@ -70,9 +70,7 @@ public class EndoSkullAPI {
 
     private static void setSkin(Player player) {
         SkinAPI skinAPI = new SkinAPI();
-        SkinData data = skinAPI.getSkinData("MHF_GitHub");
-        UUID uuid = skinAPI.saveNewSkinData(data.getProfileDataString());
-        skinAPI.changePlayerSkin(player, uuid);
+        skinAPI.changePlayerSkin(player, "MHF_GitHub");
 
     }
 }
