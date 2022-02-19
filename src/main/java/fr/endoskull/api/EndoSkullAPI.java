@@ -34,6 +34,7 @@ public class EndoSkullAPI {
             LuckPerms luckPerms = LuckPermsProvider.get();
             User user = luckPerms.getUserManager().getUser(player.getUniqueId());
             user.data().remove(Node.builder("prefix.200.&7").build());
+            luckPerms.getUserManager().saveUser(user);
         }
     }
 }
