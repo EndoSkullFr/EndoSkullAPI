@@ -14,10 +14,13 @@ import org.bukkit.craftbukkit.v1_8_R3.entity.CraftPlayer;
 import org.bukkit.entity.Player;
 import org.yaml.snakeyaml.external.biz.base64Coder.Base64Coder;
 import redis.clients.jedis.Jedis;
+import stackunderflow.skinapi.api.SkinAPI;
+import stackunderflow.skinapi.api.SkinData;
 
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.UUID;
 
 public class EndoSkullAPI {
 
@@ -32,7 +35,7 @@ public class EndoSkullAPI {
             TabAPI tabAPI = TabAPI.getInstance();
             TabPlayer tabPlayer = tabAPI.getPlayer(player.getUniqueId());
             tabPlayer.setTemporaryGroup("default");
-            setSkin(player, "95977a99841e021713fac48b8bad2b2dd243e91cd3c37945d9d6f213ab4c2265");
+            setSkin(player);
             Jedis j = null;
             try {
                  j = JedisAccess.getUserpool().getResource();
@@ -65,50 +68,11 @@ public class EndoSkullAPI {
         }
     }
 
-    private static void setSkin(Player player, String texture) {
-        player.sendMessage("blabla");
-        CraftPlayer cp = (CraftPlayer) player;
-        GameProfile gp = cp.getProfile();
+    private static void setSkin(Player player) {
+        SkinAPI skinAPI = new SkinAPI();
+        SkinData data = skinAPI.getSkinData("MHF_GitHub");
+        UUID uuid = skinAPI.saveNewSkinData(data.getProfileDataString());
+        skinAPI.changePlayerSkin(player, uuid);
 
-        Iterator<Property> b = gp.getProperties().get("textures").iterator();
-        String text = null;
-        while(b.hasNext()) {
-            Property c = b.next();
-            if(c.getName().equalsIgnoreCase("textures")) {
-                text = Base64Coder.decodeString(c.getValue());
-                //System.out.println(text);
-                text.replaceAll("/\"SKIN\"[.*?]\"}}}/", "\"SKIN\":{\"url\":\""+texture+"\"}}}");
-                Base64Coder.encodeString(text);
-                //System.out.println(text);
-            }
-        }
-        gp.getProperties().put("textures", new Property("textures", text));
-
-        //this 2 shedular are for make the change visible to the other players
-        List<Player> toShow = new ArrayList<>();
-        Bukkit.getScheduler().runTaskLater(Main.getInstance(), new Runnable() {
-
-            @Override
-            public void run() {
-                for(Player o : Bukkit.getOnlinePlayers()) {
-                    if (o.canSee(player)) {
-                        o.hidePlayer(player);
-                        toShow.add(o);
-                    }
-                }
-
-            }
-        }, 0);
-
-        Bukkit.getScheduler().runTaskLater(Main.getInstance(), new Runnable() {
-
-            @Override
-            public void run() {
-                for(Player o : toShow) {
-                    o.showPlayer(player);
-                }
-
-            }
-        }, 15);
     }
 }
