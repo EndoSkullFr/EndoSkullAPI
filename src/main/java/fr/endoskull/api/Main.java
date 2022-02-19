@@ -21,6 +21,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
+import redis.clients.jedis.JedisPubSub;
 
 import java.io.File;
 import java.io.IOException;
@@ -39,6 +40,7 @@ public class Main extends JavaPlugin {
     private BasicDataSource connectionPool;
     private MySQL mysql;
     private long load;
+    private HashMap<UUID, String> nicks = new HashMap<>();
 
     @Override
     public void onLoad() {
@@ -91,6 +93,26 @@ public class Main extends JavaPlugin {
                 }
             }
         }.runTaskLaterAsynchronously(this, 3 * 20);
+
+        JedisAccess.getUserpool().getResource().subscribe(new JedisPubSub() {
+            @Override
+            public void onMessage(String channel, String message) {
+                if (channel.equalsIgnoreCase("EndoSkullNick")) {
+                    if (message.startsWith("nick:")) {
+                        String[] split = message.split(":");
+                        UUID uuid = UUID.fromString(split[1]);
+                        String name = split[2];
+                        Player player = Bukkit.getPlayer(uuid);
+                        if (player != null) {
+                            player.setDisplayName(name);
+                            player.setCustomName(name);
+                        }
+                        nicks.put(player.getUniqueId(), name);
+                    }
+                }
+            }
+        }, "EndoSkullNick");
+
         super.onEnable();
     }
 
@@ -99,8 +121,8 @@ public class Main extends JavaPlugin {
         for (Player pls : Bukkit.getOnlinePlayers()) {
             pls.kickPlayer("§eEndoSkull §8>> §cLe serveur sur lequel vous étiez s'est arrêté");
         }
-        jedisAccess.getServerpool().getResource().del(Bukkit.getServerName());
-        jedisAccess.getServerpool().close();
+        JedisAccess.getServerpool().getResource().del(Bukkit.getServerName());
+        JedisAccess.getServerpool().close();
         JedisAccess.getUserpool().close();
         super.onDisable();
     }
@@ -132,7 +154,7 @@ public class Main extends JavaPlugin {
         //getCommand("profile").setExecutor(new ProfileCommand());
         getCommand("deploy").setExecutor(new DeployCommand(this));
         getCommand("sound").setExecutor(new SoundCommand());
-        getCommand("endoskull").setExecutor(new EndoSkullCommand());
+        getCommand("endoskull").setExecutor(new EndoSkullCommand(this));
 
         getCommand("endoskullapi").setExecutor(new EndoSkullApiCommand(this));
     }
@@ -200,5 +222,9 @@ public class Main extends JavaPlugin {
 
     public ServerType getServerType() {
         return serverType;
+    }
+
+    public HashMap<UUID, String> getNicks() {
+        return nicks;
     }
 }

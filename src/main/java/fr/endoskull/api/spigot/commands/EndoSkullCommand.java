@@ -1,11 +1,16 @@
 package fr.endoskull.api.spigot.commands;
 
+import fr.endoskull.api.Main;
+import fr.endoskull.api.data.redis.JedisAccess;
 import org.apache.commons.io.FileUtils;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabCompleter;
+import org.bukkit.entity.Player;
 
+import java.io.ByteArrayOutputStream;
+import java.io.DataOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -13,8 +18,32 @@ import java.util.Arrays;
 import java.util.List;
 
 public class EndoSkullCommand implements CommandExecutor, TabCompleter {
+    private Main main;
+
+    public EndoSkullCommand(Main main) {
+        this.main = main;
+    }
+
     @Override
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
+        if (args.length > 0 && args[0].equalsIgnoreCase("nick")) {
+            if (!(sender instanceof Player)) {
+                sender.sendMessage("§cVous devez être un joueur");
+                return false;
+            }
+            Player player = (Player) sender;
+            if (args.length < 2) {
+                sender.sendMessage("§c/" + label + " nick <pseudo>");
+                return false;
+            }
+            String name = args[1];
+            if (!name.matches("^\\w{3,16}$")) {
+                player.sendMessage("§cCe pseudo n'est pas valide");
+                return false;
+            }
+            JedisAccess.getUserpool().getResource().publish("EndoSkullNick", "nick:" + player.getUniqueId() + ":" + name);
+
+        }
         if (args.length > 0 && args[0].equalsIgnoreCase("deploy")) {
             if (args.length < 4) {
                 sender.sendMessage("§c/" + label + " deploy <projet> <fileName> <template>");

@@ -49,6 +49,11 @@ public class PlayerJoin implements Listener {
         if (Bukkit.getOnlinePlayers().size() >= Bukkit.getMaxPlayers()) {
             main.getJedisAccess().getServerpool().getResource().set(Bukkit.getServerName(), ServerState.FULL.toString());
         }
+        if (main.getNicks().containsKey(player.getUniqueId())) {
+            String name = main.getNicks().get(player.getUniqueId());
+            player.setDisplayName(name);
+            player.setCustomName(name);
+        }
     }
 
     @EventHandler
