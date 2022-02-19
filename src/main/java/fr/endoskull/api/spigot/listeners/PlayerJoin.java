@@ -53,6 +53,9 @@ public class PlayerJoin implements Listener {
             String name = main.getNicks().get(player.getUniqueId());
             player.setDisplayName(name);
             player.setCustomName(name);
+        } else {
+            player.setDisplayName(player.getName());
+            player.setDisplayName(player.getCustomName());
         }
     }
 

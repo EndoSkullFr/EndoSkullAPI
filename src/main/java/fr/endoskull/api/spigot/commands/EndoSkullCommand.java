@@ -44,6 +44,14 @@ public class EndoSkullCommand implements CommandExecutor, TabCompleter {
             JedisAccess.getUserpool().getResource().publish("EndoSkullNick", "nick:" + player.getUniqueId() + ":" + name);
 
         }
+        if (args.length > 0 && args[0].equalsIgnoreCase("unnick")) {
+            if (!(sender instanceof Player)) {
+                sender.sendMessage("§cVous devez être un joueur");
+                return false;
+            }
+            Player player = (Player) sender;
+            JedisAccess.getUserpool().getResource().publish("EndoSkullNick", "unnick:" + player.getUniqueId());
+        }
         if (args.length > 0 && args[0].equalsIgnoreCase("deploy")) {
             if (args.length < 4) {
                 sender.sendMessage("§c/" + label + " deploy <projet> <fileName> <template>");

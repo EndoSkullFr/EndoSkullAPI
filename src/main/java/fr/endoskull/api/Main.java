@@ -110,6 +110,16 @@ public class Main extends JavaPlugin {
                             }
                             nicks.put(uuid, name);
                         }
+                        if (message.startsWith("unnick:")) {
+                            String[] split = message.split(":");
+                            UUID uuid = UUID.fromString(split[1]);
+                            nicks.remove(uuid);
+                            Player player = Bukkit.getPlayer(uuid);
+                            if (player != null) {
+                                player.setDisplayName(player.getName());
+                                player.setCustomName(player.getName());
+                            }
+                        }
                     }
                 }
             }, "EndoSkullNick");
