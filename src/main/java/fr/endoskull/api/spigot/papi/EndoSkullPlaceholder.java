@@ -147,7 +147,7 @@ public class EndoSkullPlaceholder extends PlaceholderExpansion {
         if (identifier.equalsIgnoreCase("nick")) {
             Player oPlayer = Bukkit.getPlayer(player.getUniqueId());
             if (oPlayer != null) {
-                return oPlayer.getCustomName() == null ? oPlayer.getName() = oPlayer.getCustomName();
+                return oPlayer.getCustomName() == null ? oPlayer.getName() : oPlayer.getCustomName();
             } else {
                 return player.getName();
             }
