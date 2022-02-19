@@ -35,7 +35,7 @@ public class EndoSkullAPI {
             TabAPI tabAPI = TabAPI.getInstance();
             TabPlayer tabPlayer = tabAPI.getPlayer(player.getUniqueId());
             tabPlayer.setTemporaryGroup("default");
-            setSkin(player);
+            //setSkin(player);
             Jedis j = null;
             try {
                  j = JedisAccess.getUserpool().getResource();
