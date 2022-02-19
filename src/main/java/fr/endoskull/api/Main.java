@@ -94,7 +94,7 @@ public class Main extends JavaPlugin {
             }
         }.runTaskLaterAsynchronously(this, 3 * 20);
 
-        Bukkit.getScheduler().runTaskAsynchronously(this, () -> {
+        /*Bukkit.getScheduler().runTaskAsynchronously(this, () -> {
             JedisAccess.getUserpool().getResource().subscribe(new JedisPubSub() {
                 @Override
                 public void onMessage(String channel, String message) {
@@ -113,7 +113,7 @@ public class Main extends JavaPlugin {
                     }
                 }
             }, "EndoSkullNick");
-        });
+        });*/
 
         super.onEnable();
     }
