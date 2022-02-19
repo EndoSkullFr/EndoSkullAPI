@@ -1,5 +1,6 @@
 package fr.endoskull.api.spigot.papi;
 
+import fr.endoskull.api.Main;
 import fr.endoskull.api.commons.Account;
 import fr.endoskull.api.commons.AccountProvider;
 import fr.endoskull.api.commons.ClassementAccount;
@@ -9,7 +10,9 @@ import me.clip.placeholderapi.expansion.PlaceholderExpansion;
 import net.luckperms.api.LuckPerms;
 import net.luckperms.api.LuckPermsProvider;
 import net.luckperms.api.model.user.User;
+import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
+import org.bukkit.entity.Player;
 
 /**
  * This class will automatically register as a placeholder expansion
@@ -140,6 +143,14 @@ public class EndoSkullPlaceholder extends PlaceholderExpansion {
             }
             result += "§7] " + (account.getLevel() + 1);
             return result;
+        }
+        if (identifier.equalsIgnoreCase("nick")) {
+            Player oPlayer = Bukkit.getPlayer(player.getUniqueId());
+            if (oPlayer != null) {
+                return oPlayer.getCustomName();
+            } else {
+                return player.getName();
+            }
         }
 
         // We return null if an invalid placeholder (f.e. %example_placeholder3%)
