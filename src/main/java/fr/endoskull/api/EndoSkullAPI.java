@@ -66,6 +66,7 @@ public class EndoSkullAPI {
     }
 
     private static void setSkin(Player player, String texture) {
+        player.sendMessage("blabla");
         CraftPlayer cp = (CraftPlayer) player;
         GameProfile gp = cp.getProfile();
 
