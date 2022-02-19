@@ -42,6 +42,11 @@
       <option name="url" value="https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-annotations" />
     </remote-repository>
     <remote-repository>
+      <option name="id" value="krypton" />
+      <option name="name" value="krypton" />
+      <option name="url" value="https://repo.kryptonmc.org/releases" />
+    </remote-repository>
+    <remote-repository>
       <option name="id" value="cloudnet-releases" />
       <option name="name" value="cloudnet-releases" />
       <option name="url" value="https://repo.cloudnetservice.eu/repository/releases/" />

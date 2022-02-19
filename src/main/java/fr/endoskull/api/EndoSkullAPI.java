@@ -1,5 +1,7 @@
 package fr.endoskull.api;
 
+import me.neznamy.tab.api.TabAPI;
+import me.neznamy.tab.api.TabPlayer;
 import net.luckperms.api.LuckPerms;
 import net.luckperms.api.LuckPermsProvider;
 import net.luckperms.api.model.user.User;
@@ -19,6 +21,9 @@ public class EndoSkullAPI {
             User user = luckPerms.getUserManager().getUser(player.getUniqueId());
             user.data().add(Node.builder("prefix.200.&7").build());
             luckPerms.getUserManager().saveUser(user);
+            TabAPI tabAPI = TabAPI.getInstance();
+            TabPlayer tabPlayer = tabAPI.getPlayer(player.getUniqueId());
+            tabPlayer.setTemporaryGroup("default");
         }
     }
 

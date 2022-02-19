@@ -2,6 +2,8 @@ package fr.endoskull.api.spigot.commands;
 
 import fr.endoskull.api.Main;
 import fr.endoskull.api.data.redis.JedisAccess;
+import me.neznamy.tab.api.TabAPI;
+import me.neznamy.tab.api.TabPlayer;
 import org.apache.commons.io.FileUtils;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -26,6 +28,17 @@ public class EndoSkullCommand implements CommandExecutor, TabCompleter {
 
     @Override
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
+        if (args.length > 0 && args[0].equalsIgnoreCase("debug")) {
+            if (!(sender instanceof Player)) {
+                sender.sendMessage("§cVous devez être un joueur");
+                return false;
+            }
+            Player player = (Player) sender;
+            TabAPI tabAPI = TabAPI.getInstance();
+            TabPlayer tabPlayer = tabAPI.getPlayer(player.getUniqueId());
+            tabPlayer.setTemporaryGroup("default");
+            player.sendMessage(tabPlayer.getGroup());
+        }
         if (args.length > 0 && args[0].equalsIgnoreCase("nick")) {
             if (!(sender instanceof Player)) {
                 sender.sendMessage("§cVous devez être un joueur");
