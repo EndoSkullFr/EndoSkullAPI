@@ -1,5 +1,6 @@
 package fr.endoskull.api.spigot.listeners;
 
+import fr.endoskull.api.EndoSkullAPI;
 import fr.endoskull.api.Main;
 import fr.endoskull.api.commons.server.ServerState;
 import fr.endoskull.api.data.sql.Keys;
@@ -51,11 +52,9 @@ public class PlayerJoin implements Listener {
         }
         if (main.getNicks().containsKey(player.getUniqueId())) {
             String name = main.getNicks().get(player.getUniqueId());
-            player.setDisplayName(name);
-            player.setCustomName(name);
+            EndoSkullAPI.nick(player, name);
         } else {
-            player.setDisplayName(player.getName());
-            player.setDisplayName(player.getCustomName());
+            EndoSkullAPI.unnick(player);
         }
     }
 

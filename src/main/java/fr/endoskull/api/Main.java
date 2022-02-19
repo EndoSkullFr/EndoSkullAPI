@@ -104,21 +104,15 @@ public class Main extends JavaPlugin {
                             UUID uuid = UUID.fromString(split[1]);
                             String name = split[2];
                             Player player = Bukkit.getPlayer(uuid);
-                            if (player != null) {
-                                player.setDisplayName(name);
-                                player.setCustomName(name);
-                            }
-                            nicks.put(uuid, name);
+                            EndoSkullAPI.nick(player, name);
+                            Main.getInstance().getNicks().put(uuid, name);
                         }
                         if (message.startsWith("unnick:")) {
                             String[] split = message.split(":");
                             UUID uuid = UUID.fromString(split[1]);
                             nicks.remove(uuid);
                             Player player = Bukkit.getPlayer(uuid);
-                            if (player != null) {
-                                player.setDisplayName(player.getName());
-                                player.setCustomName(player.getName());
-                            }
+                            EndoSkullAPI.unnick(player);
                         }
                     }
                 }
