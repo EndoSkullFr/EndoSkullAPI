@@ -21,6 +21,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
+import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPubSub;
 
 import java.io.File;
@@ -93,6 +94,19 @@ public class Main extends JavaPlugin {
                 }
             }
         }.runTaskLaterAsynchronously(this, 3 * 20);
+
+
+        Jedis j;
+        try {
+            j = JedisAccess.getUserpool().getResource();
+            for (String key : j.keys("nick/*")) {
+                nicks.put(UUID.fromString(key.substring(6)), j.get(key));
+            }
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        } finally {
+            j.close();
+        }
 
         Bukkit.getScheduler().runTaskAsynchronously(this, () -> {
             JedisAccess.getUserpool().getResource().subscribe(new JedisPubSub() {
