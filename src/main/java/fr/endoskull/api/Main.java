@@ -94,24 +94,26 @@ public class Main extends JavaPlugin {
             }
         }.runTaskLaterAsynchronously(this, 3 * 20);
 
-        JedisAccess.getUserpool().getResource().subscribe(new JedisPubSub() {
-            @Override
-            public void onMessage(String channel, String message) {
-                if (channel.equalsIgnoreCase("EndoSkullNick")) {
-                    if (message.startsWith("nick:")) {
-                        String[] split = message.split(":");
-                        UUID uuid = UUID.fromString(split[1]);
-                        String name = split[2];
-                        Player player = Bukkit.getPlayer(uuid);
-                        if (player != null) {
-                            player.setDisplayName(name);
-                            player.setCustomName(name);
+        Bukkit.getScheduler().runTaskAsynchronously(this, () -> {
+            JedisAccess.getUserpool().getResource().subscribe(new JedisPubSub() {
+                @Override
+                public void onMessage(String channel, String message) {
+                    if (channel.equalsIgnoreCase("EndoSkullNick")) {
+                        if (message.startsWith("nick:")) {
+                            String[] split = message.split(":");
+                            UUID uuid = UUID.fromString(split[1]);
+                            String name = split[2];
+                            Player player = Bukkit.getPlayer(uuid);
+                            if (player != null) {
+                                player.setDisplayName(name);
+                                player.setCustomName(name);
+                            }
+                            nicks.put(player.getUniqueId(), name);
                         }
-                        nicks.put(player.getUniqueId(), name);
                     }
                 }
-            }
-        }, "EndoSkullNick");
+            }, "EndoSkullNick");
+        });
 
         super.onEnable();
     }
