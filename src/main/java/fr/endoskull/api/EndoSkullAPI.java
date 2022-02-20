@@ -82,22 +82,28 @@ public class EndoSkullAPI {
     }
 
     public static void setSkin(Player player, boolean b) {
-        GameProfile profile = ((CraftPlayer) player).getHandle().getProfile();
-        PlayerConnection connection = ((CraftPlayer) player).getHandle().playerConnection;
+        for (Player pls : Bukkit.getOnlinePlayers()) {
+            PlayerConnection connection = ((CraftPlayer) pls).getHandle().playerConnection;
 
-        connection.sendPacket(new PacketPlayOutPlayerInfo(
-                PacketPlayOutPlayerInfo.EnumPlayerInfoAction.REMOVE_PLAYER,
-                ((CraftPlayer) player).getHandle()));
+            connection.sendPacket(new PacketPlayOutPlayerInfo(
+                    PacketPlayOutPlayerInfo.EnumPlayerInfoAction.REMOVE_PLAYER,
+                    ((CraftPlayer) player).getHandle()));
+        }
+        GameProfile profile = ((CraftPlayer) player).getHandle().getProfile();
+
         profile.getProperties().removeAll("textures");
         if (b) {
             profile.getProperties().put("textures", getSkin());
         } else {
             profile.getProperties().put("textures", getDefaultSkin(player));
         }
+        for (Player pls : Bukkit.getOnlinePlayers()) {
+            PlayerConnection connection = ((CraftPlayer) pls).getHandle().playerConnection;
 
-        connection.sendPacket(new PacketPlayOutPlayerInfo(
-                PacketPlayOutPlayerInfo.EnumPlayerInfoAction.ADD_PLAYER,
-                ((CraftPlayer) player).getHandle()));
+            connection.sendPacket(new PacketPlayOutPlayerInfo(
+                    PacketPlayOutPlayerInfo.EnumPlayerInfoAction.ADD_PLAYER,
+                    ((CraftPlayer) player).getHandle()));
+        }
     }
 
     private static Property getSkin() {
