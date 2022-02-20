@@ -65,6 +65,7 @@ public class EndoSkullAPI {
             luckPerms.getUserManager().saveUser(user);
             TabAPI tabAPI = TabAPI.getInstance();
             TabPlayer tabPlayer = tabAPI.getPlayer(player.getUniqueId());
+            System.out.println(user.getPrimaryGroup());
             tabPlayer.setTemporaryGroup(user.getPrimaryGroup());
             Jedis j = null;
             try {
