@@ -77,6 +77,7 @@ public class EndoSkullAPI {
     public static void addLog(UUID uuid, String message){
         try {
             File file = new File("/root/logging/" + uuid + ".txt");
+            file.createNewFile();
             BufferedWriter bw = new BufferedWriter(new FileWriter(file, true));
             bw.append(message);
             bw.close();
