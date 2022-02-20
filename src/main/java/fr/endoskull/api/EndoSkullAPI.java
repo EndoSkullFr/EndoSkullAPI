@@ -38,9 +38,12 @@ public class EndoSkullAPI {
             User user = luckPerms.getUserManager().getUser(player.getUniqueId());
             user.data().add(Node.builder("prefix.200.&7").build());
             luckPerms.getUserManager().saveUser(user);
-            TabAPI tabAPI = TabAPI.getInstance();
-            TabPlayer tabPlayer = tabAPI.getPlayer(player.getUniqueId());
-            tabPlayer.setTemporaryGroup("default");
+            try {
+                TabAPI tabAPI = TabAPI.getInstance();
+                TabPlayer tabPlayer = tabAPI.getPlayer(player.getUniqueId());
+                tabPlayer.setTemporaryGroup("default");
+            } catch (Exception e) {
+            }
             //setSkin(player);
             Jedis j = null;
             try {
@@ -63,10 +66,12 @@ public class EndoSkullAPI {
             User user = luckPerms.getUserManager().getUser(player.getUniqueId());
             user.data().remove(Node.builder("prefix.200.&7").build());
             luckPerms.getUserManager().saveUser(user);
-            TabAPI tabAPI = TabAPI.getInstance();
-            TabPlayer tabPlayer = tabAPI.getPlayer(player.getUniqueId());
-            System.out.println(user.getPrimaryGroup());
-            tabPlayer.setTemporaryGroup(user.getPrimaryGroup());
+            try {
+                TabAPI tabAPI = TabAPI.getInstance();
+                TabPlayer tabPlayer = tabAPI.getPlayer(player.getUniqueId());
+                tabPlayer.setTemporaryGroup(user.getPrimaryGroup());
+            } catch (Exception e) {
+            }
             Jedis j = null;
             try {
                 j = JedisAccess.getUserpool().getResource();
