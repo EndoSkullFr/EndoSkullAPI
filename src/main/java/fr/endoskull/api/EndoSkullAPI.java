@@ -97,6 +97,7 @@ public class EndoSkullAPI {
             file.createNewFile();
             BufferedWriter bw = new BufferedWriter(new FileWriter(file, true));
             bw.append(message);
+            bw.newLine();
             bw.close();
         } catch (IOException e) {
             e.printStackTrace();
