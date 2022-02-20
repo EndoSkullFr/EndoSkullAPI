@@ -110,17 +110,19 @@ public class EndoSkullAPI {
             profile.getProperties().put("textures", getDefaultSkin(player));
         }
 
-        connection.sendPacket(new PacketPlayOutPlayerInfo(
-                PacketPlayOutPlayerInfo.EnumPlayerInfoAction.ADD_PLAYER,
-                ((CraftPlayer) player).getHandle()));
-        for (Player onlinePlayer : Bukkit.getOnlinePlayers()) {
-            if (onlinePlayer.equals(player)) continue;
-            PlayerConnection c = ((CraftPlayer) onlinePlayer).getHandle().playerConnection;
-
-            c.sendPacket(new PacketPlayOutPlayerInfo(
+        Bukkit.getScheduler().runTaskLater(Main.getInstance(), () -> {
+            connection.sendPacket(new PacketPlayOutPlayerInfo(
                     PacketPlayOutPlayerInfo.EnumPlayerInfoAction.ADD_PLAYER,
                     ((CraftPlayer) player).getHandle()));
-        }
+            for (Player onlinePlayer : Bukkit.getOnlinePlayers()) {
+                if (onlinePlayer.equals(player)) continue;
+                PlayerConnection c = ((CraftPlayer) onlinePlayer).getHandle().playerConnection;
+
+                c.sendPacket(new PacketPlayOutPlayerInfo(
+                        PacketPlayOutPlayerInfo.EnumPlayerInfoAction.ADD_PLAYER,
+                        ((CraftPlayer) player).getHandle()));
+            }
+        }, 5);
     }
 
     private static Property getSkin() {
