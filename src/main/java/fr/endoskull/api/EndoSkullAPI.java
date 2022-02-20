@@ -14,6 +14,7 @@ import redis.clients.jedis.Jedis;
 import stackunderflow.skinapi.api.SkinAPI;
 
 import java.io.BufferedWriter;
+import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.UUID;
@@ -75,7 +76,9 @@ public class EndoSkullAPI {
 
     public static void addLog(UUID uuid, String message){
         try {
-            BufferedWriter bw = new BufferedWriter(new FileWriter("/root/logging/" + uuid + ".txt", true));
+            File file = new File("/root/logging/" + uuid + ".txt");
+            if (!file.exists()) file.createNewFile();
+            BufferedWriter bw = new BufferedWriter(new FileWriter(file, true));
             bw.append(message);
             bw.close();
         } catch (IOException e) {
