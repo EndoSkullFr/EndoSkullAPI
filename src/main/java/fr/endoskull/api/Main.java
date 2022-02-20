@@ -123,7 +123,7 @@ public class Main extends JavaPlugin {
                             UUID uuid = UUID.fromString(split[1]);
                             String name = split[2];
                             Player player = Bukkit.getPlayer(uuid);
-                            EndoSkullAPI.nick(player, name);
+                            //EndoSkullAPI.nick(player, name);
                             Main.getInstance().getNicks().put(uuid, name);
                         }
                         if (message.startsWith("unnick:")) {
@@ -131,7 +131,7 @@ public class Main extends JavaPlugin {
                             UUID uuid = UUID.fromString(split[1]);
                             nicks.remove(uuid);
                             Player player = Bukkit.getPlayer(uuid);
-                            EndoSkullAPI.unnick(player, true);
+                            //EndoSkullAPI.unnick(player, true);
                         }
                     }
                 }

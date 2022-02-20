@@ -55,6 +55,7 @@ public class EndoSkullCommand implements CommandExecutor, TabCompleter {
                 return false;
             }
             JedisAccess.getUserpool().getResource().publish("EndoSkullNick", "nick:" + player.getUniqueId() + ":" + name);
+            player.sendMessage("blabla t'es nick en " + name + " change de serveur et ça sera appliqué");
 
         }
         if (args.length > 0 && args[0].equalsIgnoreCase("unnick")) {
@@ -65,6 +66,7 @@ public class EndoSkullCommand implements CommandExecutor, TabCompleter {
             Player player = (Player) sender;
             if (!main.getNicks().containsKey(player.getUniqueId())) return false;
             JedisAccess.getUserpool().getResource().publish("EndoSkullNick", "unnick:" + player.getUniqueId());
+            player.sendMessage("blabla t'es unnick change de serveur et ça sera appliqué");
         }
         if (args.length > 0 && args[0].equalsIgnoreCase("deploy")) {
             if (args.length < 4) {
