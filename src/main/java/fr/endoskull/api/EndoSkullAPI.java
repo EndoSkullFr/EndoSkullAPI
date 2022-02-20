@@ -55,7 +55,7 @@ public class EndoSkullAPI {
         }
     }
 
-    public static void unnick(Player player) {
+    public static void unnick(Player player, boolean changeSkin) {
         if (player != null) {
             player.setDisplayName(player.getName());
             player.setCustomName(player.getName());
@@ -75,7 +75,9 @@ public class EndoSkullAPI {
             } finally {
                 j.close();
             }
-            Bukkit.getScheduler().runTaskAsynchronously(Main.getInstance(), () -> setSkin(player, false));
+            if (changeSkin) {
+                Bukkit.getScheduler().runTaskAsynchronously(Main.getInstance(), () -> setSkin(player, false));
+            }
         }
     }
 
@@ -137,9 +139,8 @@ public class EndoSkullAPI {
             if(json1.isEmpty()) return null;
             JSONObject jsonObject1 = (JSONObject) JSONValue.parseWithException(json1);
 
-            JSONArray skins = (JSONArray) jsonObject1.get("skins");
+            JSONArray skins = (JSONArray) jsonObject1.get("properties");
             Iterator<JSONObject> iterator = skins.iterator();
-            List<String> skinList = new ArrayList<>();
             while (iterator.hasNext()) {
                 JSONObject texture = iterator.next();
                 if (texture.get("name").toString().equalsIgnoreCase("textures")) {

@@ -54,7 +54,7 @@ public class PlayerJoin implements Listener {
             String name = main.getNicks().get(player.getUniqueId());
             EndoSkullAPI.nick(player, name);
         } else {
-            EndoSkullAPI.unnick(player);
+            EndoSkullAPI.unnick(player, false);
         }
     }
 

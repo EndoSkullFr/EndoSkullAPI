@@ -63,6 +63,7 @@ public class EndoSkullCommand implements CommandExecutor, TabCompleter {
                 return false;
             }
             Player player = (Player) sender;
+            if (!main.getNicks().containsKey(player.getUniqueId())) return false;
             JedisAccess.getUserpool().getResource().publish("EndoSkullNick", "unnick:" + player.getUniqueId());
         }
         if (args.length > 0 && args[0].equalsIgnoreCase("deploy")) {

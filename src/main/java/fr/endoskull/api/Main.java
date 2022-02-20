@@ -131,7 +131,7 @@ public class Main extends JavaPlugin {
                             UUID uuid = UUID.fromString(split[1]);
                             nicks.remove(uuid);
                             Player player = Bukkit.getPlayer(uuid);
-                            EndoSkullAPI.unnick(player);
+                            EndoSkullAPI.unnick(player, true);
                         }
                     }
                 }
