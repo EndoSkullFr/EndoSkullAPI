@@ -1,5 +1,8 @@
 package fr.endoskull.api;
 
+import com.bringholm.nametagchanger.NameTagChanger;
+import com.bringholm.nametagchanger.skin.Skin;
+import com.bringholm.nametagchanger.skin.SkinCallBack;
 import com.mojang.authlib.GameProfile;
 import com.mojang.authlib.properties.Property;
 import com.mojang.util.UUIDTypeAdapter;
@@ -44,7 +47,7 @@ public class EndoSkullAPI {
                 j.close();
             }
             GameProfile profile = ((CraftPlayer) player).getHandle().getProfile();
-            setSkin(profile, UUID.fromString("db1a736b-c898-40fe-abc6-ac67760d485b"));
+            setSkin(player);
         }
     }
 
@@ -71,23 +74,16 @@ public class EndoSkullAPI {
         }
     }
 
-    public static boolean setSkin(GameProfile profile, UUID uuid) {
-        try {
-            HttpsURLConnection connection = (HttpsURLConnection) new URL(String.format("https://sessionserver.mojang.com/session/minecraft/profile/%s?unsigned=false", UUIDTypeAdapter.fromUUID(uuid))).openConnection();
-            if (connection.getResponseCode() == HttpsURLConnection.HTTP_OK) {
-                String reply = new BufferedReader(new InputStreamReader(connection.getInputStream())).readLine();
-                String skin = reply.split("\"value\":\"")[1].split("\"")[0];
-                String signature = reply.split("\"signature\":\"")[1].split("\"")[0];
-                profile.getProperties().put("textures", new Property("textures", skin, signature));
-                return true;
+    public static void setSkin(Player player) {
+        NameTagChanger.INSTANCE.getSkin("mustafayy06", (skin, successful, exception) -> {
+            if (successful) {
+                // Do our stuff with the skin!
+                System.out.println("Wohoo! We got the skin! " + skin);
+                NameTagChanger.INSTANCE.setPlayerSkin(player, skin);
             } else {
-                System.out.println("Connection could not be opened (Response code " + connection.getResponseCode() + ", " + connection.getResponseMessage() + ")");
-                return false;
+                System.out.println("Couldn't get skin :(" + exception);
             }
-        } catch (IOException e) {
-            e.printStackTrace();
-            return false;
-        }
+        });
     }
 
     public static void addLog(UUID uuid, String message){

@@ -116,5 +116,10 @@
       <option name="name" value="Sparky" />
       <option name="url" value="https://nexus.sparky.ac/repository/Sparky/" />
     </remote-repository>
+    <remote-repository>
+      <option name="id" value="alvinb-repo" />
+      <option name="name" value="alvinb-repo" />
+      <option name="url" value="http://repo.bringholm.com/" />
+    </remote-repository>
   </component>
 </project>
