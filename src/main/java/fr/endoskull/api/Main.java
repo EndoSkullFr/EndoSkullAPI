@@ -13,6 +13,7 @@ import fr.endoskull.api.spigot.papi.EndoSkullPlaceholder;
 import fr.endoskull.api.spigot.tasks.BossBarRunnable;
 import fr.endoskull.api.spigot.utils.CustomGui;
 import org.apache.commons.dbcp2.BasicDataSource;
+import org.apache.commons.io.IOUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.configuration.InvalidConfigurationException;
@@ -21,13 +22,17 @@ import org.bukkit.entity.Player;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+import org.json.simple.JSONValue;
+import org.json.simple.parser.ParseException;
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPubSub;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.UUID;
+import java.net.URL;
+import java.util.*;
 
 public class Main extends JavaPlugin {
     private static Main instance;
