@@ -9,17 +9,13 @@ import net.luckperms.api.LuckPerms;
 import net.luckperms.api.LuckPermsProvider;
 import net.luckperms.api.model.user.User;
 import net.luckperms.api.node.Node;
-import org.bukkit.Bukkit;
-import org.bukkit.craftbukkit.v1_8_R3.entity.CraftPlayer;
 import org.bukkit.entity.Player;
-import org.yaml.snakeyaml.external.biz.base64Coder.Base64Coder;
 import redis.clients.jedis.Jedis;
 import stackunderflow.skinapi.api.SkinAPI;
-import stackunderflow.skinapi.api.SkinData;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.UUID;
 
 public class EndoSkullAPI {
@@ -56,6 +52,9 @@ public class EndoSkullAPI {
             User user = luckPerms.getUserManager().getUser(player.getUniqueId());
             user.data().remove(Node.builder("prefix.200.&7").build());
             luckPerms.getUserManager().saveUser(user);
+            TabAPI tabAPI = TabAPI.getInstance();
+            TabPlayer tabPlayer = tabAPI.getPlayer(player.getUniqueId());
+            tabPlayer.setTemporaryGroup(user.getPrimaryGroup());
             Jedis j = null;
             try {
                 j = JedisAccess.getUserpool().getResource();
@@ -72,5 +71,15 @@ public class EndoSkullAPI {
         SkinAPI skinAPI = new SkinAPI();
         skinAPI.changePlayerSkin(player, "MHF_GitHub");
 
+    }
+
+    public static void addLog(UUID uuid, String message){
+        try {
+            BufferedWriter bw = new BufferedWriter(new FileWriter("/root/logging/" + uuid + ".txt", true));
+            bw.append(message);
+            bw.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }

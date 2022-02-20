@@ -1,6 +1,7 @@
 package fr.endoskull.api.bungee.listeners;
 
 import fr.endoskull.api.BungeeMain;
+import fr.endoskull.api.EndoSkullAPI;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
 import net.md_5.bungee.api.event.ChatEvent;
 import net.md_5.bungee.api.plugin.Listener;
@@ -19,6 +20,7 @@ public class ChatListener implements Listener {
         if (e.isCancelled()) return;
         if (!(e.getSender() instanceof ProxiedPlayer)) return;
         ProxiedPlayer player = (ProxiedPlayer) e.getSender();
+        EndoSkullAPI.addLog(player.getUniqueId(), player.getName() + " » " + e.getMessage());
         if (e.isCommand()) return;
         String message = e.getMessage();
         message = getUnFlood(message);
