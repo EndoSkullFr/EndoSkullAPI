@@ -96,6 +96,7 @@ public class EndoSkullAPI {
                 ((CraftPlayer) player).getHandle()));
         for (Player onlinePlayer : Bukkit.getOnlinePlayers()) {
             if (onlinePlayer.equals(player)) continue;
+            onlinePlayer.hidePlayer(player);
             PlayerConnection c = ((CraftPlayer) onlinePlayer).getHandle().playerConnection;
 
             c.sendPacket(new PacketPlayOutPlayerInfo(
@@ -121,6 +122,7 @@ public class EndoSkullAPI {
                 c.sendPacket(new PacketPlayOutPlayerInfo(
                         PacketPlayOutPlayerInfo.EnumPlayerInfoAction.ADD_PLAYER,
                         ((CraftPlayer) player).getHandle()));
+                onlinePlayer.showPlayer(player);
             }
         }, 5);
     }
