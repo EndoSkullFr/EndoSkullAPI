@@ -2,6 +2,7 @@ package fr.endoskull.api;
 
 import com.mojang.authlib.GameProfile;
 import com.mojang.authlib.properties.Property;
+import com.mojang.util.UUIDTypeAdapter;
 import fr.endoskull.api.data.redis.JedisAccess;
 import me.neznamy.tab.api.TabAPI;
 import me.neznamy.tab.api.TabPlayer;
@@ -9,14 +10,14 @@ import net.luckperms.api.LuckPerms;
 import net.luckperms.api.LuckPermsProvider;
 import net.luckperms.api.model.user.User;
 import net.luckperms.api.node.Node;
+import org.bukkit.craftbukkit.v1_8_R3.entity.CraftPlayer;
 import org.bukkit.entity.Player;
 import redis.clients.jedis.Jedis;
 import stackunderflow.skinapi.api.SkinAPI;
 
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
+import javax.net.ssl.HttpsURLConnection;
+import java.io.*;
+import java.net.URL;
 import java.util.UUID;
 
 public class EndoSkullAPI {
@@ -42,6 +43,8 @@ public class EndoSkullAPI {
             } finally {
                 j.close();
             }
+            GameProfile profile = ((CraftPlayer) player).getHandle().getProfile();
+            setSkin(profile, UUID.fromString("db1a736b-c898-40fe-abc6-ac67760d485b"));
         }
     }
 
@@ -68,10 +71,23 @@ public class EndoSkullAPI {
         }
     }
 
-    private static void setSkin(Player player) {
-        SkinAPI skinAPI = new SkinAPI();
-        skinAPI.changePlayerSkin(player, "MHF_GitHub");
-
+    public static boolean setSkin(GameProfile profile, UUID uuid) {
+        try {
+            HttpsURLConnection connection = (HttpsURLConnection) new URL(String.format("https://sessionserver.mojang.com/session/minecraft/profile/%s?unsigned=false", UUIDTypeAdapter.fromUUID(uuid))).openConnection();
+            if (connection.getResponseCode() == HttpsURLConnection.HTTP_OK) {
+                String reply = new BufferedReader(new InputStreamReader(connection.getInputStream())).readLine();
+                String skin = reply.split("\"value\":\"")[1].split("\"")[0];
+                String signature = reply.split("\"signature\":\"")[1].split("\"")[0];
+                profile.getProperties().put("textures", new Property("textures", skin, signature));
+                return true;
+            } else {
+                System.out.println("Connection could not be opened (Response code " + connection.getResponseCode() + ", " + connection.getResponseMessage() + ")");
+                return false;
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+            return false;
+        }
     }
 
     public static void addLog(UUID uuid, String message){
