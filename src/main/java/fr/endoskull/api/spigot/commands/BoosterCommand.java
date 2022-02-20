@@ -2,6 +2,7 @@ package fr.endoskull.api.spigot.commands;
 
 import fr.endoskull.api.Main;
 import fr.endoskull.api.commons.*;
+import fr.endoskull.api.data.redis.JedisManager;
 import fr.endoskull.api.spigot.inventories.BoosterInventory;
 import fr.endoskull.api.spigot.utils.PlayerInfos;
 import fr.endoskull.api.spigot.utils.TimeUnit;
@@ -61,6 +62,7 @@ public class BoosterCommand implements CommandExecutor {
                 sender.sendMessage("§4Ce joueur n'existe pas !");
                 return;
             }
+            if (!JedisManager.isLoad(targetUUID)) AccountProvider.loadAccount(targetUUID);
             Account account = new AccountProvider(targetUUID).getAccount();
             if (args[0].equals("get")) {
                 BoosterManager booster = account.getBoost();

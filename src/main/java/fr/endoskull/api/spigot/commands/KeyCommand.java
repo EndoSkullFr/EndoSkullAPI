@@ -41,6 +41,7 @@ public class KeyCommand implements CommandExecutor {
                 sender.sendMessage("§4Ce joueur n'existe pas !");
                 return;
             }
+            if (!JedisManager.isLoad(targetUUID)) AccountProvider.loadAccount(targetUUID);
             Account account = new AccountProvider(targetUUID).getAccount();
 
             String key = args[2].toLowerCase();

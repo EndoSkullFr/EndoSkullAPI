@@ -3,6 +3,7 @@ package fr.endoskull.api.spigot.commands;
 import fr.endoskull.api.Main;
 import fr.endoskull.api.commons.Account;
 import fr.endoskull.api.commons.AccountProvider;
+import fr.endoskull.api.data.redis.JedisManager;
 import fr.endoskull.api.spigot.utils.PlayerInfos;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
@@ -43,6 +44,7 @@ public class MoneyCommand implements CommandExecutor {
                 sender.sendMessage("§4Ce joueur n'existe pas !");
                 return;
             }
+            if (!JedisManager.isLoad(targetUUID)) AccountProvider.loadAccount(targetUUID);
             Account account = new AccountProvider(targetUUID).getAccount();
 
             double number = 0;

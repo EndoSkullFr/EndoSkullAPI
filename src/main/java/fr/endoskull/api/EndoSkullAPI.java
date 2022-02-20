@@ -1,8 +1,5 @@
 package fr.endoskull.api;
 
-import com.bringholm.nametagchanger.NameTagChanger;
-import com.bringholm.nametagchanger.skin.Skin;
-import com.bringholm.nametagchanger.skin.SkinCallBack;
 import com.mojang.authlib.GameProfile;
 import com.mojang.authlib.properties.Property;
 import com.mojang.util.UUIDTypeAdapter;
@@ -75,15 +72,7 @@ public class EndoSkullAPI {
     }
 
     public static void setSkin(Player player) {
-        NameTagChanger.INSTANCE.getSkin("mustafayy06", (skin, successful, exception) -> {
-            if (successful) {
-                // Do our stuff with the skin!
-                System.out.println("Wohoo! We got the skin! " + skin);
-                NameTagChanger.INSTANCE.setPlayerSkin(player, skin);
-            } else {
-                System.out.println("Couldn't get skin :(" + exception);
-            }
-        });
+
     }
 
     public static void addLog(UUID uuid, String message){
