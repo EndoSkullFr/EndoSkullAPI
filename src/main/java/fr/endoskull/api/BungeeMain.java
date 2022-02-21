@@ -1,5 +1,6 @@
 package fr.endoskull.api;
 
+import fr.endoskull.api.bungee.commands$.CommandForwardListener;
 import fr.endoskull.api.bungee.commands.ForceCommand;
 import fr.endoskull.api.bungee.commands.OmgCommand;
 import fr.endoskull.api.bungee.listeners.ChatListener;
@@ -27,6 +28,7 @@ public class BungeeMain extends Plugin {
     private BasicDataSource connectionPool;
     private MySQL mysql;
     public String CHANNEL = "EndoSkullChannel";
+    public static final String MESSAGE_CHANNEL = "commandforward:cmd";
 
     @Override
     public void onEnable() {
@@ -35,6 +37,8 @@ public class BungeeMain extends Plugin {
         PluginManager pm = ProxyServer.getInstance().getPluginManager();
         getProxy().registerChannel(CHANNEL);
         getProxy().registerChannel("PartiesChannel");
+        getProxy().registerChannel(MESSAGE_CHANNEL);
+        pm.registerListener(this, new CommandForwardListener());
         pm.registerListener(this, new ProxyPlayerListener());
         pm.registerListener(this, new ProxyPing());
         pm.registerListener(this, new ChatListener());

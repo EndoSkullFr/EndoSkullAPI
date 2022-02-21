@@ -15,6 +15,7 @@ import fr.endoskull.api.spigot.utils.CustomGui;
 import org.apache.commons.dbcp2.BasicDataSource;
 import org.apache.commons.io.IOUtils;
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -41,6 +42,8 @@ public class Main extends JavaPlugin {
     private HashMap<Player, Location> waitingSetting = new HashMap<>();
     private HashMap<UUID, TagColor> waitingTag = new HashMap<>();
     public String CHANNEL = "EndoSkullChannel";
+    public static final String MESSAGE_CHANNEL = "commandforward:cmd";
+    public final String PLUGIN_NAME_PREFIX = ChatColor.DARK_AQUA + "[" + ChatColor.GOLD + this.getName() + ChatColor.DARK_AQUA + "] ";
     private ServerType serverType;
 
     private BasicDataSource connectionPool;
@@ -62,6 +65,7 @@ public class Main extends JavaPlugin {
         getServer().getMessenger().registerOutgoingPluginChannel(this, CHANNEL);
         getServer().getMessenger().registerIncomingPluginChannel(this, "PartiesChannel", new PartiesChannelListener());
         getServer().getMessenger().registerOutgoingPluginChannel(this, "PartiesChannel");
+        getServer().getMessenger().registerOutgoingPluginChannel(this, MESSAGE_CHANNEL);
 
         initConnection();
         jedisAccess = new JedisAccess("127.0.0.1", 6379, "%]h48Ty7UBC?D+439zg%XeV6Pm#k~&9y");
@@ -180,6 +184,7 @@ public class Main extends JavaPlugin {
         getCommand("deploy").setExecutor(new DeployCommand(this));
         getCommand("sound").setExecutor(new SoundCommand());
         getCommand("endoskull").setExecutor(new EndoSkullCommand(this));
+        getCommand("forward").setExecutor(new ForwardCommand(this));
 
         getCommand("endoskullapi").setExecutor(new EndoSkullApiCommand(this));
     }
