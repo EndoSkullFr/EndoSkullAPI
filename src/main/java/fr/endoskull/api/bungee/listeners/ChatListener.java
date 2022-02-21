@@ -8,6 +8,10 @@ import net.md_5.bungee.api.plugin.Listener;
 import net.md_5.bungee.event.EventHandler;
 import net.md_5.bungee.event.EventPriority;
 
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.*;
 
 public class ChatListener implements Listener {
@@ -20,7 +24,7 @@ public class ChatListener implements Listener {
         if (e.isCancelled()) return;
         if (!(e.getSender() instanceof ProxiedPlayer)) return;
         ProxiedPlayer player = (ProxiedPlayer) e.getSender();
-        EndoSkullAPI.addLog(player.getUniqueId(), player.getName() + " » " + e.getMessage());
+        addLog(player.getUniqueId(), player.getName() + " » " + e.getMessage());
         if (e.isCommand()) return;
         String message = e.getMessage();
         message = getUnFlood(message);
@@ -107,5 +111,19 @@ public class ChatListener implements Listener {
 
     private int difference(int a, int b) {
         return Math.abs(a - b);
+    }
+
+    public static void addLog(UUID uuid, String message){
+        try {
+            File file = new File("/root/logging/" + uuid + ".txt");
+            if (!file.getParentFile().exists()) file.getParentFile().mkdir();
+            file.createNewFile();
+            BufferedWriter bw = new BufferedWriter(new FileWriter(file, true));
+            bw.append(message);
+            bw.newLine();
+            bw.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }

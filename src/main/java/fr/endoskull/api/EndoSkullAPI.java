@@ -175,18 +175,4 @@ public class EndoSkullAPI {
         }
         return null;
     }
-
-    public static void addLog(UUID uuid, String message){
-        try {
-            File file = new File("/root/logging/" + uuid + ".txt");
-            if (!file.getParentFile().exists()) file.getParentFile().mkdir();
-            file.createNewFile();
-            BufferedWriter bw = new BufferedWriter(new FileWriter(file, true));
-            bw.append(message);
-            bw.newLine();
-            bw.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
 }
