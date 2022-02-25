@@ -17,6 +17,7 @@ import fr.endoskull.api.spigot.listeners.*;
 import fr.endoskull.api.spigot.papi.CloudNetExpansion;
 import fr.endoskull.api.spigot.papi.EndoSkullPlaceholder;
 import fr.endoskull.api.spigot.tasks.BossBarRunnable;
+import fr.endoskull.api.spigot.utils.AntiTabComplete;
 import fr.endoskull.api.spigot.utils.CustomGui;
 import org.apache.commons.dbcp2.BasicDataSource;
 import org.bukkit.Bukkit;
@@ -141,8 +142,7 @@ public class Main extends JavaPlugin {
         });
 
         if (Bukkit.getPluginManager().getPlugin("ProtocolLib") != null) {
-            ProtocolManager manager = ProtocolLibrary.getProtocolManager();
-            manager.addPacketListener(new TabListener(manager, this));
+            new AntiTabComplete();
         }
 
         super.onEnable();
