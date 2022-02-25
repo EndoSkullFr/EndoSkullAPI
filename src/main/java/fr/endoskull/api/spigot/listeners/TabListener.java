@@ -18,11 +18,6 @@ public class TabListener extends PacketAdapter {
         this.manager = manager;
     }
 
-    @Override
-    public void onPacketSending(PacketEvent packetEvent) {
-
-    }
-
     @SuppressWarnings("rawtypes")
     public void onPacketReceiving(PacketEvent event) {
         if ((event.getPacketType() == PacketType.Play.Client.TAB_COMPLETE)
@@ -53,20 +48,5 @@ public class TabListener extends PacketAdapter {
                 e.printStackTrace();
             }
         }
-    }
-
-    @Override
-    public ListeningWhitelist getSendingWhitelist() {
-        return null;
-    }
-
-    @Override
-    public ListeningWhitelist getReceivingWhitelist() {
-        return null;
-    }
-
-    @Override
-    public Plugin getPlugin() {
-        return null;
     }
 }
