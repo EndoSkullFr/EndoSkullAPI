@@ -147,9 +147,9 @@ public class Main extends JavaPlugin {
                 @SuppressWarnings("rawtypes")
                 public void onPacketReceiving(PacketEvent event) {
                     if ((event.getPacketType() == PacketType.Play.Client.TAB_COMPLETE)
-                            && (!event.getPlayer().hasPermission("hideandcustomplugins.bypass"))
+                            && (!event.getPlayer().hasPermission("endoskull.tab.bypass"))
                             && (((String)event.getPacket().getStrings().read(0)).startsWith("/"))
-                            && (((String)event.getPacket().getStrings().read(0)).split(" ").length == 1)) {
+                            && (((String)event.getPacket().getStrings().read(0)).split(" ").length == 0)) {
 
                         event.setCancelled(true);
 
