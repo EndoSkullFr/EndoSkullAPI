@@ -2,20 +2,19 @@ package fr.endoskull.api.spigot.listeners;
 
 import com.comphenix.protocol.PacketType;
 import com.comphenix.protocol.ProtocolManager;
-import com.comphenix.protocol.events.ListeningWhitelist;
-import com.comphenix.protocol.events.PacketContainer;
-import com.comphenix.protocol.events.PacketEvent;
-import com.comphenix.protocol.events.PacketListener;
+import com.comphenix.protocol.events.*;
+import fr.endoskull.api.Main;
 import org.bukkit.plugin.Plugin;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class TabListener implements PacketListener {
+public class TabListener extends PacketAdapter {
     private ProtocolManager manager;
 
-    public TabListener(ProtocolManager manager) {
+    public TabListener(ProtocolManager manager, Main plugin) {
+        super(plugin, new PacketType[] { PacketType.Play.Client.TAB_COMPLETE });
         this.manager = manager;
     }
 
@@ -24,7 +23,7 @@ public class TabListener implements PacketListener {
 
     }
 
-    @Override
+    @SuppressWarnings("rawtypes")
     public void onPacketReceiving(PacketEvent event) {
         if ((event.getPacketType() == PacketType.Play.Client.TAB_COMPLETE)
                 && (!event.getPlayer().hasPermission("endoskull.tab.bypass"))

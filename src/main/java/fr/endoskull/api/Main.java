@@ -142,7 +142,7 @@ public class Main extends JavaPlugin {
 
         if (Bukkit.getPluginManager().getPlugin("ProtocolLib") != null) {
             ProtocolManager manager = ProtocolLibrary.getProtocolManager();
-            manager.addPacketListener(new TabListener(manager));
+            manager.addPacketListener(new TabListener(manager, this));
         }
 
         super.onEnable();
