@@ -24,7 +24,7 @@ public class TabListener implements PacketListener {
 
     }
 
-    @SuppressWarnings("rawtypes")
+    @Override
     public void onPacketReceiving(PacketEvent event) {
         if ((event.getPacketType() == PacketType.Play.Client.TAB_COMPLETE)
                 && (!event.getPlayer().hasPermission("endoskull.tab.bypass"))
