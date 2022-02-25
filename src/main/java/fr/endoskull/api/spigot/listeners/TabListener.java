@@ -27,9 +27,9 @@ public class TabListener implements PacketListener {
     @SuppressWarnings("rawtypes")
     public void onPacketReceiving(PacketEvent event) {
         if ((event.getPacketType() == PacketType.Play.Client.TAB_COMPLETE)
-                && (!event.getPlayer().hasPermission("hideandcustomplugins.bypass"))
-                && (((String) event.getPacket().getStrings().read(0)).startsWith("/"))
-                && (((String) event.getPacket().getStrings().read(0)).split(" ").length == 1)) {
+                && (!event.getPlayer().hasPermission("endoskull.tab.bypass"))
+                && (((String)event.getPacket().getStrings().read(0)).startsWith("/"))
+                && !((event.getPacket().getStrings().read(0)).contains(" "))) {
 
             event.setCancelled(true);
 
@@ -39,11 +39,11 @@ public class TabListener implements PacketListener {
             String[] tabList = new String[list.size() + extra.size()];
 
             for (int index = 0; index < list.size(); index++) {
-                tabList[index] = ((String) list.get(index));
+                tabList[index] = ((String)list.get(index));
             }
 
             for (int index = 0; index < extra.size(); index++) {
-                tabList[(index + list.size())] = ('/' + (String) extra.get(index));
+                tabList[(index + list.size())] = ('/' + (String)extra.get(index));
             }
             PacketContainer tabComplete = manager.createPacket(PacketType.Play.Server.TAB_COMPLETE);
             tabComplete.getStringArrays().write(0, tabList);
