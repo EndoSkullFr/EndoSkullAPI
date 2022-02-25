@@ -1,5 +1,7 @@
 package fr.endoskull.api;
 
+import de.simonsator.partyandfriends.friends.commands.Friends;
+import de.simonsator.partyandfriends.friends.subcommands.FriendList;
 import fr.endoskull.api.bungee.commands$.CommandForwardListener;
 import fr.endoskull.api.bungee.commands.ForceCommand;
 import fr.endoskull.api.bungee.commands.OmgCommand;
@@ -11,6 +13,7 @@ import fr.endoskull.api.bungee.tasks.AnnouncmentTask;
 import fr.endoskull.api.data.redis.JedisAccess;
 import fr.endoskull.api.data.redis.JedisManager;
 import fr.endoskull.api.data.sql.MySQL;
+import fr.endoskull.api.bungee.utils.FriendsTextReplacer;
 import net.md_5.bungee.BungeeCord;
 import net.md_5.bungee.api.ProxyServer;
 import net.md_5.bungee.api.plugin.Plugin;
@@ -60,6 +63,7 @@ public class BungeeMain extends Plugin {
         System.out.println("EndoSkullAPI Bungee ON");
 
         getProxy().getScheduler().schedule(this, new AnnouncmentTask(), 3, 15, TimeUnit.MINUTES);
+        ((FriendList) Friends.getInstance().getSubCommand(FriendList.class)).registerTextReplacer(new FriendsTextReplacer());
         super.onEnable();
     }
 

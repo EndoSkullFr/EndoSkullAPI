@@ -192,6 +192,7 @@ public class Main extends JavaPlugin {
         pm.registerEvents(new CustomGuiListener(), this);
         pm.registerEvents(new MotdListener(), this);
         pm.registerEvents(new VanishListener(), this);
+        pm.registerEvents(new TabListener(), this);
     }
 
     private void createServerFile() {
