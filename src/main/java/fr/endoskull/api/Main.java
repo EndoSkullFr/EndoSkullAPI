@@ -135,7 +135,7 @@ public class Main extends JavaPlugin {
             }, "EndoSkullNick");
         });
 
-        if (Bukkit.getPluginManager().getPlugin("ProtolLib") != null) {
+        if (Bukkit.getPluginManager().getPlugin("ProtocolLib") != null) {
             ProtocolManager manager = ProtocolLibrary.getProtocolManager();
             manager.addPacketListener(new TabListener(manager));
         }
