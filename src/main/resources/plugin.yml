@@ -6,6 +6,7 @@ author: BebeDlaStreat
 main: fr.endoskull.api.Main
 softdepend:
   - HologramAPI
+  - ProtocolLib
 commands:
   level:
     aliases: [xp]
