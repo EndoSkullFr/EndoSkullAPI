@@ -149,7 +149,7 @@ public class Main extends JavaPlugin {
                     if ((event.getPacketType() == PacketType.Play.Client.TAB_COMPLETE)
                             && (!event.getPlayer().hasPermission("endoskull.tab.bypass"))
                             && (((String)event.getPacket().getStrings().read(0)).startsWith("/"))
-                            && ((event.getPacket().getStrings().read(0)).contains(" "))) {
+                            && !((event.getPacket().getStrings().read(0)).contains(" "))) {
 
                         event.setCancelled(true);
 
