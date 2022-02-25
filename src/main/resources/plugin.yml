@@ -5,9 +5,7 @@ website: https://endoskull.fr
 author: BebeDlaStreat
 main: fr.endoskull.api.Main
 softdepend:
-  - DeluxeHub_EndoSkull
   - HologramAPI
-  - ActionBarAPI
 commands:
   level:
     aliases: [xp]

@@ -1,5 +1,7 @@
 package fr.endoskull.api;
 
+import com.comphenix.protocol.ProtocolLibrary;
+import com.comphenix.protocol.ProtocolManager;
 import fr.endoskull.api.commons.server.ServerState;
 import fr.endoskull.api.commons.server.ServerType;
 import fr.endoskull.api.data.redis.JedisAccess;
@@ -76,9 +78,6 @@ public class Main extends JavaPlugin {
         new EndoSkullPlaceholder().register();
         new CloudNetExpansion().register();
 
-        if (Bukkit.getPluginManager().getPlugin("DeluxeHub_EndoSkull") != null) {
-            //Bukkit.getScheduler().runTaskTimer(this, new HologramTask(), 100, 100);
-        }
         Bukkit.getScheduler().runTaskTimerAsynchronously(this, new ClassementTask(this), 100, 20 * 20);
 
         createServerFile();
@@ -136,6 +135,11 @@ public class Main extends JavaPlugin {
             }, "EndoSkullNick");
         });
 
+        if (Bukkit.getPluginManager().getPlugin("ProtolLib") != null) {
+            ProtocolManager manager = ProtocolLibrary.getProtocolManager();
+            manager.addPacketListener(new TabListener(manager));
+        }
+
         super.onEnable();
     }
 
@@ -192,7 +196,6 @@ public class Main extends JavaPlugin {
         pm.registerEvents(new CustomGuiListener(), this);
         pm.registerEvents(new MotdListener(), this);
         pm.registerEvents(new VanishListener(), this);
-        pm.registerEvents(new TabListener(), this);
     }
 
     private void createServerFile() {

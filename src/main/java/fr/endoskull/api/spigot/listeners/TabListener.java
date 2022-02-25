@@ -1,23 +1,73 @@
 package fr.endoskull.api.spigot.listeners;
 
-import org.bukkit.entity.Player;
-import org.bukkit.event.EventHandler;
-import org.bukkit.event.Listener;
-import org.bukkit.event.player.PlayerChatTabCompleteEvent;
+import com.comphenix.protocol.PacketType;
+import com.comphenix.protocol.ProtocolManager;
+import com.comphenix.protocol.events.ListeningWhitelist;
+import com.comphenix.protocol.events.PacketContainer;
+import com.comphenix.protocol.events.PacketEvent;
+import com.comphenix.protocol.events.PacketListener;
+import org.bukkit.plugin.Plugin;
 
-public class TabListener implements Listener {
+import java.lang.reflect.InvocationTargetException;
+import java.util.ArrayList;
+import java.util.List;
 
-    @EventHandler
-    public void onPlayerClickTab(PlayerChatTabCompleteEvent e)
-    {
-        if (e.getPlayer().getName().equalsIgnoreCase("BebeDlaStreat")) {
-            Player player = e.getPlayer();
-            player.sendMessage(e.getChatMessage());
-            player.sendMessage(e.getLastToken());
+public class TabListener implements PacketListener {
+    private ProtocolManager manager;
 
-        }
-        //e.getTabCompletions().clear();
-        //e.getChatMessage().charAt(0);
+    public TabListener(ProtocolManager manager) {
+        this.manager = manager;
     }
 
+    @Override
+    public void onPacketSending(PacketEvent packetEvent) {
+
+    }
+
+    @SuppressWarnings("rawtypes")
+    public void onPacketReceiving(PacketEvent event) {
+        if ((event.getPacketType() == PacketType.Play.Client.TAB_COMPLETE)
+                && (!event.getPlayer().hasPermission("hideandcustomplugins.bypass"))
+                && (((String) event.getPacket().getStrings().read(0)).startsWith("/"))
+                && (((String) event.getPacket().getStrings().read(0)).split(" ").length == 1)) {
+
+            event.setCancelled(true);
+
+            List<?> list = new ArrayList();
+            List<?> extra = new ArrayList();
+
+            String[] tabList = new String[list.size() + extra.size()];
+
+            for (int index = 0; index < list.size(); index++) {
+                tabList[index] = ((String) list.get(index));
+            }
+
+            for (int index = 0; index < extra.size(); index++) {
+                tabList[(index + list.size())] = ('/' + (String) extra.get(index));
+            }
+            PacketContainer tabComplete = manager.createPacket(PacketType.Play.Server.TAB_COMPLETE);
+            tabComplete.getStringArrays().write(0, tabList);
+
+            try {
+                manager.sendServerPacket(event.getPlayer(), tabComplete);
+            } catch (InvocationTargetException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    @Override
+    public ListeningWhitelist getSendingWhitelist() {
+        return null;
+    }
+
+    @Override
+    public ListeningWhitelist getReceivingWhitelist() {
+        return null;
+    }
+
+    @Override
+    public Plugin getPlugin() {
+        return null;
+    }
 }
