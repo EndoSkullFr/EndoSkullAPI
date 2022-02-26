@@ -13,10 +13,12 @@ import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Sound;
+import org.bukkit.entity.ArmorStand;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
+import org.bukkit.event.player.PlayerInteractAtEntityEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
@@ -127,6 +129,14 @@ public class ClickListener implements Listener {
                 default:
                     break;
             }
+        }
+    }
+
+    @EventHandler
+    public void onClickEnt(PlayerInteractAtEntityEvent e) {
+        if (e.getRightClicked() instanceof ArmorStand) {
+            ArmorStand as = (ArmorStand) e.getRightClicked();
+            if (!as.isVisible() && !as.hasGravity()) e.setCancelled(true);
         }
     }
 }
