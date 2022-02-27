@@ -316,9 +316,6 @@ public class Hologram {
         setNoGravity.invoke(entityObject, true);
         setLocation.invoke(entityObject, location.getX(), location.getY(), location.getZ(), 0.0F, 0.0F);
         setInvisible.invoke(entityObject, true);
-        EntityArmorStand entityAs = (EntityArmorStand) entityObject;
-        ArmorStand as = (ArmorStand) entityAs;
-        as.setMarker(true);
     }
 
     /**
