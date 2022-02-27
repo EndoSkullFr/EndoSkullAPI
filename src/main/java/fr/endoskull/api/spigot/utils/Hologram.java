@@ -307,6 +307,7 @@ public class Hologram {
         Method setNoGravity = entityObject.getClass().getMethod("setGravity", boolean.class); // Previously setGravity(boolean) prior to 1.10
         Method setLocation = entityObject.getClass().getMethod("setLocation", double.class, double.class, double.class, float.class, float.class);
         Method setInvisible = entityObject.getClass().getMethod("setInvisible", boolean.class);
+        Method setMarker = entityObject.getClass().getMethod("setMarker", boolean.class);
 
         // Setting the properties
         setCustomName.invoke(entityObject, text);
@@ -314,6 +315,7 @@ public class Hologram {
         setNoGravity.invoke(entityObject, true);
         setLocation.invoke(entityObject, location.getX(), location.getY(), location.getZ(), 0.0F, 0.0F);
         setInvisible.invoke(entityObject, true);
+        setMarker.invoke(entityObject, true);
     }
 
     /**
