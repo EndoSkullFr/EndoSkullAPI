@@ -21,7 +21,7 @@ import java.util.Random;
 public class BoxInventory {
 
 
-    public static void openVote(Player player) {
+    /*public static void openVote(Player player) {
         Account account = new AccountProvider(player.getUniqueId()).getAccount();
         Inventory inv = Bukkit.createInventory(null, 27, "§eBox Vote");
         int i = 0;
@@ -151,5 +151,5 @@ public class BoxInventory {
         player.playSound(player.getLocation(), Sound.LEVEL_UP, 50, 50);
         System.out.println("Clé Kit " + player.getName() + " " + kit.getName());
         Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "kit add " + player.getName() + " " + kit.getName());
-    }
+    }*/
 }

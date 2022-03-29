@@ -56,19 +56,19 @@ public class MoneyCommand implements CommandExecutor {
                 return;
             }
             if (args[0].equals("add")) {
-                account.addMoney(number).sendToRedis();
+                account.addMoney(number);
                 sender.sendMessage("§a" + number + " §ecoins ont été ajouté à §a" + args[1]);
             }
             if (args[0].equals("give")) {
-                account.addMoneyWithBooster(number).sendToRedis();
+                account.addMoneyWithBooster(number);
                 sender.sendMessage("§a" + number + " §ecoins ont été ajouté à §a" + args[1]);
             }
             if (args[0].equals("remove")) {
-                account.removeMoney(number).sendToRedis();
+                account.removeMoney(number);
                 sender.sendMessage("§a" + number + " §ecoins ont été retiré à §a" + args[1]);
             }
             if (args[0].equals("set")) {
-                account.setSolde(number).sendToRedis();
+                account.setSolde(number);
                 sender.sendMessage("§a" + number + " §ecoins ont été défini à §a" + args[1]);
             }
         });

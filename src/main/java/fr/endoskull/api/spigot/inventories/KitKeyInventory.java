@@ -14,15 +14,15 @@ public class KitKeyInventory extends CustomGui {
         super(4, "§9Box Kits");
         Account account = new AccountProvider(p.getUniqueId()).getAccount();
         setItem(13, new CustomItemStack(Material.EXP_BOTTLE).setName("§9Kit aléatoire").setLore("\n§7Débloquez un kit aléatoire parmi ceux\n§7que vous pouvez avoir avec votre rank"));
-        setItem(31, new CustomItemStack(Material.ANVIL).setName("§6Ouvrir").setLore("\n§7Vous avez §6" + account.getKitKey() + " §7Clé(s) Kit(s)"), player -> {
+        setItem(31, new CustomItemStack(Material.ANVIL).setName("§6Ouvrir").setLore("\n§7Vous avez §6" +/* account.getKitKey() +*/ " §7Clé(s) Kit(s)"), player -> {
             Account fAccount = new AccountProvider(player.getUniqueId()).getAccount();
-            if (fAccount.getKitKey() < 1) {
+            if (/*fAccount.getKitKey() < 1*/true) {
                 player.closeInventory();
                 player.playSound(player.getLocation(), Sound.VILLAGER_NO, 50, 50);
                 player.sendMessage("§cVous devez posséder une §lClé Kit §cpour effectuer cette action");
                 return;
             } else {
-                /*fAccount.setKitKey(fAccount.getKitKey() - 1).sendToRedis();
+                /*fAccount.setKitKey(fAccount.getKitKey() - 1);
                 BoxInventory.giveKit(player);*/
             }
         });

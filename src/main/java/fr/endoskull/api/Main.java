@@ -70,7 +70,7 @@ public class Main extends JavaPlugin {
         getServer().getMessenger().registerOutgoingPluginChannel(this, MESSAGE_CHANNEL);
 
         initConnection();
-        jedisAccess = new JedisAccess("127.0.0.1", 6379, "%]h48Ty7UBC?D+439zg%XeV6Pm#k~&9y");
+        jedisAccess = new JedisAccess("127.0.0.1", 6379, "FimfvtAKApReX1kBgukpVn6CFyZLXa6X5MYXB4ZBFSnUqOfAd6pzqTi4GCrWcX7qwl8TSNUIMHR5MyIw");
         jedisAccess.initConnection();
 
         registerCommands();

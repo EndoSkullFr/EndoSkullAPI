@@ -53,59 +53,59 @@ public class KeyCommand implements CommandExecutor {
                 sender.sendMessage("§4Le quatrième argument n'est pas un nombre !");
                 return;
             }
-            if (key.equalsIgnoreCase("ultime")) {
+            /*if (key.equalsIgnoreCase("ultime")) {
                 if (args[0].equals("add")) {
-                    account.setUltimeKey(account.getUltimeKey() + number).sendToRedis();
+                    account.setUltimeKey(account.getUltimeKey() + number);
                     sender.sendMessage("§a" + number + " §eClés §a" + key + " §ea/ont été ajouté à §a" + args[1]);
                 }
                 if (args[0].equals("remove")) {
-                    account.setUltimeKey(account.getUltimeKey() - number).sendToRedis();
+                    account.setUltimeKey(account.getUltimeKey() - number);
                     sender.sendMessage("§a" + number + " §eClés §a" + key + " §ea/ont été retiré à §a" + args[1]);
                 }
                 if (args[0].equals("set")) {
-                    account.setUltimeKey(number).sendToRedis();
+                    account.setUltimeKey(number);
                     sender.sendMessage("§a" + number + " §eClés §a" + key + " §ea/ont été défini à §a" + args[1]);
                 }
             }
             if (key.equalsIgnoreCase("vote")) {
                 if (args[0].equals("add")) {
-                    account.setVoteKey(account.getVoteKey() + number).sendToRedis();
+                    account.setVoteKey(account.getVoteKey() + number);
                     sender.sendMessage("§a" + number + " §eClés §a" + key + " §ea/ont été ajouté à §a" + args[1]);
                 }
                 if (args[0].equals("remove")) {
-                    account.setVoteKey(account.getVoteKey() - number).sendToRedis();
+                    account.setVoteKey(account.getVoteKey() - number);
                     sender.sendMessage("§a" + number + " §eClés §a" + key + " §ea/ont été retiré à §a" + args[1]);
                 }
                 if (args[0].equals("set")) {
-                    account.setVoteKey(number).sendToRedis();
+                    account.setVoteKey(number);
                     sender.sendMessage("§a" + number + " §eClés §a" + key + " §ea/ont été défini à §a" + args[1]);
                 }
-            }
+            }*/
             /*if (key.equalsIgnoreCase("coins")) {
                 if (args[0].equals("add")) {
-                    account.setCoinsKey(account.getCoinsKey() + number).sendToRedis();
+                    account.setCoinsKey(account.getCoinsKey() + number);
                     sender.sendMessage("§a" + number + " §eClés §a" + key + " §ea/ont été ajouté à §a" + args[1]);
                 }
                 if (args[0].equals("remove")) {
-                    account.setCoinsKey(account.getCoinsKey() - number).sendToRedis();
+                    account.setCoinsKey(account.getCoinsKey() - number);
                     sender.sendMessage("§a" + number + " §eClés §a" + key + " §ea/ont été retiré à §a" + args[1]);
                 }
                 if (args[0].equals("set")) {
-                    account.setCoinsKey(number).sendToRedis();
+                    account.setCoinsKey(number);
                     sender.sendMessage("§a" + number + " §eClés §a" + key + " §ea/ont été défini à §a" + args[1]);
                 }
             }
             if (key.equalsIgnoreCase("kit")) {
                 if (args[0].equals("add")) {
-                    account.setKitKey(account.getKitKey() + number).sendToRedis();
+                    account.setKitKey(account.getKitKey() + number);
                     sender.sendMessage("§a" + number + " §eClés §a" + key + " §ea/ont été ajouté à §a" + args[1]);
                 }
                 if (args[0].equals("remove")) {
-                    account.setKitKey(account.getKitKey() - number).sendToRedis();
+                    account.setKitKey(account.getKitKey() - number);
                     sender.sendMessage("§a" + number + " §eClés §a" + key + " §ea/ont été retiré à §a" + args[1]);
                 }
                 if (args[0].equals("set")) {
-                    account.setKitKey(number).sendToRedis();
+                    account.setKitKey(number);
                     sender.sendMessage("§a" + number + " §eClés §a" + key + " §ea/ont été défini à §a" + args[1]);
                 }
             }*/

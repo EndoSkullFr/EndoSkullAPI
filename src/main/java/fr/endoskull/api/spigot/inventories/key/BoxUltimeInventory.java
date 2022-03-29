@@ -31,11 +31,12 @@ public class BoxUltimeInventory extends CustomGui {
         for (int j = lines * 9 - 18; j < lines * 9 - 9; j++) {
             setItem(j, new CustomItemStack(Material.STAINED_GLASS_PANE, 1, (byte) 14).setName("§r"));
         }
-        boolean s = account.getUltimeKey() > 1;
-        setItem(lines * 9 - 5, new CustomItemStack(Material.ANVIL).setName("§c§lOUVRIR").setLore("\n§7Vous avez §c" + account.getUltimeKey() + " §7Clé" + (s ? "s" : "" ) +" Ultime" + (s ? "s" : "" )), player1 -> {
+        //boolean s = account.getUltimeKey() > 1;
+        boolean s = false;
+        setItem(lines * 9 - 5, new CustomItemStack(Material.ANVIL).setName("§c§lOUVRIR").setLore("\n§7Vous avez §c" + /*account.getUltimeKey() +*/ " §7Clé" + (s ? "s" : "" ) +" Ultime" + (s ? "s" : "" )), player1 -> {
             player1.closeInventory();
             Account account1 = new AccountProvider(player1.getUniqueId()).getAccount();
-            if (account1.getUltimeKey() < 1) {
+            if (/*account1.getUltimeKey() < 1*/true) {
                 player1.closeInventory();
                 player1.playSound(player1.getLocation(), Sound.VILLAGER_NO, 50, 50);
                 player1.sendMessage("§cVous devez posséder une §lClé Ultime §cpour effectuer cette action");
@@ -46,7 +47,7 @@ public class BoxUltimeInventory extends CustomGui {
                     player1.playSound(player1.getLocation(), Sound.CAT_HIT, 1f, 1f);
                     return;
                 }
-                account1.setUltimeKey(account1.getUltimeKey() - 1).sendToRedis();
+                //account1.setUltimeKey(account1.getUltimeKey() - 1);
                 openBox(player1);
             }
         });

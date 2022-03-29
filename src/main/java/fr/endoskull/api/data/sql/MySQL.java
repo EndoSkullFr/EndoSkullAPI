@@ -25,43 +25,14 @@ public class MySQL {
     }
 
     public void createTables(){
-        /*update("CREATE TABLE IF NOT EXISTS levels (" +
-                "`#` INT NOT NULL AUTO_INCREMENT PRIMARY KEY, " +
-                "uuid VARCHAR(255), " +
-                "level INT, " +
-                "xp DOUBLE)");
-        update("CREATE TABLE IF NOT EXISTS permissions (" +
-                "`#` INT NOT NULL AUTO_INCREMENT PRIMARY KEY, " +
-                "grade VARCHAR(255), " +
-                "permissions VARCHAR(2047))");
-        update("CREATE TABLE IF NOT EXISTS player_key (" +
-                "`#` INT NOT NULL AUTO_INCREMENT PRIMARY KEY, " +
-                "uuid VARCHAR(255), " +
-                "ultime INT, " +
-                "vote INT, " +
-                "coins INT, " +
-                "kit INT)");
-        update("CREATE TABLE IF NOT EXISTS location (" +
-                "`#` INT NOT NULL AUTO_INCREMENT PRIMARY KEY, " +
-                "name VARCHAR(255), " +
-                "location VARCHAR(1023))");
-        update("CREATE TABLE IF NOT EXISTS accounts (" +
-                "`#` INT NOT NULL AUTO_INCREMENT PRIMARY KEY, " +
-                "uuid VARCHAR(255), " +
-                "money DOUBLE)");*/
         update("CREATE TABLE IF NOT EXISTS accounts (" +
                 "`#` INT NOT NULL AUTO_INCREMENT PRIMARY KEY, " +
                 "uuid VARCHAR(255), " +
                 "name VARCHAR(255), " +
-                "voteKey INT, " +
-                "ultimeKey INT, " +
-                "coinsKey INT, " +
-                "kitKey INT, " +
                 "level INT, " +
                 "xp DOUBLE, " +
-                "booster DOUBLE, " +
                 "solde DOUBLE, " +
-                "kit_selected VARCHAR(255))");
+                "first_join BIGINT)");
     }
 
     public void update(String qry){

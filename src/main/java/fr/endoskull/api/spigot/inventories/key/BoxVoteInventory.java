@@ -35,17 +35,18 @@ public class BoxVoteInventory extends CustomGui {
         for (int j = lines * 9 - 18; j < lines * 9 - 9; j++) {
             setItem(j, new CustomItemStack(Material.STAINED_GLASS_PANE, 1, (byte) 14).setName("§r"));
         }
-        boolean s = account.getVoteKey() > 1;
-        setItem(lines * 9 - 5, new CustomItemStack(Material.ANVIL).setName("§d§lOUVRIR").setLore("\n§7Vous avez §d" + account.getVoteKey() + " §7Clé" + (s ? "s" : "" ) +" Vote" + (s ? "s" : "" )), player1 -> {
+        //boolean s = account.getVoteKey() > 1;
+        boolean s = false;
+        setItem(lines * 9 - 5, new CustomItemStack(Material.ANVIL).setName("§d§lOUVRIR").setLore("\n§7Vous avez §d" + /*account.getVoteKey() +*/ " §7Clé" + (s ? "s" : "" ) +" Vote" + (s ? "s" : "" )), player1 -> {
             player1.closeInventory();
             Account account1 = new AccountProvider(player1.getUniqueId()).getAccount();
-            if (account1.getVoteKey() < 1) {
+            if (/*account1.getVoteKey() < 1*/true) {
                 player1.closeInventory();
                 player1.playSound(player1.getLocation(), Sound.VILLAGER_NO, 50, 50);
                 player1.sendMessage("§cVous devez posséder une §lClé Vote §cpour effectuer cette action");
                 return;
             } else {
-                account1.setVoteKey(account1.getVoteKey() - 1).sendToRedis();
+                //account1.setVoteKey(account1.getVoteKey() - 1);
                 new OpeningInventory(player).open(player);
             }
         });
