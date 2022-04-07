@@ -7,8 +7,6 @@ import java.util.Comparator;
 public class LevelComparator implements Comparator<Account> {
     @Override
     public int compare(Account o1, Account o2) {
-        if (o1.getLevelWithXp() > o2.getLevelWithXp()) return -1;
-        if (o1.getLevelWithXp() == o2.getLevelWithXp()) return 0;
-        return 1;
+        return Double.compare(o2.getLevelWithXp(), o1.getLevelWithXp());
     }
 }

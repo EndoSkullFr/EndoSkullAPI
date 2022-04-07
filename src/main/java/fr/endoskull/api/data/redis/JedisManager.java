@@ -1,6 +1,5 @@
 package fr.endoskull.api.data.redis;
 
-import fr.bebedlastreat.cache.CacheAPI;
 import fr.endoskull.api.BungeeMain;
 import fr.endoskull.api.Main;
 import fr.endoskull.api.commons.Account;
@@ -9,15 +8,14 @@ import fr.endoskull.api.data.sql.MySQL;
 import redis.clients.jedis.Jedis;
 
 import java.sql.SQLException;
-import java.util.Iterator;
 import java.util.UUID;
 
 public class JedisManager {
     public static final String TABLE = "accounts";
+    public static final String STATS = "stats";
+    public static final String PROPERTIES = "properties";
 
     public static void sendToDatabase() {
-        CacheAPI.set("lastSend", System.currentTimeMillis());
-
 
         Jedis j = null;
         try {
@@ -31,16 +29,11 @@ public class JedisManager {
 
     }
 
-    public static void sendToDatabase(UUID uuid) {
-        Account account = AccountProvider.getAccount(uuid);
-        System.out.println("Sauvegarde du comtpe de " + account.getName());
-
-        BungeeMain.getInstance().getMySQL().query("SELECT * FROM " + AccountProvider.TABLE + " WHERE uuid='" + account.getUuid() + "'", rs -> {
+    public static void checkNoneName(UUID uuid, String name) {
+        BungeeMain.getInstance().getMySQL().query("SELECT * FROM " + TABLE + " WHERE uuid='" + uuid + "' AND name='none'", rs -> {
             try {
                 if (rs.next()) {
-                    BungeeMain.getInstance().getMySQL().update("UPDATE " + AccountProvider.TABLE + " SET " + "name" + "='" + account.getName() + "', level" + "='" + account.getLevel() + "', xp" + "='" + account.getXp() + "', solde" + "='" + account.getSolde() + "', first_join" + "='" + account.getFirstJoin() + "' WHERE uuid='" + account.getUuid() + "'");
-                } else {
-                    BungeeMain.getInstance().getMySQL().update("INSERT INTO " + AccountProvider.TABLE + " (uuid, name, level, xp, solde, first_join) VALUES ('" + account.getUuid() + "', '" + account.getName() + "', '" + account.getLevel() + "', '" + account.getXp() + "', '" + account.getSolde() + "', '" + account.getFirstJoin() + "')");
+                    BungeeMain.getInstance().getMySQL().update("UPDATE " + TABLE + " SET " + "name" + "='" + name + "' WHERE uuid='" + uuid + "'");
                 }
             } catch (SQLException e) {
                 e.printStackTrace();
@@ -48,11 +41,48 @@ public class JedisManager {
         });
     }
 
+    public static void sendToDatabase(UUID uuid) {
+        Account account = AccountProvider.getAccount(uuid);
+        System.out.println("Sauvegarde du compte de " + account.getName());
+
+        BungeeMain.getInstance().getMySQL().query("SELECT * FROM " + TABLE + " WHERE uuid='" + account.getUuid() + "'", rs -> {
+            try {
+                if (rs.next()) {
+                    BungeeMain.getInstance().getMySQL().update("UPDATE " + TABLE + " SET " + "name" + "='" + account.getName() + "', level" + "='" + account.getLevel() + "', xp" + "='" + account.getXp() + "', solde" + "='" + account.getSolde() + "', first_join" + "='" + account.getFirstJoin() + "' WHERE uuid='" + account.getUuid() + "'");
+                } else {
+                    BungeeMain.getInstance().getMySQL().update("INSERT INTO " + TABLE + " (uuid, name, level, xp, solde, first_join) VALUES ('" + account.getUuid() + "', '" + account.getName() + "', '" + account.getLevel() + "', '" + account.getXp() + "', '" + account.getSolde() + "', '" + account.getFirstJoin() + "')");
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        });
+        BungeeMain.getInstance().getMySQL().update("DELETE FROM " + STATS + " WHERE uuid='" + account.getUuid() + "'");
+        BungeeMain.getInstance().getMySQL().update("DELETE FROM " + PROPERTIES + " WHERE uuid='" + account.getUuid() + "'");
+        Jedis j = null;
+        try {
+            j = JedisAccess.getUserpool().getResource();
+            if (j.exists("stats/" + account.getUuid())) {
+                j.hgetAll("stats/" + account.getUuid()).forEach((s, s2) -> {
+                    BungeeMain.getInstance().getMySQL().update("INSERT INTO `" + STATS + "` (`uuid`, `key`, `value`) VALUES ('" + account.getUuid() + "', '" + s + "', '" + Integer.valueOf(s2) + "')");
+                });
+            }
+            if (j.exists("properties/" + account.getUuid())) {
+                j.hgetAll("properties/" + account.getUuid()).forEach((s, s2) -> {
+                    BungeeMain.getInstance().getMySQL().update("INSERT INTO `" + PROPERTIES + "` (`uuid`, `key`, `value`) VALUES ('" + account.getUuid() + "', '" + s + "', '" + s2 + "')");
+                });
+            }
+        } finally {
+            j.close();
+        }
+    }
+
     public static void removeAccountFromRedis(UUID uuid) {
         Jedis j = null;
         try {
             j = JedisAccess.getUserpool().getResource();
             j.del("account/" + uuid);
+            j.del("stats/" + uuid);
+            j.del("properties/" + uuid);
         } finally {
             j.close();
         }
@@ -72,6 +102,38 @@ public class JedisManager {
                     account.setName(rs.getString("name")).setLevel(rs.getInt("level"))
                             .setXp(rs.getDouble("xp")).setSolde(rs.getDouble("solde"))
                             .setFirstJoin(rs.getLong("first_join"));
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+            return false;
+        });
+        mySQL.query("SELECT * FROM " + STATS + " WHERE uuid='" + uuid + "'", rs -> {
+            try {
+                Jedis j = null;
+                try {
+                    j = JedisAccess.getUserpool().getResource();
+                    while(rs.next()){
+                        j.hset("stats/" + uuid, rs.getString("key"), String.valueOf(rs.getInt("value")));
+                    }
+                } finally {
+                    j.close();
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+            return false;
+        });
+        mySQL.query("SELECT * FROM " + PROPERTIES + " WHERE uuid='" + uuid + "'", rs -> {
+            try {
+                Jedis j = null;
+                try {
+                    j = JedisAccess.getUserpool().getResource();
+                    while(rs.next()){
+                        j.hset("properties/" + uuid, rs.getString("key"), rs.getString("value"));
+                    }
+                } finally {
+                    j.close();
                 }
             } catch (SQLException e) {
                 e.printStackTrace();

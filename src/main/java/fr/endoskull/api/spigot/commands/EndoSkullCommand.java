@@ -2,8 +2,6 @@ package fr.endoskull.api.spigot.commands;
 
 import fr.endoskull.api.Main;
 import fr.endoskull.api.data.redis.JedisAccess;
-import me.neznamy.tab.api.TabAPI;
-import me.neznamy.tab.api.TabPlayer;
 import org.apache.commons.io.FileUtils;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -11,8 +9,6 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabCompleter;
 import org.bukkit.entity.Player;
 
-import java.io.ByteArrayOutputStream;
-import java.io.DataOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -28,46 +24,6 @@ public class EndoSkullCommand implements CommandExecutor, TabCompleter {
 
     @Override
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
-        if (args.length > 0 && args[0].equalsIgnoreCase("debug")) {
-            if (!(sender instanceof Player)) {
-                sender.sendMessage("§cVous devez être un joueur");
-                return false;
-            }
-            Player player = (Player) sender;
-            TabAPI tabAPI = TabAPI.getInstance();
-            TabPlayer tabPlayer = tabAPI.getPlayer(player.getUniqueId());
-            tabPlayer.setTemporaryGroup("default");
-            player.sendMessage(tabPlayer.getGroup());
-        }
-        if (args.length > 0 && args[0].equalsIgnoreCase("nick")) {
-            if (!(sender instanceof Player)) {
-                sender.sendMessage("§cVous devez être un joueur");
-                return false;
-            }
-            Player player = (Player) sender;
-            if (args.length < 2) {
-                sender.sendMessage("§c/" + label + " nick <pseudo>");
-                return false;
-            }
-            String name = args[1];
-            if (!name.matches("^\\w{3,16}$")) {
-                player.sendMessage("§cCe pseudo n'est pas valide");
-                return false;
-            }
-            JedisAccess.getUserpool().getResource().publish("EndoSkullNick", "nick:" + player.getUniqueId() + ":" + name);
-            player.sendMessage("blabla t'es nick en " + name + " change de serveur et ça sera appliqué");
-
-        }
-        if (args.length > 0 && args[0].equalsIgnoreCase("unnick")) {
-            if (!(sender instanceof Player)) {
-                sender.sendMessage("§cVous devez être un joueur");
-                return false;
-            }
-            Player player = (Player) sender;
-            if (!main.getNicks().containsKey(player.getUniqueId())) return false;
-            JedisAccess.getUserpool().getResource().publish("EndoSkullNick", "unnick:" + player.getUniqueId());
-            player.sendMessage("blabla t'es unnick change de serveur et ça sera appliqué");
-        }
         if (args.length > 0 && args[0].equalsIgnoreCase("deploy")) {
             if (args.length < 4) {
                 sender.sendMessage("§c/" + label + " deploy <projet> <fileName> <template>");

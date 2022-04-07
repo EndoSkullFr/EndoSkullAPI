@@ -1,4 +1,4 @@
-package fr.endoskull.api.commons;
+package fr.endoskull.api.commons.boost;
 
 public class TempBooster {
     private double boost;

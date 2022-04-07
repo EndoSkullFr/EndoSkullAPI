@@ -31,11 +31,6 @@ public class ClassementTask implements Runnable {
                 e.printStackTrace();
             }
         });
-        if (Bukkit.getPluginManager().getPlugin("EndoSkullPvpKit") != null && false) {
-            Classement.setClassement(accounts);
-            if (!Classement.isInit()) Classement.init();
-            Classement.update();
-        }
         classement = accounts;
 
     }

@@ -1,6 +1,6 @@
 package fr.endoskull.api.commons;
 
-import fr.bebedlastreat.cache.CacheAPI;
+import fr.endoskull.api.commons.boost.BoosterManager;
 import fr.endoskull.api.data.redis.JedisAccess;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
@@ -114,7 +114,7 @@ public class Account implements Cloneable {
     }
 
     public BoosterManager getBoost() {
-        return new BoosterManager(BoosterManager.getBooster(uuid));
+        return new BoosterManager(BoosterManager.getBooster(this), this);
     }
 
     public double getSolde() {
@@ -133,7 +133,7 @@ public class Account implements Cloneable {
     }
 
     public Account addMoneyWithBooster(double value) {
-        addMoney(value * getBoost().getRealBooster());
+        addMoney(value * /*getBoost().getRealBooster()*/1);
         return this;
     }
 
@@ -214,29 +214,31 @@ public class Account implements Cloneable {
     }
 
     public String getStringLevel() {
-        /*DecimalFormat df = new DecimalFormat();
-        df.setMaximumFractionDigits(2);
-        df.setMinimumFractionDigits(0);
-        df.setGroupingUsed(false);
-        return df.format(getLevelWithXp());*/
         return getLevel() + " (" + Math.round(getXp() / xpToLevelSup() * 100) + "%)";
     }
 
-    //public void sendToRedis() {
-        /*AccountProvider accountProvider = new AccountProvider(UUID.fromString(uuid));
-        accountProvider.sendAccountToRedis(this);*/
-    //}
-
     public Account setStatistic(String statistic, int value) {
-        CacheAPI.set("stats/" + uuid + "/" + statistic, value);
+        Jedis j = null;
+        try {
+            j = JedisAccess.getUserpool().getResource();
+            j.hset("stats/" + uuid, statistic, String.valueOf(value));
+        } finally {
+            j.close();
+        }
         return this;
     }
 
     public int getStatistic(String statistic) {
-        if (CacheAPI.keyExist("stats/" + uuid + "/" + statistic)) {
-            return CacheAPI.getInt("stats/" + uuid + "/" + statistic);
-        } else {
-            return 0;
+        Jedis j = null;
+        try {
+            j = JedisAccess.getUserpool().getResource();
+            if (j.hexists("stats/" + uuid, statistic)) {
+                return Integer.parseInt(j.hget("stats/" + uuid, statistic));
+            } else {
+                return 0;
+            }
+        } finally {
+            j.close();
         }
     }
 
@@ -251,23 +253,41 @@ public class Account implements Cloneable {
     }
 
     public Account setProperty(String property, String value) {
-        CacheAPI.set("properties/" + uuid + "/" + property, value);
+        Jedis j = null;
+        try {
+            j = JedisAccess.getUserpool().getResource();
+            j.hset("properties/" + uuid, property, value);
+        } finally {
+            j.close();
+        }
         return this;
     }
 
     public String getProperty(String property) {
-        if (CacheAPI.keyExist("properties/" + uuid + "/" + property)) {
-            return CacheAPI.get("properties/" + uuid + "/" + property);
-        } else {
-            return "";
+        Jedis j = null;
+        try {
+            j = JedisAccess.getUserpool().getResource();
+            if (j.hexists("properties/" + uuid, property)) {
+                return j.hget("properties/" + uuid, property);
+            } else {
+                return "";
+            }
+        } finally {
+            j.close();
         }
     }
 
     public String getProperty(String property, String defaultValue) {
-        if (CacheAPI.keyExist("properties/" + uuid + "/" + property)) {
-            return CacheAPI.get("properties/" + uuid + "/" + property);
-        } else {
-            return defaultValue;
+        Jedis j = null;
+        try {
+            j = JedisAccess.getUserpool().getResource();
+            if (j.hexists("properties/" + uuid, property)) {
+                return j.hget("properties/" + uuid, property);
+            } else {
+                return defaultValue;
+            }
+        } finally {
+            j.close();
         }
     }
 }

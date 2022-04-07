@@ -1,11 +1,10 @@
-name: EndoSkull-API
+name: EndoSkullCore
 version: 1.0
-description: Api of EndoSkull (level, money, keys, rank, moderation)
+description: Core of EndoSkull
 website: https://endoskull.fr
 author: BebeDlaStreat
 main: fr.endoskull.api.Main
 softdepend:
-  - HologramAPI
   - ProtocolLib
 commands:
   level:

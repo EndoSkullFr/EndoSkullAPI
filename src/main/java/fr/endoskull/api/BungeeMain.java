@@ -1,18 +1,14 @@
 package fr.endoskull.api;
 
-import fr.endoskull.api.bungee.commands$.CommandForwardListener;
-import fr.endoskull.api.bungee.commands.ForceCommand;
-import fr.endoskull.api.bungee.commands.OmgCommand;
-import fr.endoskull.api.bungee.listeners.ChatListener;
-import fr.endoskull.api.bungee.listeners.ForwardMessageListener;
-import fr.endoskull.api.bungee.listeners.ProxyPing;
-import fr.endoskull.api.bungee.listeners.ProxyPlayerListener;
+import fr.endoskull.api.bungee.commands.*;
+import fr.endoskull.api.bungee.listeners.*;
 import fr.endoskull.api.bungee.tasks.AnnouncmentTask;
 import fr.endoskull.api.data.redis.JedisAccess;
 import fr.endoskull.api.data.redis.JedisManager;
 import fr.endoskull.api.data.sql.MySQL;
 import net.md_5.bungee.BungeeCord;
 import net.md_5.bungee.api.ProxyServer;
+import net.md_5.bungee.api.connection.ProxiedPlayer;
 import net.md_5.bungee.api.plugin.Plugin;
 import net.md_5.bungee.api.plugin.PluginManager;
 import org.apache.commons.dbcp2.BasicDataSource;
@@ -24,10 +20,10 @@ import java.util.concurrent.TimeUnit;
 public class BungeeMain extends Plugin {
     private static BungeeMain instance;
     private HashMap<UUID, String> waitingServer = new HashMap<>();
+    private HashMap<ProxiedPlayer, ProxiedPlayer> lastPM = new HashMap<>();
 
     private BasicDataSource connectionPool;
-    private MySQL mysql;
-    public String CHANNEL = "EndoSkullChannel";
+    public static String CHANNEL = "EndoSkullChannel";
     public static final String MESSAGE_CHANNEL = "commandforward:cmd";
 
     @Override
@@ -40,13 +36,17 @@ public class BungeeMain extends Plugin {
         getProxy().registerChannel(MESSAGE_CHANNEL);
         pm.registerListener(this, new CommandForwardListener());
         pm.registerListener(this, new ProxyPlayerListener());
-        pm.registerListener(this, new ProxyPing());
         pm.registerListener(this, new ChatListener());
         pm.registerListener(this, new ForwardMessageListener(this));
+        pm.registerListener(this, new ProxyPing());
         //pm.registerListener(this, new PluginmessageListener(this));
 
         pm.registerCommand(this, new ForceCommand(this));
         pm.registerCommand(this, new OmgCommand());
+        pm.registerCommand(this, new FriendCommand());
+        pm.registerCommand(this, new MaintenanceCommand());
+        pm.registerCommand(this, new MsgCommand());
+        pm.registerCommand(this, new ReplyCommand());
 
         initConnection();
         new JedisAccess("127.0.0.1", 6379, "FimfvtAKApReX1kBgukpVn6CFyZLXa6X5MYXB4ZBFSnUqOfAd6pzqTi4GCrWcX7qwl8TSNUIMHR5MyIw").initConnection();
@@ -77,7 +77,7 @@ public class BungeeMain extends Plugin {
     }
 
     public MySQL getMySQL() {
-        return mysql;
+        return MySQL.getInstance();
     }
 
     private void initConnection(){
@@ -88,11 +88,15 @@ public class BungeeMain extends Plugin {
         connectionPool.setUrl("jdbc:mysql://" + "localhost" + ":" + "3306" + "/" + "endoskull" + "?autoReconnect=true");
         connectionPool.setInitialSize(1);
         connectionPool.setMaxTotal(10);
-        mysql = new MySQL(connectionPool);
+        MySQL mysql = new MySQL(connectionPool);
         mysql.createTables();
     }
 
     public HashMap<UUID, String> getWaitingServer() {
         return waitingServer;
+    }
+
+    public HashMap<ProxiedPlayer, ProxiedPlayer> getLastPM() {
+        return lastPM;
     }
 }

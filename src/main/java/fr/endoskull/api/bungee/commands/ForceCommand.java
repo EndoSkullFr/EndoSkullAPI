@@ -11,11 +11,8 @@ import java.util.List;
 import java.util.UUID;
 
 public class ForceCommand extends Command {
-    private BungeeMain main;
-    private static List<UUID> waitingPlayer = new ArrayList<>();
     public ForceCommand(BungeeMain main) {
         super("forcesave", "force.save");
-        this.main = main;
     }
 
     @Override

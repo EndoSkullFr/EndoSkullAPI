@@ -1,4 +1,4 @@
-package fr.endoskull.api.commons;
+package fr.endoskull.api.commons.text;
 
 public enum DefaultFontInfo {
 

@@ -98,7 +98,7 @@ public class EndoSkullPlaceholder extends PlaceholderExpansion {
         }
         if(identifier.equals("boost") || identifier.equals("booster")){
             Account account = new AccountProvider(player.getUniqueId()).getAccount();
-            return (int) (account.getBoost().getRealBooster() * 100 - 100) + "%";
+            //return (int) (account.getBoost().getRealBooster() * 100 - 100) + "%";
         }
 
         if(identifier.equals("classement")) {
@@ -128,7 +128,7 @@ public class EndoSkullPlaceholder extends PlaceholderExpansion {
         if(identifier.startsWith("statistic_")) {
             Account account = new AccountProvider(player.getUniqueId()).getAccount();
             String[] args = identifier.split("_");
-            return String.valueOf(account.getStatistic(args[1]));
+            //return String.valueOf(account.getStatistic(args[1]));
         }
         if(identifier.startsWith("progression")) {
             Account account = new AccountProvider(player.getUniqueId()).getAccount();
@@ -141,7 +141,7 @@ public class EndoSkullPlaceholder extends PlaceholderExpansion {
             for (int i = 0; i < 10 - progression; i++) {
                 result += "-";
             }
-            result += "§7] " + (account.getLevel() + 1);
+            result += "§7] §b" + (account.getLevel() + 1);
             return result;
         }
         if (identifier.equalsIgnoreCase("nick")) {

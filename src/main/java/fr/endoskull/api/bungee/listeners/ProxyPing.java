@@ -2,9 +2,7 @@ package fr.endoskull.api.bungee.listeners;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import fr.bebedlastreat.cache.CacheAPI;
-import fr.endoskull.api.commons.DefaultFontInfo;
-import fr.endoskull.api.commons.EndoSkullMotd;
+import fr.endoskull.api.bungee.utils.MaintenanceUtils;
 import net.md_5.bungee.api.Favicon;
 import net.md_5.bungee.api.ProxyServer;
 import net.md_5.bungee.api.ServerPing;
@@ -23,39 +21,16 @@ import java.util.UUID;
 
 public class ProxyPing implements Listener {
 
-    private final static int CENTER_PX = 100;
-
     @EventHandler
     public void onPing(ProxyPingEvent e) {
         ServerPing serverPing = e.getResponse();
 
-        EndoSkullMotd motd = null;
-        try {
-            motd = new ObjectMapper().readValue(CacheAPI.get("motd"), EndoSkullMotd.class);
-        } catch (JsonProcessingException ex) {
-            ex.printStackTrace();
-        }
-        List<String> firstLines = new ArrayList<>();
-        for (String s : motd.getFirstLines().keySet()) {
-            for (int i = 0; i < motd.getFirstLines().get(s); i++) {
-                firstLines.add(s);
-            }
-        }
-        List<String> secondLines = new ArrayList<>();
-        for (String s : motd.getSecondLines().keySet()) {
-            for (int i = 0; i < motd.getSecondLines().get(s); i++) {
-                secondLines.add(s);
-            }
-        }
-        String firstLine = firstLines.get(new Random().nextInt(firstLines.size()));
-        String secondLine = secondLines.get(new Random().nextInt(secondLines.size()));
-        serverPing.setDescription(centerText(firstLine) + "\n" + centerText(secondLine));
         String[] hoverText = {
                 "§7§m------------------------",
                 "",
                 "§6Discord §7⋙ §9discord.endoskull.fr",
                 "§6Site Web §7⋙ §dwww.endoskull.fr",
-                "§6Boutique §7⋙ §astore.endoskull.fr",
+                "§6Boutique §7⋙ §ashop.endoskull.fr",
                 "",
                 "§7§m------------------------",
         };
@@ -78,6 +53,12 @@ public class ProxyPing implements Listener {
         }
         serverPing.setVersion(protocol);
 
+        if (MaintenanceUtils.isInMaintenance("Global")) {
+            serverPing.setDescription("§c§lEndoSkull » Maintenance en cours" + "\n" + "§7Plus d'infos §8» §adiscord.endoskull.fr");
+        } else {
+
+        }
+
         e.setResponse(serverPing);
     }
 
@@ -88,40 +69,5 @@ public class ProxyPing implements Listener {
             e.setCancelled(true);
             e.setCancelReason("§cEndoSkull NetWork\n\n§7Le serveur est accessible uniquement à partir de la §c1.8\n\n§ehttps://discord.endoskull.fr");
         }
-    }
-
-    public String centerText(String message) {
-
-        int messagePxSize = 0;
-        boolean previousCode = false;
-        boolean isBold = false;
-
-        for(char c : message.toCharArray()){
-            if(c == '§'){
-                previousCode = true;
-                continue;
-            }else if(previousCode == true){
-                previousCode = false;
-                if(c == 'l' || c == 'L'){
-                    isBold = true;
-                    continue;
-                }else isBold = false;
-            }else{
-                DefaultFontInfo dFI = DefaultFontInfo.getDefaultFontInfo(c);
-                messagePxSize += isBold ? dFI.getBoldLength() : dFI.getLength();
-                messagePxSize++;
-            }
-        }
-
-        int halvedMessageSize = messagePxSize / 2;
-        int toCompensate = CENTER_PX - halvedMessageSize;
-        int spaceLength = DefaultFontInfo.SPACE.getLength() + 1;
-        int compensated = 0;
-        StringBuilder sb = new StringBuilder();
-        while(compensated < toCompensate){
-            sb.append(" ");
-            compensated += spaceLength;
-        }
-        return sb.toString() + message;
     }
 }

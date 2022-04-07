@@ -40,18 +40,13 @@ import java.util.*;
 public class Main extends JavaPlugin {
     private static Main instance;
     private JedisAccess jedisAccess;
-    private HashMap<Player, CustomGui> openingKeys = new HashMap<>();
-    private HashMap<Player, Location> waitingSetting = new HashMap<>();
-    private HashMap<UUID, TagColor> waitingTag = new HashMap<>();
-    public String CHANNEL = "EndoSkullChannel";
+    public static String CHANNEL = "EndoSkullChannel";
     public static final String MESSAGE_CHANNEL = "commandforward:cmd";
     public final String PLUGIN_NAME_PREFIX = ChatColor.DARK_AQUA + "[" + ChatColor.GOLD + this.getName() + ChatColor.DARK_AQUA + "] ";
     private ServerType serverType;
 
     private BasicDataSource connectionPool;
-    private MySQL mysql;
     private long load;
-    private HashMap<UUID, String> nicks = new HashMap<>();
 
     @Override
     public void onLoad() {
@@ -65,9 +60,9 @@ public class Main extends JavaPlugin {
         instance = this;
         getServer().getMessenger().registerOutgoingPluginChannel(this, "BungeeCord");
         getServer().getMessenger().registerOutgoingPluginChannel(this, CHANNEL);
-        getServer().getMessenger().registerIncomingPluginChannel(this, "PartiesChannel", new PartiesChannelListener());
         getServer().getMessenger().registerOutgoingPluginChannel(this, "PartiesChannel");
         getServer().getMessenger().registerOutgoingPluginChannel(this, MESSAGE_CHANNEL);
+        getServer().getMessenger().registerIncomingPluginChannel(this, CHANNEL, new BungeeMessageListener());
 
         initConnection();
         jedisAccess = new JedisAccess("127.0.0.1", 6379, "FimfvtAKApReX1kBgukpVn6CFyZLXa6X5MYXB4ZBFSnUqOfAd6pzqTi4GCrWcX7qwl8TSNUIMHR5MyIw");
@@ -77,9 +72,6 @@ public class Main extends JavaPlugin {
         registerListeners();
 
         System.out.println("[" + getDescription().getName() + "] enable");
-        if (getConfig().getBoolean("bossbar")) {
-            Bukkit.getScheduler().runTaskTimer(this, new BossBarRunnable(this), 20L, 20L);
-        }
 
         new EndoSkullPlaceholder().register();
         new CloudNetExpansion().register();
@@ -102,44 +94,6 @@ public class Main extends JavaPlugin {
                 }
             }
         }.runTaskLaterAsynchronously(this, 3 * 20);
-
-
-        Jedis j = null;
-        try {
-            j = JedisAccess.getUserpool().getResource();
-            for (String key : j.keys("nick/*")) {
-                nicks.put(UUID.fromString(key.substring(6)), j.get(key));
-            }
-        } catch (Exception ex) {
-            ex.printStackTrace();
-        } finally {
-            j.close();
-        }
-
-        Bukkit.getScheduler().runTaskAsynchronously(this, () -> {
-            JedisAccess.getUserpool().getResource().subscribe(new JedisPubSub() {
-                @Override
-                public void onMessage(String channel, String message) {
-                    if (channel.equalsIgnoreCase("EndoSkullNick")) {
-                        if (message.startsWith("nick:")) {
-                            String[] split = message.split(":");
-                            UUID uuid = UUID.fromString(split[1]);
-                            String name = split[2];
-                            Player player = Bukkit.getPlayer(uuid);
-                            //EndoSkullAPI.nick(player, name);
-                            Main.getInstance().getNicks().put(uuid, name);
-                        }
-                        if (message.startsWith("unnick:")) {
-                            String[] split = message.split(":");
-                            UUID uuid = UUID.fromString(split[1]);
-                            nicks.remove(uuid);
-                            Player player = Bukkit.getPlayer(uuid);
-                            //EndoSkullAPI.unnick(player, true);
-                        }
-                    }
-                }
-            }, "EndoSkullNick");
-        });
 
         if (Bukkit.getPluginManager().getPlugin("ProtocolLib") != null) {
             new AntiTabComplete();
@@ -167,24 +121,17 @@ public class Main extends JavaPlugin {
         connectionPool.setUrl("jdbc:mysql://" + getConfig().getString("sql.host") + ":" + getConfig().getString("sql.port") + "/" + getConfig().getString("sql.database") + "?autoReconnect=true");
         connectionPool.setInitialSize(1);
         connectionPool.setMaxTotal(10);
-        mysql = new MySQL(connectionPool);
+        MySQL mysql = new MySQL(connectionPool);
         mysql.createTables();
     }
 
     private void registerCommands() {
         getCommand("level").setExecutor(new LevelCommand(this));
         getCommand("coins").setExecutor(new MoneyCommand(this));
-        getCommand("booster").setExecutor(new BoosterCommand(this));
-        getCommand("boxset").setExecutor(new BoxSetCommand(this));
-        getCommand("key").setExecutor(new KeyCommand(this));
         getCommand("boutique").setExecutor(new BoutiqueCommand());
         getCommand("discord").setExecutor(new LinkCommand());
-        getCommand("lobby").setExecutor(new ServerCommand(this));
         getCommand("load").setExecutor(new LoadCommand(this));
-        getCommand("motdeditor").setExecutor(new MotdCommand());
         getCommand("join").setExecutor(new JoinCommand(this));
-        //getCommand("profile").setExecutor(new ProfileCommand());
-        getCommand("deploy").setExecutor(new DeployCommand(this));
         getCommand("sound").setExecutor(new SoundCommand());
         getCommand("endoskull").setExecutor(new EndoSkullCommand(this));
         getCommand("forward").setExecutor(new ForwardCommand(this));
@@ -199,8 +146,6 @@ public class Main extends JavaPlugin {
         pm.registerEvents(new PlayerInv(this), this);
         pm.registerEvents(new PlayerJoin(this), this);
         pm.registerEvents(new CustomGuiListener(), this);
-        pm.registerEvents(new MotdListener(), this);
-        pm.registerEvents(new VanishListener(), this);
     }
 
     private void createServerFile() {
@@ -226,15 +171,7 @@ public class Main extends JavaPlugin {
     }
 
     public MySQL getMySQL() {
-        return mysql;
-    }
-
-    public HashMap<Player, Location> getWaitingSetting() {
-        return waitingSetting;
-    }
-
-    public HashMap<Player, CustomGui> getOpeningKeys() {
-        return openingKeys;
+        return MySQL.getInstance();
     }
 
     public void reload() {
@@ -245,19 +182,11 @@ public class Main extends JavaPlugin {
         return load;
     }
 
-    public HashMap<UUID, TagColor> getWaitingTag() {
-        return waitingTag;
-    }
-
     public JedisAccess getJedisAccess() {
         return jedisAccess;
     }
 
     public ServerType getServerType() {
         return serverType;
-    }
-
-    public HashMap<UUID, String> getNicks() {
-        return nicks;
     }
 }

@@ -1,7 +1,6 @@
-package fr.endoskull.api.commons;
+package fr.endoskull.api.commons.text;
 
 import net.md_5.bungee.api.ChatColor;
-import org.bukkit.Color;
 
 import java.util.regex.Pattern;
 

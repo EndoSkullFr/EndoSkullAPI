@@ -26,7 +26,6 @@ public class PlayerChat implements Listener {
             User user = LuckPermsProvider.get().getUserManager().getUser(player.getUniqueId());
             String prefix = user.getCachedData().getMetaData().getPrefix();
             if (prefix == null) prefix = "§7";
-            prefix = prefix.substring(0, 2);
             String suffix = user.getCachedData().getMetaData().getSuffix();
             if (suffix == null) suffix = "";
             String format = PlaceholderAPI.setPlaceholders(player,main.getConfig().getString("chatmsg"));

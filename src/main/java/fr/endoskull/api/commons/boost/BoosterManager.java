@@ -1,9 +1,9 @@
-package fr.endoskull.api.commons;
+package fr.endoskull.api.commons.boost;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.Gson;
-import fr.bebedlastreat.cache.CacheAPI;
+import fr.endoskull.api.commons.Account;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
@@ -13,28 +13,30 @@ import java.util.UUID;
 
 public class BoosterManager {
     private Booster booster;
+    private Account account;
 
-    public BoosterManager(Booster booster) {
+    public BoosterManager(Booster booster, Account account) {
         this.booster = booster;
+        this.account = account;
     }
 
-    public static void setBooster(UUID uuid, Booster booster) {
+    public static void setBooster(Account account, Booster booster) {
         try {
-            CacheAPI.set("boost/" + uuid, new ObjectMapper().writeValueAsString(booster));
+            account.setProperty("booster", new ObjectMapper().writeValueAsString(booster));
         } catch (JsonProcessingException e) {
             e.printStackTrace();
         }
     }
 
-    public static Booster getBooster(UUID uuid) {
-        if (CacheAPI.keyExist("boost/" + uuid)) {
+    public static Booster getBooster(Account account) {
+        if (!account.getProperty("booster").equalsIgnoreCase("")) {
             try {
-                return new ObjectMapper().readValue(CacheAPI.get("boost/" + uuid), Booster.class);
+                return new ObjectMapper().readValue(account.getProperty("booster"), Booster.class);
             } catch (JsonProcessingException e) {
                 e.printStackTrace();
             }
         }
-        return new Booster(uuid.toString(), 0, new ArrayList<>());
+        return new Booster(account.getUuid().toString(), 0, new ArrayList<>());
     }
 
 
@@ -91,7 +93,7 @@ public class BoosterManager {
     }
 
     private void save() {
-        BoosterManager.setBooster(UUID.fromString(booster.getUuid()), booster);
+        BoosterManager.setBooster(account, booster);
     }
 
     public double getBoost() {

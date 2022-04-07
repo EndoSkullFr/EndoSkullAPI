@@ -1,10 +1,7 @@
-name: EndoSkullAPI
+name: EndoSkullCore
 author: BebeDlaStreat
 version: 1.0
 main: fr.endoskull.api.BungeeMain
-softdepends:
-  - CacheAPI
-  - PartyAndFriends
 commands:
   forcesave:
   omg:

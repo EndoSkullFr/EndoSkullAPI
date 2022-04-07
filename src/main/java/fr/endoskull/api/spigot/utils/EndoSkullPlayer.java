@@ -1,13 +1,5 @@
 package fr.endoskull.api.spigot.utils;
 
-import fr.endoskull.api.data.sql.Keys;
-import fr.endoskull.api.data.sql.Level;
-import fr.endoskull.api.data.sql.Money;
-import org.bukkit.Bukkit;
-import org.bukkit.entity.Player;
-
-import java.util.UUID;
-
 public class EndoSkullPlayer {/*
     private UUID uuid;
 

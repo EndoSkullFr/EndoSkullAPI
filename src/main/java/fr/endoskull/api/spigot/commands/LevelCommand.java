@@ -4,7 +4,7 @@ import fr.endoskull.api.Main;
 import fr.endoskull.api.commons.Account;
 import fr.endoskull.api.commons.AccountProvider;
 import fr.endoskull.api.data.redis.JedisManager;
-import fr.endoskull.api.spigot.utils.PlayerInfos;
+import fr.endoskull.api.spigot.utils.SpigotPlayerInfos;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -38,7 +38,7 @@ public class LevelCommand implements CommandExecutor {
                 return;
             }
             String targetName = args[1];
-            UUID targetUUID = PlayerInfos.getUuidFromName(targetName);
+            UUID targetUUID = SpigotPlayerInfos.getUuidFromName(targetName);
             if (targetUUID == null) {
                 sender.sendMessage("§4Ce joueur n'existe pas !");
                 return;

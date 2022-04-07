@@ -1,15 +1,8 @@
 package fr.endoskull.api.spigot.listeners;
 
-import fr.endoskull.api.EndoSkullAPI;
 import fr.endoskull.api.Main;
 import fr.endoskull.api.commons.server.ServerState;
-import fr.endoskull.api.data.sql.Keys;
-import fr.endoskull.api.data.sql.Level;
-import fr.endoskull.api.data.sql.Money;
-import fr.endoskull.api.spigot.utils.EndoSkullPlayer;
-import fr.endoskull.api.spigot.utils.ServerConfig;
 import org.bukkit.Bukkit;
-import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -20,7 +13,6 @@ import org.bukkit.event.player.PlayerQuitEvent;
 import java.io.ByteArrayOutputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
-import java.util.UUID;
 
 public class PlayerJoin implements Listener {
     private Main main;
@@ -49,12 +41,6 @@ public class PlayerJoin implements Listener {
         }
         if (Bukkit.getOnlinePlayers().size() >= Bukkit.getMaxPlayers()) {
             main.getJedisAccess().getServerpool().getResource().set(Bukkit.getServerName(), ServerState.FULL.toString());
-        }
-        if (main.getNicks().containsKey(player.getUniqueId())) {
-            String name = main.getNicks().get(player.getUniqueId());
-            EndoSkullAPI.nick(player, name);
-        } else {
-            EndoSkullAPI.unnick(player, false);
         }
     }
 

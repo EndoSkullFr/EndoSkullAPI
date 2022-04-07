@@ -15,9 +15,11 @@ import java.util.function.Function;
 
 public class MySQL {
     private BasicDataSource connectionPool;
+    private static MySQL instance;
 
     public MySQL(BasicDataSource connectionPool) {
         this.connectionPool = connectionPool;
+        instance = this;
     }
 
     public Connection getConnection() throws SQLException {
@@ -33,6 +35,13 @@ public class MySQL {
                 "xp DOUBLE, " +
                 "solde DOUBLE, " +
                 "first_join BIGINT)");
+        update("CREATE TABLE IF NOT EXISTS stats ( `#` INT NOT NULL AUTO_INCREMENT PRIMARY KEY , uuid VARCHAR(255) , `key` VARCHAR(4095) NOT NULL , `value` INT NOT NULL )");
+        update("CREATE TABLE IF NOT EXISTS properties ( `#` INT NOT NULL AUTO_INCREMENT PRIMARY KEY , uuid VARCHAR(255) , `key` VARCHAR(4095) NOT NULL , `value` LONGTEXT NOT NULL )");
+        update("CREATE TABLE IF NOT EXISTS friends ( `#` INT NOT NULL AUTO_INCREMENT PRIMARY KEY , uuid1 VARCHAR(255) , uuid2 VARCHAR(255) )");
+        update("CREATE TABLE IF NOT EXISTS friend_settings ( `#` INT NOT NULL AUTO_INCREMENT PRIMARY KEY , uuid VARCHAR(255) , setting VARCHAR(255) , `value` VARCHAR(255) )");
+        update("CREATE TABLE IF NOT EXISTS friend_requests ( `#` INT NOT NULL AUTO_INCREMENT PRIMARY KEY , sender VARCHAR(255) , receiver VARCHAR(255) , `expiry` BIGINT )");
+        update("CREATE TABLE IF NOT EXISTS whitelist ( `#` INT NOT NULL AUTO_INCREMENT PRIMARY KEY , name VARCHAR(255) )");
+        update("CREATE TABLE IF NOT EXISTS maintenance ( `#` INT NOT NULL AUTO_INCREMENT PRIMARY KEY , service VARCHAR(255) , `value` BOOLEAN )");
     }
 
     public void update(String qry){
@@ -77,5 +86,9 @@ public class MySQL {
             }
             return result;
         });
+    }
+
+    public static MySQL getInstance() {
+        return instance;
     }
 }

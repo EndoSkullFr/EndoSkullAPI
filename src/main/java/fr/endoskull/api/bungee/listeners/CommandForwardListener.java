@@ -1,4 +1,4 @@
-package fr.endoskull.api.bungee.commands$;
+package fr.endoskull.api.bungee.listeners;
 
 import com.google.common.io.ByteArrayDataInput;
 import com.google.common.io.ByteStreams;

@@ -1,15 +1,7 @@
 package fr.endoskull.api.bungee.tasks;
 
-import de.dytanic.cloudnet.driver.CloudNetDriver;
-import de.dytanic.cloudnet.driver.service.ServiceInfoSnapshot;
-import fr.bebedlastreat.cache.data.redis.RedisManager;
-import fr.endoskull.api.BungeeMain;
-import fr.endoskull.api.commons.TextUtil;
+import fr.endoskull.api.commons.text.TextUtil;
 import net.md_5.bungee.api.ProxyServer;
-import net.md_5.bungee.api.connection.ProxiedPlayer;
-
-import java.util.HashMap;
-import java.util.UUID;
 
 public class AnnouncmentTask implements Runnable {
     private String[] messages = {"§7Rejoignez le discord §e(discord.endoskull.fr)§7",
