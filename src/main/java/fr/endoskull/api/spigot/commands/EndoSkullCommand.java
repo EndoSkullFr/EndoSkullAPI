@@ -34,7 +34,7 @@ public class EndoSkullCommand implements CommandExecutor, TabCompleter {
                 sender.sendMessage("§cCe projet n'existe pas");
                 return false;
             }
-            File buildFolder = new File("/var/lib/jenkins/workspace/EndoSkull/" + args[1] + "/target");
+            File buildFolder = new File("/root/Docker/data/jenkins/workspace/EndoSkull/" + args[1] + "/target");
             if (!buildFolder.exists()) {
                 sender.sendMessage("§cCe projet n'a pas été encore build");
                 return false;
