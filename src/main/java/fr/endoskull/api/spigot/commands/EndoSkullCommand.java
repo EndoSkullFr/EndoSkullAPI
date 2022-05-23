@@ -29,7 +29,7 @@ public class EndoSkullCommand implements CommandExecutor, TabCompleter {
                 sender.sendMessage("§c/" + label + " deploy <projet> <fileName> <template>");
                 return false;
             }
-            File projectFolder = new File("/var/lib/jenkins/workspace/EndoSkull/" + args[1]);
+            File projectFolder = new File("/root/Docker/data/jenkins/workspace/EndoSkull/" + args[1]);
             if (!projectFolder.exists()) {
                 sender.sendMessage("§cCe projet n'existe pas");
                 return false;
@@ -39,12 +39,12 @@ public class EndoSkullCommand implements CommandExecutor, TabCompleter {
                 sender.sendMessage("§cCe projet n'a pas été encore build");
                 return false;
             }
-            File jarFile = new File("/var/lib/jenkins/workspace/EndoSkull/" + args[1] + "/target/" + args[2]);
+            File jarFile = new File("/root/Docker/data/jenkins/workspace/EndoSkull/" + args[1] + "/target/" + args[2]);
             if (!jarFile.exists()) {
                 sender.sendMessage("§cCe projet ne contient pas ce fichier là dans ses builds");
                 return false;
             }
-            File serverFolder = new File("/root/cloudnet/local/templates/" + args[3]);
+            File serverFolder = new File("/root/Cloudnet/local/templates/" + args[3]);
             if (!serverFolder.exists()) {
                 sender.sendMessage("§cCette template n'existe pas");
                 return false;
@@ -77,7 +77,7 @@ public class EndoSkullCommand implements CommandExecutor, TabCompleter {
             return result;
         }
         if (args.length == 2 && args[0].equalsIgnoreCase("deploy")) {
-            File folder = new File("/var/lib/jenkins/workspace/EndoSkull/");
+            File folder = new File("/root/Docker/data/jenkins/workspace/EndoSkull/");
             List<String> subFolders = new ArrayList<>();
             for (File file : folder.listFiles()) {
                 if (file.isDirectory() && !file.getName().endsWith("@tmp") && file.getName().startsWith(args[1])) subFolders.add(file.getName());
@@ -85,7 +85,7 @@ public class EndoSkullCommand implements CommandExecutor, TabCompleter {
             return subFolders;
         }
         if (args.length == 3 && args[0].equalsIgnoreCase("deploy")) {
-            File folder = new File("/var/lib/jenkins/workspace/EndoSkull/" + args[1] + "/target");
+            File folder = new File("/root/Docker/data/jenkins/workspace/EndoSkull/" + args[1] + "/target");
             if (!folder.exists()) return null;
             List<String> jarFiles = new ArrayList<>();
             for (File file : folder.listFiles()) {
@@ -94,7 +94,7 @@ public class EndoSkullCommand implements CommandExecutor, TabCompleter {
             return jarFiles;
         }
         if (args.length == 4 && args[0].equalsIgnoreCase("deploy")) {
-            File folder = new File("/root/cloudnet/local/templates/");
+            File folder = new File("/root/Cloudnet/local/templates/");
             if (!folder.exists()) return null;
             List<String> folders = new ArrayList<>();
             for (File file : folder.listFiles()) {
