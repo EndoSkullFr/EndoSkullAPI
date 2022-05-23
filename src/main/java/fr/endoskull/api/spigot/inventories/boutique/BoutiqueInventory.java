@@ -30,7 +30,7 @@ public class BoutiqueInventory extends CustomGui {
         player.closeInventory();
         player.playSound(player.getLocation(), Sound.LEVEL_UP, 3.0f, 0.5f);
         TextComponent msg = new TextComponent(TextComponent.fromLegacyText("§7§m--------------------------------------------------\n" +
-                ChatColor.YELLOW + "Pour acheter cette article, rendez-vous sur la boutique en ligne: " + ChatColor.GREEN + "store.endoskull.fr\n" +
+                ChatColor.YELLOW + "Pour acheter cet article, rendez-vous sur la boutique en ligne: " + ChatColor.GREEN + "store.endoskull.fr\n" +
                 "§7§m--------------------------------------------------"));
         msg.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new ComponentBuilder("§fCLIQUEZ POUR OUVRIR").create()));
         msg.setClickEvent(new ClickEvent(ClickEvent.Action.OPEN_URL, "https://store.endoskull.fr"));

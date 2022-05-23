@@ -1,9 +1,7 @@
 package fr.endoskull.api.spigot.classement;
 
 import fr.endoskull.api.Main;
-import fr.endoskull.api.commons.Account;
-import fr.endoskull.api.commons.ClassementAccount;
-import org.bukkit.Bukkit;
+import fr.endoskull.api.commons.account.ClassementAccount;
 
 import java.sql.SQLException;
 import java.util.ArrayList;

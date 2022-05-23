@@ -57,11 +57,12 @@ public class Hologram {
     private Location location;
     private List<String> lines = new ArrayList<String>();
     private List<Integer> ids = new ArrayList<Integer>();
-    private List<Object> entities = new ArrayList<Object>();
+    private List<ArmorStand> entities = new ArrayList<>();
     private double offset = 0.23D;
 
     public Hologram(Location location, String... text) {
         this.location = location;
+        if (!location.getChunk().isLoaded()) location.getChunk().load();
         addLine(text);
     }
 
@@ -139,41 +140,6 @@ public class Hologram {
     }
 
     /**
-     * Display the hologram to a player or multiple
-     *
-     * @param players - The players to show the hologram to.
-     */
-    public void displayTo(Player... players) {
-        Location current = location.clone().add(0, (offset * lines.size()) - 1.97D, 0);
-
-        for (String str : lines) {
-            Object[] packet = getCreatePacket(location, ChatColor.translateAlternateColorCodes('&', str));
-            ids.add((Integer) packet[1]);
-
-            for (Player player : players)
-                sendPacket(player, packet[0]);
-
-            current.subtract(0, offset, 0);
-        }
-    }
-
-    /**
-     * Delete a hologram from a player or multiple.
-     *
-     * @param players
-     */
-    public void removeFrom(Player... players) {
-        Object packet = null;
-
-        for (int id : ids)
-            packet = getRemovePacket(id);
-
-        for (Player player : players)
-            if (packet != null)
-                sendPacket(player, packet);
-    }
-
-    /**
      * Spawn the hologram for everyone to see.
      */
     public void spawn() {
@@ -188,15 +154,11 @@ public class Hologram {
      */
     private void spawnHologram(String text, Location location) {
         try {
-            // The ArmorStand
-            Object craftWorld = Hologram.craftWorld.cast(location.getWorld());
-            Object entityObject = armorStand.getConstructor(nmsWorld).newInstance(Hologram.craftWorld.getMethod("getHandle").invoke(craftWorld));
+            ArmorStand as = location.getWorld().spawn(location, ArmorStand.class);
 
-            configureHologram(entityObject, text, location);
+            configureHologram(as, text, location);
 
-            Hologram.craftWorld.getMethod("addEntity", entityClass, CreatureSpawnEvent.SpawnReason.class).invoke(craftWorld, entityObject, CreatureSpawnEvent.SpawnReason.CUSTOM);
-
-            entities.add(entityObject);
+            entities.add(as);
         } catch (Exception ex) {
             ex.printStackTrace();
         }
@@ -206,57 +168,8 @@ public class Hologram {
      * Delete the hologram from the world.
      */
     public void remove() {
-        for (Object ent : entities)
-            removeEntity(ent);
-    }
-
-    private void removeEntity(Object entity) {
-        try {
-            Object craftWorld = Hologram.craftWorld.cast(location.getWorld());
-
-            nmsWorld.getMethod("removeEntity", entityClass).invoke(Hologram.craftWorld.getMethod("getHandle").invoke(craftWorld), entity);
-        } catch (Exception ex) {
-            ex.printStackTrace();
-        }
-    }
-
-    /**
-     * Get the packet for creating a new Hologram, using EntityArmorStands and PacketPlayOutSpawnEntityLiving
-     *
-     * @param location - The location for which to spawn the hologram.
-     * @param text     - The text (entity name) of the hologram.
-     * @return Object - The PacketPlayOutSpawnEntityLiving packet in the form of an Object (Because of reflection, duh ^^)
-     */
-    private Object[] getCreatePacket(Location location, String text) {
-        try {
-            // The ArmorStand
-            Object entityObject = armorStand.getConstructor(nmsWorld).newInstance(craftWorld.getMethod("getHandle").invoke(craftWorld.cast(location.getWorld())));
-            Object id = entityObject.getClass().getMethod("getId").invoke(entityObject);
-
-            configureHologram(entityObject, text, location);
-
-            // Return the packet, and the entity id so we can later remove it.
-            return new Object[]{spawnPacket.getConstructor(entityLiving).newInstance(entityObject), id};
-        } catch (Exception ex) {
-            ex.printStackTrace();
-            return null;
-        }
-    }
-
-    /**
-     * Get the removal packet for the hologram.
-     *
-     * @param id - The entity ID to remove (ArmorStand)
-     * @return The destroy packet object.
-     */
-    private Object getRemovePacket(int id) {
-        try {
-            Class<?> packet = Class.forName("net.minecraft.server." + version + "PacketPlayOutEntityDestroy");
-            return packet.getConstructor(int[].class).newInstance(new int[]{id});
-        } catch (Exception ex) {
-            ex.printStackTrace();
-            return null;
-        }
+        for (ArmorStand as : entities)
+            as.remove();
     }
 
     /**
@@ -267,10 +180,10 @@ public class Hologram {
             if (!entities.isEmpty()) { // spawned as an actual entity, moving is ezpz.
 
                 for (int i = 0; i < entities.size(); i++) {
-                    Object ent = entities.get(i);
+                    ArmorStand as = entities.get(i);
 
                     if (i > lines.size() - 1) // 1 'hologram' per line
-                        removeEntity(ent);
+                        as.remove();
                 }
 
                 Location current = location.clone().add(0, (offset * lines.size()) - 1.97D, 0);
@@ -294,47 +207,14 @@ public class Hologram {
             ex.printStackTrace();
         }
     }
-
-    /**
-     * Configures the hologram properties.
-     *
-     * @param entityObject - The EntityArmorStand object to modify.
-     * @param text         - The text the hologram has.
-     * @throws Exception
-     */
-    private void configureHologram(Object entityObject, String text, Location location) throws Exception {
-        // Methods for modifying the properties
-        Method setCustomName = entityObject.getClass().getMethod("setCustomName", String.class);
-        Method setCustomNameVisible = entityObject.getClass().getMethod("setCustomNameVisible", boolean.class);
-        Method setNoGravity = entityObject.getClass().getMethod("setGravity", boolean.class); // Previously setGravity(boolean) prior to 1.10
-        Method setLocation = entityObject.getClass().getMethod("setLocation", double.class, double.class, double.class, float.class, float.class);
-        Method setInvisible = entityObject.getClass().getMethod("setInvisible", boolean.class);
-
-        // Setting the properties
-        setCustomName.invoke(entityObject, text);
-        setCustomNameVisible.invoke(entityObject, true);
-        setNoGravity.invoke(entityObject, true);
-        setLocation.invoke(entityObject, location.getX(), location.getY(), location.getZ(), 0.0F, 0.0F);
-        setInvisible.invoke(entityObject, true);
+    private void configureHologram(ArmorStand as, String text, Location location) {
+        as.setCustomName(text);
+        as.setCustomNameVisible(true);
+        as.setGravity(false);
+        as.teleport(location);
+        as.setVisible(false);
+        as.setMarker(true);
     }
 
-    /**
-     * Send a packet to a player.
-     *
-     * @param player
-     * @param packet
-     */
-    private void sendPacket(Player player, Object packet) {
-        try {
-            if (packet == null)
-                return;
-
-            Object entityPlayer = player.getClass().getMethod("getHandle").invoke(player);
-            Object connection = entityPlayer.getClass().getField("playerConnection").get(entityPlayer);
-            connection.getClass().getMethod("sendPacket", Class.forName("net.minecraft.server." + version + "Packet")).invoke(connection, packet);
-        } catch (Exception ex) {
-            ex.printStackTrace();
-        }
-    }
 
 }

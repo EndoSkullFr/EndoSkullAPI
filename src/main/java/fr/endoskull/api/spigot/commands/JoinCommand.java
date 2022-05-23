@@ -4,6 +4,8 @@ import de.dytanic.cloudnet.driver.CloudNetDriver;
 import de.dytanic.cloudnet.ext.bridge.player.ICloudPlayer;
 import de.dytanic.cloudnet.ext.bridge.player.IPlayerManager;
 import fr.endoskull.api.Main;
+import fr.endoskull.api.commons.paf.Party;
+import fr.endoskull.api.commons.paf.PartyUtils;
 import fr.endoskull.api.commons.server.ServerManager;
 import fr.endoskull.api.commons.server.ServerType;
 import fr.endoskull.api.spigot.inventories.ServerInventory;
@@ -42,15 +44,19 @@ public class JoinCommand implements CommandExecutor {
             new ServerInventory(serverType, main).open(player);
             return false;
         }
-        new PartyInfo(player).getPartySize(integer -> {
-            String server = ServerManager.getServer(serverType, player, integer);
-            if (server == null) {
-                player.sendMessage("§cAucun serveur de ce type n'est disponible ou aucun serveur ne peut acceuillir la taille de votre partie, merci de patienter");
-                return;
+        int partySize = 1;
+        if (PartyUtils.isInParty(player.getUniqueId())) {
+            Party party = PartyUtils.getParty(player.getUniqueId());
+            if (party.getLeader().equals(player.getUniqueId())) {
+                partySize = party.getPlayers().size();
             }
-            //ICloudPlayer cloudPlayer = playerManager.getOnlinePlayer(player.getUniqueId());
-            playerManager.getPlayerExecutor(player.getUniqueId()).connect(server);
-        });
+        }
+        String server = ServerManager.getServer(serverType, partySize);
+        if (server == null) {
+            player.sendMessage("§cAucun serveur de ce type n'est disponible ou aucun serveur ne peut acceuillir la taille de votre partie, merci de patienter");
+            return false;
+        }
+        playerManager.getPlayerExecutor(player.getUniqueId()).connect(server);
         return false;
     }
 }

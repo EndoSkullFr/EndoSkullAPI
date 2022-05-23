@@ -1,5 +1,6 @@
 package fr.endoskull.api.commons.paf;
 
+import fr.endoskull.api.bungee.tasks.PAFTask;
 import fr.endoskull.api.bungee.utils.FriendRequest;
 import fr.endoskull.api.data.redis.JedisAccess;
 import fr.endoskull.api.data.sql.MySQL;
@@ -14,21 +15,22 @@ public class FriendUtils {
 
     public static void addRequest(UUID sender, UUID receiver) {
         MySQL.getInstance().update("INSERT INTO `friend_requests`(`sender`, `receiver`, `expiry`) VALUES ('" + sender + "','" + receiver + "', '" + (System.currentTimeMillis() + (1000*60*5)) + "')");
-        /*FriendRequest request = new FriendRequest(sender, receiver, System.currentTimeMillis() + (1000*60*5));
-        if (requests.containsKey(sender)) {
-            List<FriendRequest> fRequests = requests.get(sender);
-            fRequests.add(request);
-            requests.put(sender, fRequests);
+        if (PAFTask.getFriendRequests().containsKey(sender)) {
+            List<UUID> uuids = PAFTask.getFriendRequests().get(sender);
+            uuids.add(receiver);
+            PAFTask.getFriendRequests().put(sender, uuids);
         } else {
-            requests.put(sender, new ArrayList<>(Arrays.asList(request)));
-        }*/
+            PAFTask.getFriendRequests().put(sender, new ArrayList<>(Arrays.asList(receiver)));
+        }
     }
 
     public static boolean hasRequestFrom(UUID uuid, UUID sender) {
         return (boolean) MySQL.getInstance().query("SELECT * FROM `friend_requests` WHERE sender='" + sender + "' AND receiver='" + uuid + "'", rs -> {
             try {
                 if (rs.next()){
-                    return System.currentTimeMillis() < rs.getLong("expiry");
+                    boolean avaible = System.currentTimeMillis() < rs.getLong("expiry");
+                    if (!avaible) removeRequest(sender, uuid);
+                    return avaible;
                 }
             } catch (SQLException e) {
                 e.printStackTrace();

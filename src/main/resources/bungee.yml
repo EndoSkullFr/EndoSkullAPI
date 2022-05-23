@@ -5,3 +5,5 @@ main: fr.endoskull.api.BungeeMain
 commands:
   forcesave:
   omg:
+  api:
+  unload:

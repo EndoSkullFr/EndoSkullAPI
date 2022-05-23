@@ -2,8 +2,8 @@ package fr.endoskull.api.data.redis;
 
 import fr.endoskull.api.BungeeMain;
 import fr.endoskull.api.Main;
-import fr.endoskull.api.commons.Account;
-import fr.endoskull.api.commons.AccountProvider;
+import fr.endoskull.api.commons.account.Account;
+import fr.endoskull.api.commons.account.AccountProvider;
 import fr.endoskull.api.data.sql.MySQL;
 import redis.clients.jedis.Jedis;
 

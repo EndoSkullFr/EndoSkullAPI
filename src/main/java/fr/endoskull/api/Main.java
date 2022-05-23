@@ -1,28 +1,16 @@
 package fr.endoskull.api;
 
-import com.comphenix.protocol.PacketType;
-import com.comphenix.protocol.ProtocolLibrary;
-import com.comphenix.protocol.ProtocolManager;
-import com.comphenix.protocol.events.PacketAdapter;
-import com.comphenix.protocol.events.PacketContainer;
-import com.comphenix.protocol.events.PacketEvent;
 import fr.endoskull.api.commons.server.ServerState;
 import fr.endoskull.api.commons.server.ServerType;
 import fr.endoskull.api.data.redis.JedisAccess;
 import fr.endoskull.api.spigot.classement.ClassementTask;
-import fr.endoskull.api.spigot.inventories.tag.TagColor;
 import fr.endoskull.api.data.sql.MySQL;
 import fr.endoskull.api.spigot.commands.*;
 import fr.endoskull.api.spigot.listeners.*;
-import fr.endoskull.api.spigot.papi.CloudNetExpansion;
-import fr.endoskull.api.spigot.papi.EndoSkullPlaceholder;
-import fr.endoskull.api.spigot.tasks.BossBarRunnable;
 import fr.endoskull.api.spigot.utils.AntiTabComplete;
-import fr.endoskull.api.spigot.utils.CustomGui;
 import org.apache.commons.dbcp2.BasicDataSource;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
-import org.bukkit.Location;
 import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
@@ -30,12 +18,9 @@ import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
 import redis.clients.jedis.Jedis;
-import redis.clients.jedis.JedisPubSub;
 
 import java.io.File;
 import java.io.IOException;
-import java.lang.reflect.InvocationTargetException;
-import java.util.*;
 
 public class Main extends JavaPlugin {
     private static Main instance;
@@ -73,8 +58,8 @@ public class Main extends JavaPlugin {
 
         System.out.println("[" + getDescription().getName() + "] enable");
 
-        new EndoSkullPlaceholder().register();
-        new CloudNetExpansion().register();
+        //new EndoSkullPlaceholder().register();
+        //new CloudNetExpansion().register();
 
         Bukkit.getScheduler().runTaskTimerAsynchronously(this, new ClassementTask(this), 100, 20 * 20);
 
@@ -83,14 +68,24 @@ public class Main extends JavaPlugin {
             @Override
             public void run() {
                 if (Bukkit.getServerName().contains("-")) {
-                    if (ServerType.getByName(Bukkit.getServerName().split("-")[0]) != null) {
-                        serverType = ServerType.getByName(Bukkit.getServerName().split("-")[0]);
-                        jedisAccess.getServerpool().getResource().set(Bukkit.getServerName(), ServerState.ONLINE.toString());
-                        System.out.println("[EndoSkull] Ajout du serveur dans le redis, prêt à recevoir des joueurs");
-                    } else {
-                        serverType = ServerType.UNKNOW;
-                        System.out.println("[EndoSkull] Type de serveur inconnu");
+                    Jedis j = null;
+                    try {
+                        j = JedisAccess.getServerpool().getResource();
+                        if (ServerType.getByName(Bukkit.getServerName().split("-")[0]) != null) {
+                            serverType = ServerType.getByName(Bukkit.getServerName().split("-")[0]);
+                            j.set(Bukkit.getServerName(), ServerState.ONLINE.toString());
+                            if (!serverType.isMultiArena()) {
+                                j.set("online/" + Bukkit.getServerName(), String.valueOf(Bukkit.getOnlinePlayers().size()));
+                            }
+                            System.out.println("[EndoSkull] Ajout du serveur dans le redis, prêt à recevoir des joueurs");
+                        } else {
+                            serverType = ServerType.UNKNOW;
+                            System.out.println("[EndoSkull] Type de serveur inconnu");
+                        }
+                    } finally {
+                        j.close();
                     }
+
                 }
             }
         }.runTaskLaterAsynchronously(this, 3 * 20);
@@ -107,7 +102,15 @@ public class Main extends JavaPlugin {
         for (Player pls : Bukkit.getOnlinePlayers()) {
             pls.kickPlayer("§eEndoSkull §8>> §cLe serveur sur lequel vous étiez s'est arrêté");
         }
-        JedisAccess.getServerpool().getResource().del(Bukkit.getServerName());
+        Jedis j = null;
+        try {
+            j = JedisAccess.getServerpool().getResource();
+
+            j.del(Bukkit.getServerName());
+            j.del("online/" + Bukkit.getServerName());
+        } finally {
+            j.close();
+        }
         JedisAccess.getServerpool().close();
         JedisAccess.getUserpool().close();
         super.onDisable();
@@ -135,6 +138,9 @@ public class Main extends JavaPlugin {
         getCommand("sound").setExecutor(new SoundCommand());
         getCommand("endoskull").setExecutor(new EndoSkullCommand(this));
         getCommand("forward").setExecutor(new ForwardCommand(this));
+        getCommand("booster").setExecutor(new BoosterCommand(this));
+        getCommand("staff").setExecutor(new StaffCommand());
+        getCommand("about").setExecutor(new AboutCommand());
 
         getCommand("endoskullapi").setExecutor(new EndoSkullApiCommand(this));
     }
@@ -146,6 +152,7 @@ public class Main extends JavaPlugin {
         pm.registerEvents(new PlayerInv(this), this);
         pm.registerEvents(new PlayerJoin(this), this);
         pm.registerEvents(new CustomGuiListener(), this);
+        pm.registerEvents(new StaffListener(), this);
     }
 
     private void createServerFile() {

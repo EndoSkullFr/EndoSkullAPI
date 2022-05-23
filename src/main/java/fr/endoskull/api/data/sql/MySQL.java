@@ -1,6 +1,6 @@
 package fr.endoskull.api.data.sql;
 
-import fr.endoskull.api.commons.AccountProvider;
+import fr.endoskull.api.commons.account.AccountProvider;
 import org.apache.commons.dbcp2.BasicDataSource;
 
 import java.sql.Connection;
@@ -42,6 +42,9 @@ public class MySQL {
         update("CREATE TABLE IF NOT EXISTS friend_requests ( `#` INT NOT NULL AUTO_INCREMENT PRIMARY KEY , sender VARCHAR(255) , receiver VARCHAR(255) , `expiry` BIGINT )");
         update("CREATE TABLE IF NOT EXISTS whitelist ( `#` INT NOT NULL AUTO_INCREMENT PRIMARY KEY , name VARCHAR(255) )");
         update("CREATE TABLE IF NOT EXISTS maintenance ( `#` INT NOT NULL AUTO_INCREMENT PRIMARY KEY , service VARCHAR(255) , `value` BOOLEAN )");
+        update("CREATE TABLE IF NOT EXISTS online_count ( service VARCHAR(255) , `online` INT , `date` TIMESTAMP DEFAULT CURRENT_TIMESTAMP )");
+        update("CREATE TABLE IF NOT EXISTS discord_count ( `members` INT , `date` TIMESTAMP DEFAULT CURRENT_TIMESTAMP )");
+        update("CREATE TABLE IF NOT EXISTS account_count ( `accounts` INT , `date` TIMESTAMP DEFAULT CURRENT_TIMESTAMP )");
     }
 
     public void update(String qry){

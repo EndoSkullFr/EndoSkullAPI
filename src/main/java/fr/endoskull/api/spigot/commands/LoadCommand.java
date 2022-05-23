@@ -1,7 +1,7 @@
 package fr.endoskull.api.spigot.commands;
 
 import fr.endoskull.api.Main;
-import fr.endoskull.api.commons.AccountProvider;
+import fr.endoskull.api.commons.account.AccountProvider;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;

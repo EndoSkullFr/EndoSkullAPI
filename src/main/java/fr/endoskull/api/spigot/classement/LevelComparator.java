@@ -1,6 +1,6 @@
 package fr.endoskull.api.spigot.classement;
 
-import fr.endoskull.api.commons.Account;
+import fr.endoskull.api.commons.account.Account;
 
 import java.util.Comparator;
 

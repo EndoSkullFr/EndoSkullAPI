@@ -1,8 +1,8 @@
 package fr.endoskull.api.spigot.tasks;
 
 import fr.endoskull.api.Main;
-import fr.endoskull.api.commons.Account;
-import fr.endoskull.api.commons.AccountProvider;
+import fr.endoskull.api.commons.account.Account;
+import fr.endoskull.api.commons.account.AccountProvider;
 import net.minecraft.server.v1_8_R3.ChatComponentText;
 import net.minecraft.server.v1_8_R3.PacketPlayOutChat;
 import org.bukkit.Bukkit;

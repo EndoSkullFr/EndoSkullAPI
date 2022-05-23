@@ -7,6 +7,7 @@ import net.luckperms.api.model.user.UserManager;
 
 import java.util.HashMap;
 import java.util.UUID;
+import java.util.concurrent.CompletableFuture;
 
 public class EndoSkullAPI {
 
@@ -32,7 +33,16 @@ public class EndoSkullAPI {
 
     public static String getPrefix(UUID uuid) {
         String prefix = prefixMap.get(uuid);
-        if (prefix == null) return defaultPrefix;
+        if (prefix == null) {
+            CompletableFuture<User> userFuture = userManager.loadUser(uuid);
+            User user = userFuture.join();
+            prefix = user.getCachedData().getMetaData().getPrefix();
+            if (prefix == null) {
+                prefix = defaultPrefix;
+            }
+            prefix = prefix.replace("&", "§");
+            prefixMap.put(uuid, prefix);
+        }
         return prefix;
     }
 

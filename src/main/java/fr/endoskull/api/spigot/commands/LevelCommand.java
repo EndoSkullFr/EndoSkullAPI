@@ -1,8 +1,8 @@
 package fr.endoskull.api.spigot.commands;
 
 import fr.endoskull.api.Main;
-import fr.endoskull.api.commons.Account;
-import fr.endoskull.api.commons.AccountProvider;
+import fr.endoskull.api.commons.account.Account;
+import fr.endoskull.api.commons.account.AccountProvider;
 import fr.endoskull.api.data.redis.JedisManager;
 import fr.endoskull.api.spigot.utils.SpigotPlayerInfos;
 import org.bukkit.Bukkit;

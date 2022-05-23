@@ -1,5 +1,5 @@
 package fr.endoskull.api.spigot.papi;
-
+/**
 import de.dytanic.cloudnet.driver.CloudNetDriver;
 import de.dytanic.cloudnet.driver.provider.ServiceTaskProvider;
 import de.dytanic.cloudnet.driver.service.ServiceInfoSnapshot;
@@ -64,4 +64,4 @@ public class CloudNetExpansion extends PlaceholderExpansion {
         }
         return null;
     }
-}
+}*/

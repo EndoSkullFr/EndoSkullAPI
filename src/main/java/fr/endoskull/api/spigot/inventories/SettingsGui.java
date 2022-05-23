@@ -1,7 +1,5 @@
 package fr.endoskull.api.spigot.inventories;
 
-import fr.endoskull.api.commons.Account;
-import fr.endoskull.api.commons.AccountProvider;
 import fr.endoskull.api.commons.paf.FriendSettingsSpigot;
 import fr.endoskull.api.commons.paf.FriendUtils;
 import fr.endoskull.api.spigot.utils.CustomGui;

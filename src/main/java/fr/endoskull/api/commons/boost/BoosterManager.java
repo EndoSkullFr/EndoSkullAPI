@@ -2,13 +2,11 @@ package fr.endoskull.api.commons.boost;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.google.gson.Gson;
-import fr.endoskull.api.commons.Account;
+import fr.endoskull.api.commons.account.Account;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
-import java.util.List;
 import java.util.UUID;
 
 public class BoosterManager {

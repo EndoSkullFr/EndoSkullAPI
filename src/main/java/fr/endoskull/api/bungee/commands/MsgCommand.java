@@ -29,19 +29,19 @@ public class MsgCommand extends Command {
             String targetName = args[0];
             if (targetName.equalsIgnoreCase(player.getName())) {
                 player.sendMessage(new TextComponent(EndoSkullAPI.LINE + "\n§cVous ne pouvez pas vous envoyer de message\n" +
-                        EndoSkullAPI.LINE));
+                        EndoSkullAPI.LINE).toLegacyText());
                 return;
             }
             ProxiedPlayer target = ProxyServer.getInstance().getPlayer(targetName);
             if (target == null) {
                 player.sendMessage(new TextComponent(EndoSkullAPI.LINE + "\n§cCe joueur n'est pas connecter\n" +
-                        EndoSkullAPI.LINE));
+                        EndoSkullAPI.LINE).toLegacyText());
                 return;
             }
 
             if (!FriendUtils.getSetting(target.getUniqueId(), FriendSettingsBungee.PRIVATE_MESSAGE).equalsIgnoreCase("1")) {
                 if (!FriendUtils.areFriends(player.getUniqueId(), target.getUniqueId())) {
-                    player.sendMessage(new TextComponent(EndoSkullAPI.LINE + "\n§cCe joueur a desactivé les messages privés ne provenant pas de ses amis\n" + EndoSkullAPI.LINE));
+                    player.sendMessage(new TextComponent(EndoSkullAPI.LINE + "\n§cCe joueur a desactivé les messages privés ne provenant pas de ses amis\n" + EndoSkullAPI.LINE).toLegacyText());
                     return;
                 }
             }
@@ -51,8 +51,8 @@ public class MsgCommand extends Command {
             }
             String message = messageBuilder.toString();
             message = message.substring(0, message.length() - 1);
-            player.sendMessage(new TextComponent("§a§lMSG §8» " + EndoSkullAPI.getColor(player.getUniqueId()) + player.getName() + " §7➼ " + EndoSkullAPI.getColor(target.getUniqueId()) + target.getName() + " §7» §f" + message));
-            target.sendMessage(new TextComponent("§a§lMSG §8» " + EndoSkullAPI.getColor(player.getUniqueId()) + player.getName() + " §7➼ " + EndoSkullAPI.getColor(target.getUniqueId()) + target.getName() + " §7» §f" + message));
+            player.sendMessage(new TextComponent("§a§lMSG §8» " + EndoSkullAPI.getColor(player.getUniqueId()) + player.getName() + " §7➼ " + EndoSkullAPI.getColor(target.getUniqueId()) + target.getName() + " §7» §f" + message).toLegacyText());
+            target.sendMessage(new TextComponent("§a§lMSG §8» " + EndoSkullAPI.getColor(player.getUniqueId()) + player.getName() + " §7➼ " + EndoSkullAPI.getColor(target.getUniqueId()) + target.getName() + " §7» §f" + message).toLegacyText());
             BungeeMain.getInstance().getLastPM().put(player, target);
             BungeeMain.getInstance().getLastPM().put(target, player);
 
@@ -60,7 +60,7 @@ public class MsgCommand extends Command {
         }
         player.sendMessage(new TextComponent(EndoSkullAPI.LINE + "\n§aUtilisation:\n" +
                 "§e/msg (Pseudo) (Message)\n" +
-                EndoSkullAPI.LINE));
+                EndoSkullAPI.LINE).toLegacyText());
 
     }
 }

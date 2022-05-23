@@ -10,6 +10,7 @@ public class JedisAccess {
     private int port;
     private static JedisPool userpool;
     private static JedisPool serverpool;
+    private static JedisPool partyPool;
 
     public JedisAccess(String ip, int port, String password){
         this.ip = ip;
@@ -23,8 +24,9 @@ public class JedisAccess {
         JedisPoolConfig jedisPoolConfig = new JedisPoolConfig();
         jedisPoolConfig.setMaxTotal(1024);
         jedisPoolConfig.setMaxWaitMillis(5000);
-        this.userpool = new JedisPool(jedisPoolConfig, ip, port, 5000, password, 0);
-        this.serverpool = new JedisPool(jedisPoolConfig, ip, port, 5000, password, 1);
+        userpool = new JedisPool(jedisPoolConfig, ip, port, 5000, password, 0);
+        serverpool = new JedisPool(jedisPoolConfig, ip, port, 5000, password, 1);
+        partyPool = new JedisPool(jedisPoolConfig, ip, port, 5000, password, 2);
         Thread.currentThread().setContextClassLoader(previous);
     }
 
@@ -34,5 +36,9 @@ public class JedisAccess {
 
     public static JedisPool getUserpool() {
         return userpool;
+    }
+
+    public static JedisPool getPartyPool() {
+        return partyPool;
     }
 }

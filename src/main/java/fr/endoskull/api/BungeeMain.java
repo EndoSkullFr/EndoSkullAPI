@@ -3,16 +3,21 @@ package fr.endoskull.api;
 import fr.endoskull.api.bungee.commands.*;
 import fr.endoskull.api.bungee.listeners.*;
 import fr.endoskull.api.bungee.tasks.AnnouncmentTask;
+import fr.endoskull.api.bungee.tasks.OnlineCountTask;
+import fr.endoskull.api.bungee.tasks.PAFTask;
+import fr.endoskull.api.commons.server.ServerType;
 import fr.endoskull.api.data.redis.JedisAccess;
 import fr.endoskull.api.data.redis.JedisManager;
 import fr.endoskull.api.data.sql.MySQL;
 import net.md_5.bungee.BungeeCord;
 import net.md_5.bungee.api.ProxyServer;
+import net.md_5.bungee.api.config.ServerInfo;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
 import net.md_5.bungee.api.plugin.Plugin;
 import net.md_5.bungee.api.plugin.PluginManager;
 import org.apache.commons.dbcp2.BasicDataSource;
 
+import java.net.InetSocketAddress;
 import java.util.HashMap;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
@@ -39,28 +44,46 @@ public class BungeeMain extends Plugin {
         pm.registerListener(this, new ChatListener());
         pm.registerListener(this, new ForwardMessageListener(this));
         pm.registerListener(this, new ProxyPing());
+        pm.registerListener(this, new CustomServerConnectListener());
         //pm.registerListener(this, new PluginmessageListener(this));
 
         pm.registerCommand(this, new ForceCommand(this));
         pm.registerCommand(this, new OmgCommand());
         pm.registerCommand(this, new FriendCommand());
+        pm.registerCommand(this, new PartyCommand());
         pm.registerCommand(this, new MaintenanceCommand());
         pm.registerCommand(this, new MsgCommand());
         pm.registerCommand(this, new ReplyCommand());
+        pm.registerCommand(this, new ApiCommand());
+        pm.registerCommand(this, new UnloadCommand());
+        pm.registerCommand(this, new LobbyCommand());
 
         initConnection();
         new JedisAccess("127.0.0.1", 6379, "FimfvtAKApReX1kBgukpVn6CFyZLXa6X5MYXB4ZBFSnUqOfAd6pzqTi4GCrWcX7qwl8TSNUIMHR5MyIw").initConnection();
 
+        getProxy().getScheduler().schedule(this, () -> {
+            BungeeCord.getInstance().getScheduler().runAsync(this, PAFTask::run);
+        }, 5, 5, TimeUnit.SECONDS);
         BungeeCord.getInstance().getScheduler().schedule(this, () -> {
-            BungeeCord.getInstance().getScheduler().runAsync(this, () -> {
-                JedisManager.sendToDatabase();
-            });
+            BungeeCord.getInstance().getScheduler().runAsync(this, JedisManager::sendToDatabase);
             }, 15, 15, TimeUnit.MINUTES);
+        BungeeCord.getInstance().getScheduler().schedule(this, () -> {
+            BungeeCord.getInstance().getScheduler().runAsync(this, new OnlineCountTask());
+        }, 5, 5, TimeUnit.SECONDS);
 
         System.out.println("EndoSkullAPI Bungee ON");
 
         getProxy().getScheduler().schedule(this, new AnnouncmentTask(), 3, 15, TimeUnit.MINUTES);
         //((FriendList) Friends.getInstance().getSubCommand(FriendList.class)).registerTextReplacer(new FriendsTextReplacer());
+
+        int port = 45900;
+        for (ServerType value : ServerType.values()) {
+            if (value.isRegisterServer()) {
+                ServerInfo info = ProxyServer.getInstance().constructServerInfo(value.getServerName(), InetSocketAddress.createUnresolved("188.40.238.69", port), value.getServerName(), false);
+                ProxyServer.getInstance().getServers().put(value.getServerName(), info);
+                port++;
+            }
+        }
         super.onEnable();
     }
 

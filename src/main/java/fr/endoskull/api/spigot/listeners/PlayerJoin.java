@@ -1,7 +1,10 @@
 package fr.endoskull.api.spigot.listeners;
 
 import fr.endoskull.api.Main;
+import fr.endoskull.api.commons.EndoSkullAPI;
 import fr.endoskull.api.commons.server.ServerState;
+import fr.endoskull.api.commons.server.ServerType;
+import fr.endoskull.api.data.redis.JedisAccess;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -9,10 +12,14 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerLoginEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
+import redis.clients.jedis.Jedis;
 
 import java.io.ByteArrayOutputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 
 public class PlayerJoin implements Listener {
     private Main main;
@@ -35,18 +42,50 @@ public class PlayerJoin implements Listener {
             //UUID uuid = PlayerInfos.getUuidFromName(player.getName());
             //if (!main.getUuidsByName().containsKey(player)) main.getUuidsByName().put(player.getName(), uuid);
         });
-
+        EndoSkullAPI.loadPrefix(player.getUniqueId());
+        if (!main.getServerType().isMultiArena() && main.getServerType() != ServerType.UNKNOW) {
+            Jedis j = null;
+            try {
+                j = JedisAccess.getServerpool().getResource();
+                j.set("online/" + Bukkit.getServerName(), String.valueOf(Bukkit.getOnlinePlayers().size()));
+            } finally {
+                j.close();
+            }
+        }
         if (Bukkit.getOnlinePlayers().size() >= main.getServerType().getSemiFull()) {
-            main.getJedisAccess().getServerpool().getResource().set(Bukkit.getServerName(), ServerState.SEMI_FULL.toString());
+            Jedis j = null;
+            try {
+                j = JedisAccess.getServerpool().getResource();
+                j.set(Bukkit.getServerName(), ServerState.SEMI_FULL.toString());
+            } finally {
+                j.close();
+            }
         }
         if (Bukkit.getOnlinePlayers().size() >= Bukkit.getMaxPlayers()) {
-            main.getJedisAccess().getServerpool().getResource().set(Bukkit.getServerName(), ServerState.FULL.toString());
+            Jedis j = null;
+            try {
+                j = JedisAccess.getServerpool().getResource();
+                j.set(Bukkit.getServerName(), ServerState.FULL.toString());
+            } finally {
+                j.close();
+            }
         }
     }
 
     @EventHandler
     public void onQuit(PlayerQuitEvent e) {
         Player player = e.getPlayer();
+        if (!main.getServerType().isMultiArena() && main.getServerType() != ServerType.UNKNOW) {
+            Jedis j = null;
+            try {
+                j = JedisAccess.getServerpool().getResource();
+                List<? extends Player> players = new ArrayList<>(Bukkit.getOnlinePlayers());
+                players.remove(player);
+                j.set("online/" + Bukkit.getServerName(), String.valueOf(players.size()));
+            } finally {
+                j.close();
+            }
+        }
     }
 
     @EventHandler

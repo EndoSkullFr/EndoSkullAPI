@@ -2,11 +2,10 @@ package fr.endoskull.api.bungee.listeners;
 
 import fr.endoskull.api.BungeeMain;
 import fr.endoskull.api.bungee.utils.MaintenanceUtils;
-import fr.endoskull.api.commons.Account;
-import fr.endoskull.api.commons.AccountProvider;
+import fr.endoskull.api.commons.account.Account;
+import fr.endoskull.api.commons.account.AccountProvider;
 import fr.endoskull.api.commons.EndoSkullAPI;
 import fr.endoskull.api.commons.paf.FriendSettingsBungee;
-import fr.endoskull.api.commons.paf.FriendSettingsSpigot;
 import fr.endoskull.api.commons.paf.FriendUtils;
 import fr.endoskull.api.data.redis.JedisManager;
 import net.md_5.bungee.BungeeCord;
@@ -58,7 +57,7 @@ public class ProxyPlayerListener implements Listener {
             ProxiedPlayer friend = ProxyServer.getInstance().getPlayer(friendUUID);
             if (friend == null) continue;
             if (!FriendUtils.getSetting(player.getUniqueId(), FriendSettingsBungee.FRIEND_NOTIFICATION).equalsIgnoreCase("1")) continue;
-            friend.sendMessage(new TextComponent("§a§lAMIS §8» " + EndoSkullAPI.getPrefix(player.getUniqueId()) + player.getName() + " §7vient de se §aconnecter"));
+            friend.sendMessage(new TextComponent("§a§lAMIS §8» " + EndoSkullAPI.getPrefix(player.getUniqueId()) + player.getName() + " §7vient de se §aconnecter").toLegacyText());
         }
         EndoSkullAPI.loadPrefix(player.getUniqueId());
     }
@@ -68,12 +67,13 @@ public class ProxyPlayerListener implements Listener {
         ProxiedPlayer player = e.getPlayer();
         Account account = AccountProvider.getAccount(player.getUniqueId());
         account.setProperty("lastLogout", String.valueOf(System.currentTimeMillis()));
-        AccountProvider.unloadAccount(player.getUniqueId());
+        if (account.getProperty("vanished", "false").equalsIgnoreCase("true")) account.setProperty("vanished", "false");
+        if (JedisManager.isLoad(player.getUniqueId())) AccountProvider.unloadAccount(player.getUniqueId());
         for (UUID friendUUID : FriendUtils.getFriends(player.getUniqueId())) {
             ProxiedPlayer friend = ProxyServer.getInstance().getPlayer(friendUUID);
             if (friend == null) continue;
             if (!FriendUtils.getSetting(player.getUniqueId(), FriendSettingsBungee.FRIEND_NOTIFICATION).equalsIgnoreCase("1")) continue;
-            friend.sendMessage(new TextComponent("§a§lAMIS §8» " + EndoSkullAPI.getPrefix(player.getUniqueId()) + player.getName() + " §7vient de se §cdéconnecter"));
+            friend.sendMessage(new TextComponent("§a§lAMIS §8» " + EndoSkullAPI.getPrefix(player.getUniqueId()) + player.getName() + " §7vient de se §cdéconnecter").toLegacyText());
         }
         BungeeMain.getInstance().getLastPM().remove(player);
         for (ProxiedPlayer p : new ArrayList<>(BungeeMain.getInstance().getLastPM().keySet())) {

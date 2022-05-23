@@ -1,4 +1,4 @@
-package fr.endoskull.api.commons;
+package fr.endoskull.api.commons.account;
 
 import fr.endoskull.api.data.redis.JedisAccess;
 import org.bukkit.Bukkit;

@@ -26,15 +26,8 @@ public class ReplyCommand extends Command {
             ProxiedPlayer target = BungeeMain.getInstance().getLastPM().get(player);
             if (target == null) {
                 player.sendMessage(new TextComponent(EndoSkullAPI.LINE + "\n§cVous n'avez pas de joueur à qui envoyer un message\n" +
-                        EndoSkullAPI.LINE));
+                        EndoSkullAPI.LINE).toLegacyText());
                 return;
-            }
-
-            if (!FriendUtils.getSetting(target.getUniqueId(), FriendSettingsBungee.PRIVATE_MESSAGE).equalsIgnoreCase("1")) {
-                if (!FriendUtils.areFriends(player.getUniqueId(), target.getUniqueId())) {
-                    player.sendMessage(new TextComponent(EndoSkullAPI.LINE + "\n§cCe joueur a desactivé les messages privés ne provenant pas de ses amis\n" + EndoSkullAPI.LINE));
-                    return;
-                }
             }
             StringBuilder messageBuilder = new StringBuilder();
             for (int i = 0; i < args.length; i++) {
@@ -47,7 +40,7 @@ public class ReplyCommand extends Command {
         }
         player.sendMessage(new TextComponent(EndoSkullAPI.LINE + "\n§aUtilisation:\n" +
                 "§e/reply (Message)\n" +
-                EndoSkullAPI.LINE));
+                EndoSkullAPI.LINE).toLegacyText());
 
     }
 }
