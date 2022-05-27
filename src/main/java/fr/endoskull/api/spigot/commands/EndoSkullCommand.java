@@ -49,6 +49,14 @@ public class EndoSkullCommand implements CommandExecutor, TabCompleter {
                 sender.sendMessage("§cCette template n'existe pas");
                 return false;
             }
+            if (!sender.hasPermission("endoskull.deploy.project." + args[1])) {
+                sender.sendMessage("§cPermission manquante: " + "endoskull.deploy.project." + args[1]);
+                return false;
+            }
+            if (!sender.hasPermission("endoskull.deploy.folder." + args[3])) {
+                sender.sendMessage("§cPermission manquante: " + "endoskull.deploy.folder." + args[3]);
+                return false;
+            }
             try {
                 if (serverFolder.getName().equalsIgnoreCase("Global")) {
                     FileUtils.copyFile(jarFile, new File(serverFolder + "/server/plugins/" + args[2]));

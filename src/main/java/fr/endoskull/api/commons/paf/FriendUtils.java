@@ -103,7 +103,6 @@ public class FriendUtils {
                 System.out.println(friend);
             }
         }
-        System.out.println(orderedFriends);
         return orderedFriends;
     }
 
