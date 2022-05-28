@@ -24,6 +24,13 @@ public class EndoSkullCommand implements CommandExecutor, TabCompleter {
 
     @Override
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
+        if (args.length > 0 && args[0].equalsIgnoreCase("stop")) {
+            if (!sender.hasPermission("endoskull.stop." + main.getServerType().toString())) {
+                sender.sendMessage("§cPermission manquante: " + "endoskull.stop." + main.getServerType().toString());
+                return false;
+            }
+            main.getServer().shutdown();
+        }
         if (args.length > 0 && args[0].equalsIgnoreCase("deploy")) {
             if (args.length < 4) {
                 sender.sendMessage("§c/" + label + " deploy <projet> <fileName> <template>");
