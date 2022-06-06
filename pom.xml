@@ -217,6 +217,13 @@
             <scope>system</scope>
             <systemPath>${project.basedir}/libs/VulcanAPI.jar</systemPath>
         </dependency>
+        <dependency>
+            <groupId>com.gitlab.ruany</groupId>
+            <artifactId>LiteBansAPI</artifactId>
+            <version>0.3.5</version>
+            <scope>provided</scope>
+        </dependency>
+
     </dependencies>
 
 </project>

@@ -2,6 +2,7 @@ name: EndoSkullCore
 author: BebeDlaStreat
 version: 1.0
 main: fr.endoskull.api.BungeeMain
+softDepends: [LiteBans]
 commands:
   forcesave:
   omg:

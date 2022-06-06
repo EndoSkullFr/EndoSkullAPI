@@ -5,10 +5,13 @@ import fr.endoskull.api.bungee.listeners.*;
 import fr.endoskull.api.bungee.tasks.AnnouncmentTask;
 import fr.endoskull.api.bungee.tasks.OnlineCountTask;
 import fr.endoskull.api.bungee.tasks.PAFTask;
+import fr.endoskull.api.bungee.utils.LitebansHandler;
 import fr.endoskull.api.commons.server.ServerType;
 import fr.endoskull.api.data.redis.JedisAccess;
 import fr.endoskull.api.data.redis.JedisManager;
 import fr.endoskull.api.data.sql.MySQL;
+import litebans.api.Entry;
+import litebans.api.Events;
 import net.md_5.bungee.BungeeCord;
 import net.md_5.bungee.api.ProxyServer;
 import net.md_5.bungee.api.config.ServerInfo;
@@ -84,6 +87,19 @@ public class BungeeMain extends Plugin {
                 port++;
             }
         }
+        Events.get().register(new Events.Listener() {
+            @Override
+            public void entryAdded(Entry entry) {
+                LitebansHandler.sendWebhookAdd(entry);
+            }
+        });
+        Events.get().register(new Events.Listener() {
+            @Override
+            public void entryRemoved(Entry entry) {
+                LitebansHandler.sendWebhookRemove(entry);
+            }
+        });
+
         super.onEnable();
     }
 
