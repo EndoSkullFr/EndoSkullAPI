@@ -11,6 +11,7 @@ public class AntiCheatListener implements Listener {
     @EventHandler
     public void onPunish(VulcanPunishEvent e) {
         Player player = e.getPlayer();
+        System.out.println("Event called");
         System.out.println(player.getName() + " got punish by vulcan");
         String snapshot = ReplayAPI.createSnapshotPlayer(120, player);
         System.out.println("Snapshot " + snapshot);
