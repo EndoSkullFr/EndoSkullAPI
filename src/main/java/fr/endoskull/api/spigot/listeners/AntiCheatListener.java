@@ -1,7 +1,7 @@
 package fr.endoskull.api.spigot.listeners;
 
 import de.musterbukkit.replaysystem.main.ReplayAPI;
-import fr.endoskull.api.spigot.utils.DiscordWebhook;
+import fr.endoskull.api.commons.miscellaneous.DiscordWebhook;
 import me.frep.vulcan.api.event.VulcanPunishEvent;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;

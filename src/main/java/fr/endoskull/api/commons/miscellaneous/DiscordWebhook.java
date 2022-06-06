@@ -1,4 +1,4 @@
-package fr.endoskull.api.spigot.utils;
+package fr.endoskull.api.commons.miscellaneous;
 
 import javax.net.ssl.HttpsURLConnection;
 import java.awt.Color;
