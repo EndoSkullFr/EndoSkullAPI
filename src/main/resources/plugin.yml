@@ -6,6 +6,8 @@ author: BebeDlaStreat
 main: fr.endoskull.api.Main
 softdepend:
   - ProtocolLib
+  - Vulcan
+  - ReplaySystem
 commands:
   level:
     aliases: [xp]

@@ -203,6 +203,20 @@
             <version>4.7.0</version>
             <scope>provided</scope>
         </dependency>
+        <dependency>
+            <groupId>de.musterbukkit.replaysystem</groupId>
+            <artifactId>Replay</artifactId>
+            <version>1.4.1</version>
+            <scope>system</scope>
+            <systemPath>${project.basedir}/libs/X_Replay_Dev_API.jar</systemPath>
+        </dependency>
+        <dependency>
+            <groupId>me.frep.vulcan</groupId>
+            <artifactId>Vulcan</artifactId>
+            <version>1.0.0</version>
+            <scope>system</scope>
+            <systemPath>${project.basedir}/libs/VulcanAPI.jar</systemPath>
+        </dependency>
     </dependencies>
 
 </project>

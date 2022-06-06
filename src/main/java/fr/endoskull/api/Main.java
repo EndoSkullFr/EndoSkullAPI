@@ -153,6 +153,10 @@ public class Main extends JavaPlugin {
         pm.registerEvents(new PlayerJoin(this), this);
         pm.registerEvents(new CustomGuiListener(), this);
         pm.registerEvents(new StaffListener(), this);
+
+        if (Bukkit.getPluginManager().getPlugin("Vulcan") != null && Bukkit.getPluginManager().getPlugin("ReplaySystem") != null) {
+            pm.registerEvents(new AntiCheatListener(), this);
+        }
     }
 
     private void createServerFile() {
