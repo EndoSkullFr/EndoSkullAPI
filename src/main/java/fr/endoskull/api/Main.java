@@ -141,6 +141,7 @@ public class Main extends JavaPlugin {
         getCommand("booster").setExecutor(new BoosterCommand(this));
         getCommand("staff").setExecutor(new StaffCommand());
         getCommand("about").setExecutor(new AboutCommand());
+        getCommand("key").setExecutor(new KeyCommand(this));
 
         getCommand("endoskullapi").setExecutor(new EndoSkullApiCommand(this));
     }
