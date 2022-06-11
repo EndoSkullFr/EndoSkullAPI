@@ -19,7 +19,7 @@ public class LitebansHandler {
     public static void sendWebhookAdd(Entry entry) {
         DiscordWebhook webhook = new DiscordWebhook(url);
         webhook.setUsername("Litebans");
-        webhook.setAvatarUrl("https://p16-sign.tiktokcdn-us.com/tos-useast5-avt-0068-tx/84428eae99c40b78a6d7dccd6805fc76~c5_720x720.jpeg?x-expires=1654588800&x-signature=eC01vUXekJdeOuK3iB6mQLyre10%3D");
+        webhook.setAvatarUrl("https://i.ytimg.com/vi/Ux5cQbO_ybw/mqdefault.jpg");
         String type = entry.getType();
         String targetName = getLastKnowName(entry.getUuid());
         if (targetName == null) targetName = entry.getUuid();
