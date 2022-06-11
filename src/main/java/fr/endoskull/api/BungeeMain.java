@@ -123,7 +123,7 @@ public class BungeeMain extends Plugin {
         connectionPool = new BasicDataSource();
         connectionPool.setDriverClassName("com.mysql.jdbc.Driver");
         connectionPool.setUsername("endoskull"); //w_512203
-        connectionPool.setPassword("9zRQ2Cb03DxdPTmG"); //45geFJ445geFJ445geFJ445geFJ4
+        connectionPool.setPassword("2M3hz44XRkkZkph3ExYqm2use5gJQG"); //45geFJ445geFJ445geFJ445geFJ4
         connectionPool.setUrl("jdbc:mysql://" + "localhost" + ":" + "3306" + "/" + "endoskull" + "?autoReconnect=true");
         connectionPool.setInitialSize(1);
         connectionPool.setMaxTotal(10);
