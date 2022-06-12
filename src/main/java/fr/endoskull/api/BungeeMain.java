@@ -48,6 +48,7 @@ public class BungeeMain extends Plugin {
         pm.registerListener(this, new ForwardMessageListener(this));
         pm.registerListener(this, new ProxyPing());
         pm.registerListener(this, new CustomServerConnectListener());
+        pm.registerListener(this, new ServerListener());
         //pm.registerListener(this, new PluginmessageListener(this));
 
         pm.registerCommand(this, new ForceCommand(this));
@@ -129,6 +130,7 @@ public class BungeeMain extends Plugin {
         connectionPool.setMaxTotal(10);
         MySQL mysql = new MySQL(connectionPool);
         mysql.createTables();
+        mysql.update("DELETE FROM `online_count` WHERE DATEDIFF(CURDATE(), `date`) > 7");
     }
 
     public HashMap<UUID, String> getWaitingServer() {
