@@ -1,6 +1,5 @@
 package fr.endoskull.api.bungee.tasks;
 
-import de.dytanic.cloudnet.ext.bridge.ServiceInfoSnapshotUtil;
 import fr.endoskull.api.data.sql.MySQL;
 
 import java.sql.SQLException;
@@ -24,9 +23,9 @@ public class OnlineCountTask implements Runnable {
             });
         }
         i--;
-        for (String task : tasks) {
+        /*for (String task : tasks) {
             final int onlineCount = ServiceInfoSnapshotUtil.getTaskOnlineCount(task);
             MySQL.getInstance().update("INSERT INTO `online_count`(`service`, `online`) VALUES ('" + task + "','" + onlineCount + "')");
-        }
+        }*/
     }
 }
