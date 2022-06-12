@@ -67,6 +67,8 @@ public class EndoSkullCommand implements CommandExecutor, TabCompleter {
             try {
                 if (serverFolder.getName().equalsIgnoreCase("Global")) {
                     FileUtils.copyFile(jarFile, new File(serverFolder + "/server/plugins/" + args[2]));
+                } else if (serverFolder.getName().equalsIgnoreCase("Proxy")) {
+                    FileUtils.copyFile(jarFile, new File("Global/proxy/plugins/" + args[2]));
                 } else {
                     FileUtils.copyFile(jarFile, new File(serverFolder + "/default/plugins/" + args[2]));
                 }

@@ -17,14 +17,12 @@ import net.md_5.bungee.api.chat.HoverEvent;
 import net.md_5.bungee.api.chat.TextComponent;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
 import net.md_5.bungee.api.plugin.Command;
+import net.md_5.bungee.api.plugin.TabExecutor;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 import java.util.concurrent.TimeUnit;
 
-public class FriendCommand extends Command {
+public class FriendCommand extends Command implements TabExecutor {
     public FriendCommand() {
         super("friend", "", "friends", "f");
     }
@@ -174,5 +172,24 @@ public class FriendCommand extends Command {
                 "§e/friend settings §8- §7Ouvrir les paramètres liés aux amis\n" +
                 "§e/friend requests §8- §7Afficher la liste des demandes d'amis\n" +
                 EndoSkullAPI.LINE).toLegacyText());
+    }
+
+    @Override
+    public Iterable<String> onTabComplete(CommandSender sender, String[] args) {
+        if (args.length == 1) {
+            List<String> result = new ArrayList<>();
+            for (String s : Arrays.asList("accept", "add", "list", "settings", "requests")) {
+                if (s.startsWith(args[0])) result.add(s);
+            }
+            return result;
+        }
+        if (args.length == 2 && (args[0].equalsIgnoreCase("accept") || args[0].equalsIgnoreCase("add"))) {
+            List<String> result = new ArrayList<>();
+            for (ProxiedPlayer player : ProxyServer.getInstance().getPlayers()) {
+                if (player.getName().startsWith(args[1])) result.add(player.getName());
+            }
+            return result;
+        }
+        return new ArrayList<>();
     }
 }

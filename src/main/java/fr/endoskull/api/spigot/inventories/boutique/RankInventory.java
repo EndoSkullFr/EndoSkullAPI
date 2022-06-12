@@ -13,7 +13,7 @@ public class RankInventory extends CustomGui {
         for (int i : glassSlots) {
             setItem(i, CustomItemStack.getPane(2).setName("§r"));
         }
-        setItem(20, new CustomItemStack(Material.GOLD_HELMET).setName("§eGrade VIP"), player -> BoutiqueInventory.sendStoreLink(player));
+        setItem(20, new CustomItemStack(Material.GOLD_CHESTPLATE).setName("§eGrade VIP"), player -> BoutiqueInventory.sendStoreLink(player));
         setItem(21, new CustomItemStack(Material.NAME_TAG).setName("§7Liste de ses fonctionnalités:").setLore("\n" +
                 "§7◇ Un booster de coins +50%\n" +
                 "§7◇ Le préfix §eVIP §7dans la tablist\n" +
@@ -23,7 +23,7 @@ public class RankInventory extends CustomGui {
                 "§7◇ Accès aux kits de Tier 2 sur le PvpKit" +
                 "\n\n" +
                 "§7⇨ Prix: §e5€"), player -> BoutiqueInventory.sendStoreLink(player));
-        setItem(23, new CustomItemStack(Material.DIAMOND_HELMET).setName("§bGrade Hero"), player -> BoutiqueInventory.sendStoreLink(player));
+        setItem(23, new CustomItemStack(Material.DIAMOND_CHESTPLATE).setName("§bGrade Hero"), player -> BoutiqueInventory.sendStoreLink(player));
         setItem(24, new CustomItemStack(Material.NAME_TAG).setName("§7Liste de ses fonctionnalités:").setLore("\n" +
                 "§7◇ Avantages du grade précédent\n" +
                 "§7◇ Un booster de coins +100%\n" +
