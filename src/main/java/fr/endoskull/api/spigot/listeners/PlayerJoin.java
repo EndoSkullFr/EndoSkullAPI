@@ -95,7 +95,7 @@ public class PlayerJoin implements Listener {
             if (!player.isOp()) {
                 e.setKickMessage("§cEndoSkull Network\n\n" +
                         "§fLe serveur auquel vous avez voulu vous connectez est en train\n" +
-                        "de redémarré, merci de retentez une connection dans quelques secondes");
+                        "de redémarré, merci de retentez une connexion dans quelques secondes");
             }
         }
     }

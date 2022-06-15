@@ -6,6 +6,8 @@ import fr.endoskull.api.bungee.utils.MaintenanceUtils;
 import net.md_5.bungee.api.Favicon;
 import net.md_5.bungee.api.ProxyServer;
 import net.md_5.bungee.api.ServerPing;
+import net.md_5.bungee.api.chat.ComponentBuilder;
+import net.md_5.bungee.api.event.LoginEvent;
 import net.md_5.bungee.api.event.PreLoginEvent;
 import net.md_5.bungee.api.event.ProxyPingEvent;
 import net.md_5.bungee.api.plugin.Listener;
@@ -25,7 +27,7 @@ public class ProxyPing implements Listener {
     public void onPing(ProxyPingEvent e) {
         ServerPing serverPing = e.getResponse();
 
-        String[] hoverText = {
+        /*String[] hoverText = {
                 "§7§m------------------------",
                 "",
                 "§6Discord §7⋙ §9discord.endoskull.fr",
@@ -39,7 +41,7 @@ public class ProxyPing implements Listener {
         for (int i = 0; i < l; i++)
             profiles[i] = new ServerPing.PlayerInfo(hoverText[i], new UUID(0L, 0L));
         serverPing.setPlayers(new ServerPing.Players(500, ProxyServer.getInstance().getOnlineCount(), profiles));
-
+        */
         try {
             serverPing.setFavicon(Favicon.create(ImageIO.read(new File("server-icon.png"))));
         } catch (IOException ioException) {
@@ -68,6 +70,15 @@ public class ProxyPing implements Listener {
         if (version < 47/* || version > 754*/) {
             e.setCancelled(true);
             e.setCancelReason("§cEndoSkull NetWork\n\n§7Le serveur est accessible uniquement à partir de la §c1.8\n\n§ehttps://discord.endoskull.fr");
+        }
+    }
+
+    @EventHandler
+    public void onLogin(LoginEvent e){
+
+        if(MaintenanceUtils.isInMaintenance("Global") && !MaintenanceUtils.isWhitelisted(e.getConnection().getName())){
+            e.setCancelled(true);
+            e.setCancelReason(new ComponentBuilder("§c§lEndoSkull Maintenance\n\n§7Plus d'infos §8» §adiscord.endoskull.fr").create());
         }
     }
 }

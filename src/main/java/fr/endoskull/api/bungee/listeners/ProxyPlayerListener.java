@@ -24,16 +24,6 @@ import java.util.UUID;
 
 public class ProxyPlayerListener implements Listener {
 
-
-    @EventHandler
-    public void onLogin(LoginEvent e){
-
-        if(MaintenanceUtils.isInMaintenance("Global") && !MaintenanceUtils.isWhitelisted(e.getConnection().getName())){
-            e.setCancelled(true);
-            e.setCancelReason(new ComponentBuilder("§c§lEndoSkull Maintenance\n\n§7Plus d'infos §8» §adiscord.endoskull.fr").create());
-        }
-    }
-
     @EventHandler
     public void onProxyJoin(PostLoginEvent e) {
         ProxiedPlayer player = e.getPlayer();
