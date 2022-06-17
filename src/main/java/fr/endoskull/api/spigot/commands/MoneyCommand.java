@@ -4,6 +4,8 @@ import fr.endoskull.api.Main;
 import fr.endoskull.api.commons.account.Account;
 import fr.endoskull.api.commons.account.AccountProvider;
 import fr.endoskull.api.data.redis.JedisManager;
+import fr.endoskull.api.spigot.utils.Languages;
+import fr.endoskull.api.spigot.utils.MessageUtils;
 import fr.endoskull.api.spigot.utils.SpigotPlayerInfos;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
@@ -27,9 +29,7 @@ public class MoneyCommand implements CommandExecutor {
             if (!player.hasPermission("coins.edit") || args.length == 0) {
                 Account account;
                 account = new AccountProvider(player.getUniqueId()).getAccount();
-                player.sendMessage("§7§m--------------------\n" +
-                        "§eVous avez §6" + account.getSolde() + " §ecoins\n" +
-                        "§7§m--------------------");
+                player.sendMessage(Languages.getLang(sender).getMessage(MessageUtils.Global.COINS).replace("%coins%", String.valueOf(account.getSolde())));
                 return false;
             }
         }

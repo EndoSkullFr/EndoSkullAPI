@@ -9,6 +9,8 @@ import fr.endoskull.api.commons.paf.PartyUtils;
 import fr.endoskull.api.commons.server.ServerManager;
 import fr.endoskull.api.commons.server.ServerType;
 import fr.endoskull.api.spigot.inventories.ServerInventory;
+import fr.endoskull.api.spigot.utils.Languages;
+import fr.endoskull.api.spigot.utils.MessageUtils;
 import fr.endoskull.api.spigot.utils.PartyInfo;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -27,17 +29,17 @@ public class JoinCommand implements CommandExecutor {
     @Override
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
         if (!(sender instanceof Player)) {
-            sender.sendMessage("§cVous devez être un joueur pour éxécuter cette commande");
+            sender.sendMessage(Languages.getLang(sender).getMessage(MessageUtils.Global.CONSOLE));
             return false;
         }
         Player player = (Player) sender;
         if (args.length < 1) {
-            player.sendMessage("§c/join [serveur] {gui}");
+            player.sendMessage("§cEndoSkull §c» §c/join [serveur] {gui}");
             return false;
         }
         ServerType serverType = ServerType.getByName(args[0]);
         if (serverType == null) {
-            player.sendMessage("§cCe type de serveur n'existe pas");
+            player.sendMessage(Languages.getLang(sender).getMessage(MessageUtils.Global.UNKNOWN_SERVER));
             return false;
         }
         if (args.length > 1 && args[1].equalsIgnoreCase("gui")) {
@@ -53,7 +55,7 @@ public class JoinCommand implements CommandExecutor {
         }
         String server = ServerManager.getServer(serverType, partySize);
         if (server == null) {
-            player.sendMessage("§cAucun serveur de ce type n'est disponible ou aucun serveur ne peut acceuillir la taille de votre partie, merci de patienter");
+            player.sendMessage(Languages.getLang(sender).getMessage(MessageUtils.Global.ANY_SERVER));
             return false;
         }
         playerManager.getPlayerExecutor(player.getUniqueId()).connect(server);

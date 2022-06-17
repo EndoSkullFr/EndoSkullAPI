@@ -1,6 +1,8 @@
 package fr.endoskull.api.spigot.commands;
 
 import fr.endoskull.api.Main;
+import fr.endoskull.api.spigot.utils.Languages;
+import fr.endoskull.api.spigot.utils.MessageUtils;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -14,7 +16,7 @@ public class EndoSkullApiCommand implements CommandExecutor {
     @Override
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
         if (!sender.isOp()) {
-            sender.sendMessage("§cVous n'avez pas la permission d'éxécuter cette commande");
+            sender.sendMessage(Languages.getLang(sender).getMessage(MessageUtils.Global.LESS_PERMISSION));
             return false;
         }
         if (args.length < 1 || !args[0].equalsIgnoreCase("reload")) {

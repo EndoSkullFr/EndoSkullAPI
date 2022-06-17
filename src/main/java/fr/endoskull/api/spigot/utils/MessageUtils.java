@@ -4,7 +4,8 @@ public interface MessageUtils {
     String getPath();
 
     enum Global implements MessageUtils {
-        ABOUT;
+        ABOUT, CONSOLE, CLICK_HOVER, LESS_PERMISSION, UNKNOWN_SERVER, ANY_SERVER, UNKNOWN_PLAYER,
+        LEVEL, VOTE, DISCORD, COINS, VANISH, UNVANISH;
 
         private final static String path = "global";
 

@@ -1,5 +1,7 @@
 package fr.endoskull.api.spigot.commands;
 
+import fr.endoskull.api.spigot.utils.Languages;
+import fr.endoskull.api.spigot.utils.MessageUtils;
 import net.md_5.bungee.api.chat.ClickEvent;
 import net.md_5.bungee.api.chat.ComponentBuilder;
 import net.md_5.bungee.api.chat.HoverEvent;
@@ -16,18 +18,14 @@ public class LinkCommand implements CommandExecutor {
         if (!(sender instanceof Player)) return false;
         Player player = (Player) sender;
         if (label.equalsIgnoreCase("discord")) {
-            TextComponent msg = new TextComponent(TextComponent.fromLegacyText("§7§m--------------------------------------------------\n" +
-                    ChatColor.YELLOW + "Lien du discord: " + ChatColor.GREEN + "discord.endoskull.fr\n" +
-                    "§7§m--------------------------------------------------"));
-            msg.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new ComponentBuilder("§dCliquez pour ouvir").create()));
+            TextComponent msg = new TextComponent(TextComponent.fromLegacyText(Languages.getLang(sender).getMessage(MessageUtils.Global.DISCORD)));
+            msg.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new ComponentBuilder(Languages.getLang(sender).getMessage(MessageUtils.Global.CLICK_HOVER)).create()));
             msg.setClickEvent(new ClickEvent(ClickEvent.Action.OPEN_URL, "http://discord.endoskull.fr"));
             player.spigot().sendMessage(msg);
         }
         if (label.equalsIgnoreCase("vote")) {
-            TextComponent msg = new TextComponent(TextComponent.fromLegacyText("§7§m--------------------------------------------------\n" +
-                    ChatColor.YELLOW + "Lien de la page de vote: " + ChatColor.GREEN + "endoskull.fr/vote\n" +
-                    "§7§m--------------------------------------------------"));
-            msg.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new ComponentBuilder("§dCliquez pour ouvir").create()));
+            TextComponent msg = new TextComponent(TextComponent.fromLegacyText(Languages.getLang(sender).getMessage(MessageUtils.Global.VOTE)));
+            msg.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new ComponentBuilder(Languages.getLang(sender).getMessage(MessageUtils.Global.CLICK_HOVER)).create()));
             msg.setClickEvent(new ClickEvent(ClickEvent.Action.OPEN_URL, "http://endoskull.fr/vote"));
             player.spigot().sendMessage(msg);
         }

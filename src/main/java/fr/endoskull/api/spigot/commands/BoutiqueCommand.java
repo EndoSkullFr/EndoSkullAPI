@@ -1,6 +1,8 @@
 package fr.endoskull.api.spigot.commands;
 
 import fr.endoskull.api.spigot.inventories.boutique.BoutiqueInventory;
+import fr.endoskull.api.spigot.utils.Languages;
+import fr.endoskull.api.spigot.utils.MessageUtils;
 import net.md_5.bungee.api.chat.ClickEvent;
 import net.md_5.bungee.api.chat.ComponentBuilder;
 import net.md_5.bungee.api.chat.HoverEvent;
@@ -17,7 +19,7 @@ public class BoutiqueCommand implements CommandExecutor {
     @Override
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
         if (!(sender instanceof Player)) {
-            sender.sendMessage("§cVous devez être un joueur pour éxécuter cette commande");
+            sender.sendMessage(Languages.getLang(sender).getMessage(MessageUtils.Global.CONSOLE));
             return false;
         }
         Player player = (Player) sender;
@@ -25,7 +27,7 @@ public class BoutiqueCommand implements CommandExecutor {
             TextComponent msg = new TextComponent(TextComponent.fromLegacyText("§7§m--------------------------------------------------\n" +
                     ChatColor.YELLOW + ChatColor.BOLD + "EndoSkull " + ChatColor.DARK_GRAY + "» " + ChatColor.GREEN + "endoskull.fr/shop\n" +
                     "§7§m--------------------------------------------------"));
-            msg.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new ComponentBuilder("§dCliquez pour ouvir").create()));
+            msg.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new ComponentBuilder(Languages.getLang(sender).getMessage(MessageUtils.Global.CLICK_HOVER)).create()));
             msg.setClickEvent(new ClickEvent(ClickEvent.Action.OPEN_URL, "http://endoskull.fr/shop"));
             player.spigot().sendMessage(msg);
             return false;

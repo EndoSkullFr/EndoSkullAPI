@@ -4,6 +4,8 @@ import fr.endoskull.api.Main;
 import fr.endoskull.api.commons.account.Account;
 import fr.endoskull.api.commons.account.AccountProvider;
 import fr.endoskull.api.data.redis.JedisManager;
+import fr.endoskull.api.spigot.utils.Languages;
+import fr.endoskull.api.spigot.utils.MessageUtils;
 import fr.endoskull.api.spigot.utils.SpigotPlayerInfos;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
@@ -26,9 +28,8 @@ public class LevelCommand implements CommandExecutor {
             Player player = (Player) sender;
             if (!player.hasPermission("level.edit") || args.length == 0) {
                 Account account = new AccountProvider(player.getUniqueId()).getAccount();
-                player.sendMessage("§7§m--------------------\n" +
-                        "§eLevel : §6" + account.getLevel() + " §f| §eXp : §6" + account.getXp() + "§e/§6" + account.xpToLevelSup() + "\n" +
-                        "§7§m--------------------");
+                player.sendMessage(Languages.getLang(sender).getMessage(MessageUtils.Global.LEVEL).replace("%level%", String.valueOf(account.getLevel()))
+                        .replace("%xp%", String.valueOf(account.getXp()).replace("%levelup%", String.valueOf(account.xpToLevelSup()))));
                 return false;
             }
         }
@@ -40,7 +41,7 @@ public class LevelCommand implements CommandExecutor {
             String targetName = args[1];
             UUID targetUUID = SpigotPlayerInfos.getUuidFromName(targetName);
             if (targetUUID == null) {
-                sender.sendMessage("§4Ce joueur n'existe pas !");
+                sender.sendMessage(Languages.getLang(sender).getMessage(MessageUtils.Global.UNKNOWN_PLAYER));
                 return;
             }
             if (!JedisManager.isLoad(targetUUID)) AccountProvider.loadAccount(targetUUID);

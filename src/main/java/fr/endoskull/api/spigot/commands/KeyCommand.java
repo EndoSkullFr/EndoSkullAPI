@@ -4,6 +4,8 @@ import fr.endoskull.api.Main;
 import fr.endoskull.api.commons.account.Account;
 import fr.endoskull.api.commons.account.AccountProvider;
 import fr.endoskull.api.data.redis.JedisManager;
+import fr.endoskull.api.spigot.utils.Languages;
+import fr.endoskull.api.spigot.utils.MessageUtils;
 import fr.endoskull.api.spigot.utils.SpigotPlayerInfos;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
@@ -23,13 +25,13 @@ public class KeyCommand implements CommandExecutor {
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
         Bukkit.getScheduler().runTaskAsynchronously(main, () -> {
             if (args.length < 4) {
-                sender.sendMessage("/key add/set/remove {player} {clé} {number}");
+                sender.sendMessage("§cEndoSkull §8» §c/key add/set/remove {player} {clé} {number}");
                 return;
             }
             String targetName = args[1];
             UUID targetUUID = SpigotPlayerInfos.getUuidFromName(targetName);
             if (targetUUID == null) {
-                sender.sendMessage("§4Ce joueur n'existe pas !");
+                sender.sendMessage(Languages.getLang(sender).getMessage(MessageUtils.Global.UNKNOWN_PLAYER));
                 return;
             }
             if (!JedisManager.isLoad(targetUUID)) AccountProvider.loadAccount(targetUUID);
@@ -41,7 +43,7 @@ public class KeyCommand implements CommandExecutor {
                 number = Integer.parseInt(args[3]);
 
             } catch (NumberFormatException e) {
-                sender.sendMessage("§4Le quatrième argument n'est pas un nombre !");
+                sender.sendMessage("§cEndoSkull §8» §cLe quatrième argument n'est pas un nombre !");
                 return;
             }
             if (key.equalsIgnoreCase("vote") || key.equalsIgnoreCase("ultime")) {

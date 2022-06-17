@@ -1,6 +1,8 @@
 package fr.endoskull.api.spigot.utils;
 
 import fr.endoskull.api.Main;
+import fr.endoskull.api.commons.EndoSkullAPI;
+import fr.endoskull.api.spigot.commands.EndoSkullApiCommand;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
@@ -25,7 +27,7 @@ public enum Languages {
             }
             return Languages.FRENCH.getMessage(messageUtils);
         }
-        return Main.getLangFiles().get(this).getString(messageUtils.getPath());
+        return Main.getLangFiles().get(this).getString(messageUtils.getPath()).replace("%line%", EndoSkullAPI.LINE);
     }
 
     public static Languages getLang(CommandSender commandSender) {
