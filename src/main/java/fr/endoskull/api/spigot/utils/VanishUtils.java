@@ -53,6 +53,7 @@ public class VanishUtils {
         player.getInventory().setItem(4, new CustomItemStack(Material.PAPER).setName("§fHistorique §7§o(Clique Droit)"));
         player.getInventory().setItem(5, new CustomItemStack(Material.CHEST).setName("§6Invsee §7§o(Clique Droit)"));
         player.getInventory().setItem(7, new CustomItemStack(Material.STICK).setName("§cDonner un coup §7§o(Clique Gauche)"));
+        player.getInventory().setItem(8, new CustomItemStack(Material.ANVIL).setName("§4Appliquer une sanction §7§o(Clique Droit)"));
         player.getInventory().setHelmet(CustomItemStack.getPlayerSkull(player.getName()));
 
         player.setGameMode(GameMode.ADVENTURE);

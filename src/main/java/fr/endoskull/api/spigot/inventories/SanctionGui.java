@@ -14,10 +14,10 @@ public class SanctionGui extends CustomGui {
         for (SanctionEnum sanction : SanctionEnum.values()) {
             setItem(sanction.getSlot(), new CustomItemStack(sanction.getItem()).setName(sanction.getName()).setLore("\n§7Type: §a" + (sanction.isBan() ? "ban" : "mute")), player -> {
                 ByteArrayDataOutput dataOutput = ByteStreams.newDataOutput();
-                dataOutput.writeBoolean(false);
+                dataOutput.writeBoolean(true);
                 dataOutput.writeUTF(sanction.isBan() ? "ban" : "mute");
                 dataOutput.writeUTF(target + " " + sanction.getTemplate());
-                dataOutput.writeBoolean(true);
+                dataOutput.writeBoolean(player.isOp());
                 player.sendPluginMessage(Main.getInstance(), Main.MESSAGE_CHANNEL, dataOutput.toByteArray());
             });
         }

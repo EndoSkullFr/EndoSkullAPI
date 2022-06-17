@@ -63,6 +63,9 @@ public class StaffListener implements Listener {
             case CHEST:
                 player.sendMessage("§cBientôt");
                 break;
+            case ANVIL:
+                player.performCommand("sanction " + target.getName());
+                break;
             default:
                 break;
         }
