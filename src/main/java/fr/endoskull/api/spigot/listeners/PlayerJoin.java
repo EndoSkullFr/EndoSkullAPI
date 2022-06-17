@@ -2,12 +2,15 @@ package fr.endoskull.api.spigot.listeners;
 
 import fr.endoskull.api.Main;
 import fr.endoskull.api.commons.EndoSkullAPI;
+import fr.endoskull.api.commons.account.Account;
+import fr.endoskull.api.commons.account.AccountProvider;
 import fr.endoskull.api.commons.server.ServerState;
 import fr.endoskull.api.commons.server.ServerType;
 import fr.endoskull.api.data.redis.JedisAccess;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerLoginEvent;
@@ -25,6 +28,14 @@ public class PlayerJoin implements Listener {
     private Main main;
     public PlayerJoin(Main main) {
         this.main = main;
+    }
+
+
+    @EventHandler(priority = EventPriority.LOWEST)
+    public void onJoinLang(PlayerJoinEvent e) {
+        Player player = e.getPlayer();
+        Account account = AccountProvider.getAccount(player.getUniqueId());
+        Main.getLangs().put(player, account.getLang());
     }
 
     @EventHandler
@@ -70,6 +81,13 @@ public class PlayerJoin implements Listener {
                 j.close();
             }
         }
+    }
+
+
+    @EventHandler(priority = EventPriority.HIGHEST)
+    public void onQuitLang(PlayerQuitEvent e) {
+        Player player = e.getPlayer();
+        Main.getLangs().remove(player);
     }
 
     @EventHandler

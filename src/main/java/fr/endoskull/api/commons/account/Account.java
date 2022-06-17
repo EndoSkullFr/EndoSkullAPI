@@ -2,6 +2,7 @@ package fr.endoskull.api.commons.account;
 
 import fr.endoskull.api.commons.boost.BoosterManager;
 import fr.endoskull.api.data.redis.JedisAccess;
+import fr.endoskull.api.spigot.utils.Languages;
 import redis.clients.jedis.Jedis;
 
 import java.text.DecimalFormat;
@@ -284,5 +285,14 @@ public class Account implements Cloneable {
         } finally {
             j.close();
         }
+    }
+
+    public Languages getLang() {
+        return Languages.valueOf(getProperty("language", Languages.FRENCH.toString()));
+    }
+
+    public Account setLang(Languages lang) {
+        setProperty("language", lang.toString());
+        return this;
     }
 }

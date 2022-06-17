@@ -8,6 +8,7 @@ import fr.endoskull.api.data.sql.MySQL;
 import fr.endoskull.api.spigot.commands.*;
 import fr.endoskull.api.spigot.listeners.*;
 import fr.endoskull.api.spigot.utils.AntiTabComplete;
+import fr.endoskull.api.spigot.utils.Languages;
 import org.apache.commons.dbcp2.BasicDataSource;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -21,6 +22,7 @@ import redis.clients.jedis.Jedis;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.HashMap;
 
 public class Main extends JavaPlugin {
     private static Main instance;
@@ -29,6 +31,8 @@ public class Main extends JavaPlugin {
     public static final String MESSAGE_CHANNEL = "commandforward:cmd";
     public final String PLUGIN_NAME_PREFIX = ChatColor.DARK_AQUA + "[" + ChatColor.GOLD + this.getName() + ChatColor.DARK_AQUA + "] ";
     private ServerType serverType;
+    private static final HashMap<Player, Languages> langs = new HashMap<>();
+    private static final HashMap<Languages, YamlConfiguration> langFiles = new HashMap<>();
 
     private BasicDataSource connectionPool;
     private long load;
@@ -92,6 +96,10 @@ public class Main extends JavaPlugin {
 
         if (Bukkit.getPluginManager().getPlugin("ProtocolLib") != null) {
             new AntiTabComplete();
+        }
+
+        for (Languages value : Languages.values()) {
+            saveResource("languages/" + value.toString().toLowerCase() + ".yml", false);
         }
 
         super.onEnable();
@@ -204,4 +212,12 @@ public class Main extends JavaPlugin {
     public ServerType getServerType() {
         return serverType;
     }
+
+    public static HashMap<Player, Languages> getLangs() {
+        return langs;
+    }
+    public static HashMap<Languages, YamlConfiguration> getLangFiles() {
+        return langFiles;
+    }
+
 }

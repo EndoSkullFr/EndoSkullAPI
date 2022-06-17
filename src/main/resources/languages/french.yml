@@ -1,0 +1,2 @@
+global:
+  about: "%line%\n§bEndoSkull §7est développé et géré par §b§o@BebeDlaStreat\n§7Serveur: §e%server%\n§7Proxy: §eWaterfall 1.18\n§7Nous n'avons pas que des plugins fait par nous mais nous essayons de faire nous même les features les plus importantes du serveur\n%line%"
