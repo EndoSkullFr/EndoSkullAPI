@@ -50,3 +50,5 @@ commands:
   staff:
     permission: endoskull.command.staff
   about:
+  sanction:
+    permission: endoskull.command.sanction
