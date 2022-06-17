@@ -100,6 +100,7 @@ public class Main extends JavaPlugin {
 
         for (Languages value : Languages.values()) {
             saveResource("languages/" + value.toString().toLowerCase() + ".yml", false);
+            langFiles.put(value, YamlConfiguration.loadConfiguration(new File(getDataFolder(), "languages/" + value.toString().toLowerCase() + ".yml")));
         }
 
         super.onEnable();
