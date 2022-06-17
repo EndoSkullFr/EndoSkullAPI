@@ -2,13 +2,16 @@ package fr.endoskull.api.spigot.inventories.boutique;
 
 import fr.endoskull.api.spigot.utils.CustomGui;
 import fr.endoskull.api.spigot.utils.CustomItemStack;
+import fr.endoskull.api.spigot.utils.Languages;
+import fr.endoskull.api.spigot.utils.MessageUtils;
 import org.bukkit.Instrument;
 import org.bukkit.Material;
 import org.bukkit.Note;
+import org.bukkit.entity.Player;
 
 public class OtherInventory extends CustomGui {
-    public OtherInventory() {
-        super(5, "§c§lEndoSkull §8» §a§lClés");
+    public OtherInventory(Player p) {
+        super(5, Languages.getLang(p).getMessage(MessageUtils.Global.GUI_KEYS), p);
         int[] glassSlots = {0, 1, 7, 8, 9, 17, 27, 35, 36, 37, 43, 44};
         for (int i : glassSlots) {
             setItem(i, CustomItemStack.getPane(2).setName("§r"));
@@ -20,7 +23,7 @@ public class OtherInventory extends CustomGui {
 
         setItem(40, new CustomItemStack(Material.ARROW).setName("§eRetour"), player -> {
             player.playNote(player.getLocation(), Instrument.PIANO, Note.flat(1, Note.Tone.A));
-            new BoutiqueInventory().open(player);
+            new BoutiqueInventory(player).open();
         });
     }
 }

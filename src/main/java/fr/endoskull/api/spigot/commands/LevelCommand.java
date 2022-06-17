@@ -29,7 +29,7 @@ public class LevelCommand implements CommandExecutor {
             if (!player.hasPermission("level.edit") || args.length == 0) {
                 Account account = new AccountProvider(player.getUniqueId()).getAccount();
                 player.sendMessage(Languages.getLang(sender).getMessage(MessageUtils.Global.LEVEL).replace("%level%", String.valueOf(account.getLevel()))
-                        .replace("%xp%", String.valueOf(account.getXp()).replace("%levelup%", String.valueOf(account.xpToLevelSup()))));
+                        .replace("%xp%", String.valueOf(account.getXp())).replace("%levelup%", String.valueOf(account.xpToLevelSup())));
                 return false;
             }
         }

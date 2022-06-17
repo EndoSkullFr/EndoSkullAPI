@@ -16,11 +16,20 @@ public abstract class CustomGui {
     private Inventory yourInventory;
     private Map<Integer, CustomGuiAction> actions;
     private int line;
+    private Player player;
 
     public CustomGui(int line, String invName) {
         uuid = UUID.randomUUID();
         yourInventory = Bukkit.createInventory(null, line * 9, invName);
         this.line = line;
+        actions = new HashMap<>();
+        inventoriesByUUID.put(getUuid(), this);
+    }
+    public CustomGui(int line, String invName, Player player) {
+        uuid = UUID.randomUUID();
+        yourInventory = Bukkit.createInventory(null, line * 9, invName);
+        this.line = line;
+        this.player = player;
         actions = new HashMap<>();
         inventoriesByUUID.put(getUuid(), this);
     }
@@ -46,6 +55,11 @@ public abstract class CustomGui {
 
     public void setItem(int slot, ItemStack stack){
         setItem(slot, stack, null);
+    }
+
+    public void open() {
+        player.openInventory(yourInventory);
+        openInventories.put(player.getUniqueId(), getUuid());
     }
 
     public void open(Player p){

@@ -6,6 +6,8 @@ import fr.endoskull.api.commons.boost.BoosterManager;
 import fr.endoskull.api.commons.boost.TempBooster;
 import fr.endoskull.api.spigot.utils.CustomGui;
 import fr.endoskull.api.spigot.utils.CustomItemStack;
+import fr.endoskull.api.spigot.utils.Languages;
+import fr.endoskull.api.spigot.utils.MessageUtils;
 import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
@@ -16,18 +18,13 @@ import java.util.Date;
 public class BoosterInventory extends CustomGui {
     private int[] glassSlot = {0,1,7,8,9,17,27,35,36,37,43,44};
     public BoosterInventory(Player player) {
-        super(5, "§c§lEndoSkull §8» §d§lBoosters");
+        super(5, Languages.getLang(player).getMessage(MessageUtils.Global.GUI_BOOSTER), player);
         player.playSound(player.getLocation(), Sound.ORB_PICKUP, 1f, 1f);
         for (int i : glassSlot) {
             setItem(i, new CustomItemStack(Material.STAINED_GLASS_PANE, 1, (byte) 3).setName("§r"));
         }
-        setItem(40, new CustomItemStack(Material.NAME_TAG).setName("§a§lComment obtenir des boosters ?")
-                .setLore("\n§aBOOSTER PERMANENT\n" +
-                        "§7→ §fAvec le grade §bHero §7(+100%) §fet le grade §eVIP §7(+50%)\n\n" +
-                        "§aBOOSTERS TEMPORAIRES\n" +
-                        "§7→ §fEn ouvrant des Box Ultimes §7(endoskull.fr/shop)\n" +
-                        "§7→ §fEn ouvrant des Box Votes §7(endoskull.fr/vote)\n" +
-                        "§7→ §fLors d'évènements organisés par le staff"));
+        setItem(40, new CustomItemStack(Material.NAME_TAG).setName(Languages.getLang(player).getMessage(MessageUtils.Global.HOW_TO_BOOSTER))
+                .setLore(Languages.getLang(player).getMessage(MessageUtils.Global.HOW_TO_BOOSTER_DESC)));
 
         Account account = new AccountProvider(player.getUniqueId()).getAccount();
         BoosterManager booster = account.getBoost();

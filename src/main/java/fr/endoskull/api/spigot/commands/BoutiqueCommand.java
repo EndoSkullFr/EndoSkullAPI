@@ -32,7 +32,7 @@ public class BoutiqueCommand implements CommandExecutor {
             player.spigot().sendMessage(msg);
             return false;
         }
-        new BoutiqueInventory().open(player);
+        new BoutiqueInventory(player).open();
         player.playNote(player.getLocation(), Instrument.PIANO, Note.flat(1, Note.Tone.A));
         return false;
     }
