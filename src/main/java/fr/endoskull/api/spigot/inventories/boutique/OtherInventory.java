@@ -17,9 +17,9 @@ public class OtherInventory extends CustomGui {
             setItem(i, CustomItemStack.getPane(2).setName("§r"));
         }
 
-        setItem(21, new CustomItemStack(Material.ENDER_CHEST).setName("§41 Clé Ultime").setLore("\n§7⇨ Prix: §42€"), player -> BoutiqueInventory.sendStoreLink(player));
-        setItem(22, new CustomItemStack(Material.ENDER_CHEST, 5).setName("§45 Clé Ultime").setLore("\n§7⇨ Prix: §48.5€"), player -> BoutiqueInventory.sendStoreLink(player));
-        setItem(23, new CustomItemStack(Material.ENDER_CHEST, 10).setName("§410 Clé Ultime").setLore("\n§7⇨ Prix: §415€"), player -> BoutiqueInventory.sendStoreLink(player));
+        setItem(21, new CustomItemStack(Material.ENDER_CHEST).setName(Languages.getLang(p).getMessage(MessageUtils.Global.ULTIME_1)).setLore(Languages.getLang(p).getMessage(MessageUtils.Global.ULTIME_1_DESC)), player -> BoutiqueInventory.sendStoreLink(player));
+        setItem(22, new CustomItemStack(Material.ENDER_CHEST, 5).setName(Languages.getLang(p).getMessage(MessageUtils.Global.ULTIME_5)).setLore(Languages.getLang(p).getMessage(MessageUtils.Global.ULTIME_5_DESC)), player -> BoutiqueInventory.sendStoreLink(player));
+        setItem(23, new CustomItemStack(Material.ENDER_CHEST, 10).setName(Languages.getLang(p).getMessage(MessageUtils.Global.ULTIME_10)).setLore(Languages.getLang(p).getMessage(MessageUtils.Global.ULTIME_10_DESC)), player -> BoutiqueInventory.sendStoreLink(player));
 
         setItem(40, new CustomItemStack(Material.ARROW).setName("§eRetour"), player -> {
             player.playNote(player.getLocation(), Instrument.PIANO, Note.flat(1, Note.Tone.A));

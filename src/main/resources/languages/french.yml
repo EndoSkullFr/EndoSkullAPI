@@ -20,18 +20,18 @@ global:
   shop-features: "§7Liste de ses fonctionnalités:"
   shop-vip: "§eGrade VIP"
   shop-vip-desc: |-
-    \n
-    §7◇ Un booster de coins +50%\n
-    §7◇ Le préfix §eVIP §7dans la tablist\n
-    §7◇ Votre pseudo en §ejaune §7dans le chat\n
-    §7◇ Accès à la particule §lAiles de feux\n
-    §7◇ Accès au /musics pour joueur de la musique au lobby\n
+    
+    §7◇ Un booster de coins +50%
+    §7◇ Le préfix §eVIP §7dans la tablist
+    §7◇ Votre pseudo en §ejaune §7dans le chat
+    §7◇ Accès à la particule §lAiles de feux
+    §7◇ Accès au /musics pour joueur de la musique au lobby
     §7◇ Accès aux kits de Tier 2 sur le PvpKit
-    \n\n
+    
     §7⇨ Prix: §e5€
   shop-hero: "§bGrade Hero"
   shop-hero-desc: |-
-    \n
+    
     §7◇ Avantages du grade précédent
     §7◇ Un booster de coins +100%
     §7◇ Le préfix §bHero §7dans la tablist
@@ -39,20 +39,28 @@ global:
     §7◇ Accès au /tag pour créer un tag personnaliser
     §7◇ Accès à la particule §lTatanes ténébreuses
     §7◇ Accès aux kits de Tier 3 sur le PvpKit
-    \n\n
+    
     §7⇨ Prix: §b10€
+  ultime-1: "§41 Clé Ultime"
+  ultime-5: "§45 Clés Ultimes"
+  ultime-10: "§410 Clés Ultimes"
+  ultime-1-desc: "\n§7⇨ Prix: §42€"
+  ultime-5-desc: "\n§7⇨ Prix: §48.5€"
+  ultime-10-desc: "\n§7⇨ Prix: §415€"
   back: "§aRetour"
   gui-shop: "§c§lEndoSkull §8» §a§lBoutique"
-  gui-rank: "§c§lEndoSkull §8» §a§lGrades"
+  gui-ranks: "§c§lEndoSkull §8» §a§lGrades"
   gui-keys: "§c§lEndoSkull §8» §a§lClés"
   gui-booster: "§c§lEndoSkull §8» §d§lBoosters"
   how-to-booster: "§a§lComment obtenir des boosters ?"
   how-to-booster-desc: |-
-    \n§aBOOSTER PERMANENT\n
-    §7→ §fAvec le grade §bHero §7(+100%) §fet le grade §eVIP §7(+50%)\n\n
-    §aBOOSTERS TEMPORAIRES\n
-    §7→ §fEn ouvrant des Box Ultimes §7(endoskull.fr/shop)\n
-    §7→ §fEn ouvrant des Box Votes §7(endoskull.fr/vote)\n
+    
+    §aBOOSTER PERMANENT
+    §7→ §fAvec le grade §bHero §7(+100%) §fet le grade §eVIP §7(+50%)
+    
+    §aBOOSTERS TEMPORAIRES
+    §7→ §fEn ouvrant des Box Ultimes §7(endoskull.fr/shop)
+    §7→ §fEn ouvrant des Box Votes §7(endoskull.fr/vote)
     §7→ §fLors d'évènements organisés par le staff
   booster-line: "§a+%boost%% §fjusqu'au §7%date%\n"
   booster-perm: "§dBOOSTER PERMANENT"
