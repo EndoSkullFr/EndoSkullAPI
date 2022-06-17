@@ -19,6 +19,12 @@ public enum Languages {
     }
 
     public String getMessage(MessageUtils messageUtils) {
+        if (Main.getLangFiles().get(this).get(messageUtils.getPath()) == null) {
+            if (this == Languages.FRENCH) {
+                throw new IllegalStateException(messageUtils.getPath() + " not exist in French file");
+            }
+            return Languages.FRENCH.getMessage(messageUtils);
+        }
         return Main.getLangFiles().get(this).getString(messageUtils.getPath());
     }
 
