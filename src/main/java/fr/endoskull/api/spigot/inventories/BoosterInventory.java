@@ -28,16 +28,17 @@ public class BoosterInventory extends CustomGui {
 
         Account account = new AccountProvider(player.getUniqueId()).getAccount();
         BoosterManager booster = account.getBoost();
-        setItem(21, new CustomItemStack(Material.EXP_BOTTLE, (int) booster.getBoost() * 10).setName("§dBOOSTER PERMANENT").setLore("\n" + (booster.getBoost() == 0 ? "§7→ §cVous n'avez pas de booster permanent" : "§7→ §fValeur : §a+" + booster.getBoost() * 100 + "%")));
+        setItem(21, new CustomItemStack(Material.EXP_BOTTLE, (int) booster.getBoost() * 10).setName(Languages.getLang(player).getMessage(MessageUtils.Global.BOOSTER_PERM))
+                .setLore("\n" + (booster.getBoost() == 0 ? Languages.getLang(player).getMessage(MessageUtils.Global.BOOSTER_NO_PERM) : Languages.getLang(player).getMessage(MessageUtils.Global.BOOSTER_PERM_DESC).replace("%boost%", String.valueOf(booster.getBoost() * 100)))));
         double tBoost = 0;
         String tPhrase = "";
         SimpleDateFormat format = new SimpleDateFormat("kk:mm:ss dd/MM/yy");
         for (TempBooster tempBoost : booster.getBooster().getTempBoosts()) {
             tBoost += tempBoost.getBoost();
-            tPhrase += "§a+" + tempBoost.getBoost() * 100 + "% §fjusqu'au §7" + format.format(new Date(tempBoost.getExpiry())) + "\n";
+            tPhrase += Languages.getLang(player).getMessage(MessageUtils.Global.BOOSTER_LINE).replace("%boost%", String.valueOf(tempBoost.getBoost() * 100)).replace("%date%", format.format(new Date(tempBoost.getExpiry())));
         }
 
-        setItem(23, new CustomItemStack(Material.POTION, (int) tBoost * 10, (byte) 8233).setName("§dBOOSTERS TEMPORAIRES")
-                .setLore("\n" + (tPhrase.equals("") ? "§7→ §cVous n'avez pas de booster temporaire" : tPhrase+ "\n§7→ §fTotal : §a+" + tBoost * 100 + "%")));
+        setItem(23, new CustomItemStack(Material.POTION, (int) tBoost * 10, (byte) 8233).setName(Languages.getLang(player).getMessage(MessageUtils.Global.BOOSTER_TEMP))
+                .setLore("\n" + (tPhrase.equals("") ? Languages.getLang(player).getMessage(MessageUtils.Global.BOOSTER_NO_TEMP) : tPhrase+ "\n" + Languages.getLang(player).getMessage(MessageUtils.Global.BOOSTER_TEMP_DESC).replace("%boost%", String.valueOf(tBoost * 100)))));
     }
 }

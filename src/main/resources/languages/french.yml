@@ -54,3 +54,10 @@ global:
     §7→ §fEn ouvrant des Box Ultimes §7(endoskull.fr/shop)\n
     §7→ §fEn ouvrant des Box Votes §7(endoskull.fr/vote)\n
     §7→ §fLors d'évènements organisés par le staff
+  booster-line: "§a+%boost%% §fjusqu'au §7%date%\n"
+  booster-perm: "§dBOOSTER PERMANENT"
+  booster-no-perm: "§7→ §cVous n'avez pas de booster permanent"
+  booster-perm-desc: "§7→ §fValeur : §a+%boost%%"
+  booster-temp: "§dBOOSTERS TEMPORAIRES"
+  booster-no-temp: "§7→ §cVous n'avez pas de booster temporaire"
+  booster-temp-desc: "§7→ §fTotal : §a+%boost%%"
