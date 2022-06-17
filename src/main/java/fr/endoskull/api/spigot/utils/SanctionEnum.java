@@ -5,10 +5,10 @@ import org.bukkit.inventory.ItemStack;
 
 public enum SanctionEnum {
     CHEAT(9, "§cCheat", true, "#Cheat", new ItemStack(Material.IRON_SWORD)),
-    CROSSTEAM(11, "§cCrossTeam", true, "#CrossTeam", new ItemStack(Material.IRON_SWORD)),
-    PUB(13, "§cPub", true, "#Pub", new ItemStack(Material.IRON_SWORD)),
-    INSULTES(15, "§eInsultes", false, "#Insultes", new ItemStack(Material.IRON_SWORD)),
-    DISCRIMINATION(17, "§eDiscriminations (Racisme/Homophobie)", false, "#Discriminations", new ItemStack(Material.IRON_SWORD));
+    CROSSTEAM(11, "§cCrossTeam", true, "#CrossTeam", new ItemStack(Material.ANVIL)),
+    PUB(13, "§cPub", true, "#Pub", new ItemStack(Material.NAME_TAG)),
+    INSULTES(15, "§eInsultes", false, "#Insultes", new ItemStack(Material.SIGN)),
+    DISCRIMINATION(17, "§eDiscriminations (Racisme/Homophobie)", false, "#Discriminations", new ItemStack(Material.INK_SACK, 1, (short) 1));
 
     private int slot;
     private String name;
