@@ -48,7 +48,7 @@ public class ServerGui extends CustomGui {
                 ServerState serverState = ServerState.valueOf(jedis.get(server));
                 ServiceInfoSnapshot serverInfo = CloudNetDriver.getInstance().getCloudServiceProvider().getCloudServices(serverType.getServerName()).stream().filter(serviceInfoSnapshot -> serviceInfoSnapshot.getName().equals(server)).findFirst().orElse(null);
                 setItem(i, new CustomItemStack(Material.WOOL, serverInfo.getProperty(BridgeServiceProperty.ONLINE_COUNT).orElse(0), (byte) (serverState == ServerState.ONLINE ? 5 : 14)).setName("§e§l" + server)
-                        .setLore("\n§7" + lang.getMessage(MessageUtils.Global.STATE) + "§8» " + serverState.getDisplayName() + "\n" +
+                        .setLore("\n§7" + lang.getMessage(MessageUtils.Global.STATE) + " §8» " + serverState.getDisplayName() + "\n" +
                                 "§7" + lang.getMessage(MessageUtils.Global.PLAYERS) + " §8» §f" + serverInfo.getProperty(BridgeServiceProperty.ONLINE_COUNT).orElse(0) + "§7/§f" + serverInfo.getProperty(BridgeServiceProperty.MAX_PLAYERS).orElse(0)), player -> {
                     playerManager.getPlayerExecutor(player.getUniqueId()).connect(server);
                 });
