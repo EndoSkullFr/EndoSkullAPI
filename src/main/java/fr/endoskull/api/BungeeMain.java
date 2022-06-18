@@ -1,5 +1,6 @@
 package fr.endoskull.api;
 
+import com.google.common.io.ByteStreams;
 import fr.endoskull.api.bungee.commands.*;
 import fr.endoskull.api.bungee.listeners.*;
 import fr.endoskull.api.bungee.tasks.AnnouncmentTask;
@@ -24,8 +25,7 @@ import net.md_5.bungee.config.ConfigurationProvider;
 import net.md_5.bungee.config.YamlConfiguration;
 import org.apache.commons.dbcp2.BasicDataSource;
 
-import java.io.File;
-import java.io.IOException;
+import java.io.*;
 import java.net.InetSocketAddress;
 import java.util.HashMap;
 import java.util.UUID;
@@ -109,10 +109,16 @@ public class BungeeMain extends Plugin {
 
         for (Languages value : Languages.values()) {
             File file = new File(getDataFolder(), "languages/" + value.toString().toLowerCase() + ".yml");
-            try {
-                Configuration configuration = ConfigurationProvider.getProvider(YamlConfiguration.class).load(file);
-            } catch (IOException e) {
-                e.printStackTrace();
+            if (!file.exists()) {
+                try {
+                    file.createNewFile();
+                    try (InputStream is = getResourceAsStream("languages/" + value.toString().toLowerCase() + ".yml");
+                         OutputStream os = new FileOutputStream(file)) {
+                        ByteStreams.copy(is, os);
+                    }
+                } catch (IOException e) {
+                    throw new RuntimeException("Unable to create configuration file", e);
+                }
             }
         }
 
