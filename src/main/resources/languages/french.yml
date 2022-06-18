@@ -96,4 +96,8 @@ global:
   enable: "§aActiver"
   disable: "§cDésactiver"
   friends: "§a§lAMIS §8» "
+  click-copy: "§7(Cliquez pour copier)"
+  api-generated: "{line}\n§7Votre token est §8» §e{token}\n§7Pour consulter la documentation §8» §ehttps://api.endoskull.fr\n{line}"
+  api-help: "{line}\n§aSi vous souhaitez générer un token pour pouvoir utiliser notre api faîtes §b/api new\n§eSi vous souhaitez consulter la documentation rdv sur https://api.endoskull.fr\n{line}"
+  api-already: "{line}\n§aVous avez déjà un token de générer, si vous souhaitez consulter la documentation rdv sur https://api.endoskull.fr\n§eSi vous souhaitez regénérer votre token faîtes §b/api new\n{line}"
 

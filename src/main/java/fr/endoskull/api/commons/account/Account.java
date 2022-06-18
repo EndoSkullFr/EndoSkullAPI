@@ -1,8 +1,9 @@
 package fr.endoskull.api.commons.account;
 
+import fr.endoskull.api.bungee.utils.BungeeLang;
 import fr.endoskull.api.commons.boost.BoosterManager;
 import fr.endoskull.api.data.redis.JedisAccess;
-import fr.endoskull.api.commons.lang.Languages;
+import fr.endoskull.api.spigot.utils.Languages;
 import redis.clients.jedis.Jedis;
 
 import java.text.DecimalFormat;
@@ -289,6 +290,10 @@ public class Account implements Cloneable {
 
     public Languages getLang() {
         return Languages.valueOf(getProperty("language", Languages.FRENCH.toString()));
+    }
+
+    public BungeeLang getBungeeLang() {
+        return BungeeLang.valueOf(getProperty("language", Languages.FRENCH.toString()));
     }
 
     public Account setLang(Languages lang) {

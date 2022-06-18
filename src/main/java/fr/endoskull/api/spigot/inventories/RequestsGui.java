@@ -1,7 +1,7 @@
 package fr.endoskull.api.spigot.inventories;
 
 import fr.endoskull.api.commons.EndoSkullAPI;
-import fr.endoskull.api.commons.lang.Languages;
+import fr.endoskull.api.spigot.utils.Languages;
 import fr.endoskull.api.commons.lang.MessageUtils;
 import fr.endoskull.api.commons.paf.FriendUtils;
 import fr.endoskull.api.spigot.utils.*;

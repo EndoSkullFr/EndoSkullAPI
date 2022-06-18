@@ -10,7 +10,7 @@ import fr.endoskull.api.commons.server.ServerType;
 import fr.endoskull.api.data.redis.JedisAccess;
 import fr.endoskull.api.spigot.utils.CustomGui;
 import fr.endoskull.api.spigot.utils.CustomItemStack;
-import fr.endoskull.api.commons.lang.Languages;
+import fr.endoskull.api.spigot.utils.Languages;
 import fr.endoskull.api.commons.lang.MessageUtils;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;

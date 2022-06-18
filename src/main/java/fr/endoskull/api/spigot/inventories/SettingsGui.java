@@ -4,7 +4,7 @@ import fr.endoskull.api.commons.paf.FriendSettingsSpigot;
 import fr.endoskull.api.commons.paf.FriendUtils;
 import fr.endoskull.api.spigot.utils.CustomGui;
 import fr.endoskull.api.spigot.utils.CustomItemStack;
-import fr.endoskull.api.commons.lang.Languages;
+import fr.endoskull.api.spigot.utils.Languages;
 import fr.endoskull.api.commons.lang.MessageUtils;
 import org.bukkit.Material;
 import org.bukkit.Sound;

@@ -1,8 +1,10 @@
 package fr.endoskull.api.bungee.commands;
 
+import fr.endoskull.api.bungee.utils.BungeeLang;
 import fr.endoskull.api.commons.account.Account;
 import fr.endoskull.api.commons.account.AccountProvider;
 import fr.endoskull.api.commons.EndoSkullAPI;
+import fr.endoskull.api.commons.lang.MessageUtils;
 import net.md_5.bungee.api.CommandSender;
 import net.md_5.bungee.api.ProxyServer;
 import net.md_5.bungee.api.chat.ClickEvent;
@@ -21,7 +23,7 @@ public class ApiCommand extends Command {
     @Override
     public void execute(CommandSender sender, String[] args) {
         if (!(sender instanceof ProxiedPlayer)) {
-            sender.sendMessage("§cVous devez être un joueur pour éxécuter cette commande");
+            sender.sendMessage(BungeeLang.getLang(sender).getMessage(MessageUtils.Global.CONSOLE));
             return;
         }
         ProxiedPlayer player = (ProxiedPlayer) sender;
@@ -30,16 +32,16 @@ public class ApiCommand extends Command {
         if (args.length >= 1 && args[0].equalsIgnoreCase("new")) {
             String token = generateToken();
             account.setProperty("api/token", token);
-            player.sendMessage(new TextComponent(EndoSkullAPI.LINE + "\n§7Votre token est §8» §e" + token + "\n§7Pour consulter la documentation §8» §ehttps://api.endoskull.fr\n" + EndoSkullAPI.LINE).toLegacyText());
-            TextComponent textComponent = new TextComponent("§7(Cliquez pour copier)");
+            player.sendMessage(new TextComponent(BungeeLang.getLang(sender).getMessage(MessageUtils.Global.API_ALREADY).replace("{token}", token)).toLegacyText());
+            TextComponent textComponent = new TextComponent(BungeeLang.getLang(sender).getMessage(MessageUtils.Global.CLICK_COPY));
             textComponent.setClickEvent(new ClickEvent(ClickEvent.Action.SUGGEST_COMMAND, token));
             player.sendMessage(textComponent);
             return;
         }
         if (account.getProperty("api/token").equalsIgnoreCase("")) {
-            player.sendMessage(new TextComponent(EndoSkullAPI.LINE + "\n§aSi vous souhaitez générer un token pour pouvoir utiliser notre api faîtes §b/api new\n§eSi vous souhaitez consulter la documentation rdv sur https://api.endoskull.fr\n" + EndoSkullAPI.LINE).toLegacyText());
+            player.sendMessage(new TextComponent(BungeeLang.getLang(sender).getMessage(MessageUtils.Global.API_HELP)).toLegacyText());
         } else {
-            player.sendMessage(new TextComponent(EndoSkullAPI.LINE + "\n§aVous avez déjà un token de générer, si vous souhaitez consulter la documentation rdv sur https://api.endoskull.fr\n§eSi vous souhaitez regénérer votre token faîtes §b/api new\n" + EndoSkullAPI.LINE).toLegacyText());
+            player.sendMessage(new TextComponent(BungeeLang.getLang(sender).getMessage(MessageUtils.Global.API_ALREADY)).toLegacyText());
         }
 
     }

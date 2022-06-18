@@ -2,7 +2,7 @@ package fr.endoskull.api.spigot.inventories.boutique;
 
 import fr.endoskull.api.spigot.utils.CustomGui;
 import fr.endoskull.api.spigot.utils.CustomItemStack;
-import fr.endoskull.api.commons.lang.Languages;
+import fr.endoskull.api.spigot.utils.Languages;
 import fr.endoskull.api.commons.lang.MessageUtils;
 import net.md_5.bungee.api.chat.ClickEvent;
 import net.md_5.bungee.api.chat.ComponentBuilder;

@@ -6,12 +6,12 @@ import fr.endoskull.api.bungee.listeners.*;
 import fr.endoskull.api.bungee.tasks.AnnouncmentTask;
 import fr.endoskull.api.bungee.tasks.OnlineCountTask;
 import fr.endoskull.api.bungee.tasks.PAFTask;
+import fr.endoskull.api.bungee.utils.BungeeLang;
 import fr.endoskull.api.bungee.utils.LitebansHandler;
 import fr.endoskull.api.commons.server.ServerType;
 import fr.endoskull.api.data.redis.JedisAccess;
 import fr.endoskull.api.data.redis.JedisManager;
 import fr.endoskull.api.data.sql.MySQL;
-import fr.endoskull.api.commons.lang.Languages;
 import litebans.api.Entry;
 import litebans.api.Events;
 import net.md_5.bungee.BungeeCord;
@@ -39,11 +39,12 @@ public class BungeeMain extends Plugin {
     private BasicDataSource connectionPool;
     public static String CHANNEL = "EndoSkullChannel";
     public static final String MESSAGE_CHANNEL = "commandforward:cmd";
+    private static final HashMap<ProxiedPlayer, BungeeLang> langs = new HashMap<>();
+    private static final HashMap<BungeeLang, Configuration> langFiles = new HashMap<>();
 
     @Override
     public void onEnable() {
         instance = this;
-
         PluginManager pm = ProxyServer.getInstance().getPluginManager();
         getProxy().registerChannel(CHANNEL);
         getProxy().registerChannel("PartiesChannel");
@@ -107,7 +108,7 @@ public class BungeeMain extends Plugin {
             }
         });
 
-        for (Languages value : Languages.values()) {
+        for (BungeeLang value : BungeeLang.values()) {
             if (!getDataFolder().exists()) {
                 getDataFolder().mkdir();
             }
@@ -122,10 +123,12 @@ public class BungeeMain extends Plugin {
                          OutputStream os = new FileOutputStream(file)) {
                         ByteStreams.copy(is, os);
                     }
+                    langFiles.put(value, ConfigurationProvider.getProvider(YamlConfiguration.class).load(new File(getDataFolder(), "languages/" + value.toString().toLowerCase() + ".yml")));
                 } catch (IOException e) {
                     throw new RuntimeException("Unable to create configuration file", e);
                 }
             }
+
         }
 
         super.onEnable();
@@ -166,5 +169,13 @@ public class BungeeMain extends Plugin {
 
     public HashMap<ProxiedPlayer, ProxiedPlayer> getLastPM() {
         return lastPM;
+    }
+
+    public static HashMap<ProxiedPlayer, BungeeLang> getLangs() {
+        return langs;
+    }
+
+    public static HashMap<BungeeLang, Configuration> getLangFiles() {
+        return langFiles;
     }
 }

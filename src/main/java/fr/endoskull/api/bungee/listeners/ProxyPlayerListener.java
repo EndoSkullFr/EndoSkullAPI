@@ -1,7 +1,6 @@
 package fr.endoskull.api.bungee.listeners;
 
 import fr.endoskull.api.BungeeMain;
-import fr.endoskull.api.bungee.utils.MaintenanceUtils;
 import fr.endoskull.api.commons.account.Account;
 import fr.endoskull.api.commons.account.AccountProvider;
 import fr.endoskull.api.commons.EndoSkullAPI;
@@ -10,14 +9,13 @@ import fr.endoskull.api.commons.paf.FriendUtils;
 import fr.endoskull.api.data.redis.JedisManager;
 import net.md_5.bungee.BungeeCord;
 import net.md_5.bungee.api.ProxyServer;
-import net.md_5.bungee.api.chat.ComponentBuilder;
 import net.md_5.bungee.api.chat.TextComponent;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
-import net.md_5.bungee.api.event.LoginEvent;
 import net.md_5.bungee.api.event.PlayerDisconnectEvent;
 import net.md_5.bungee.api.event.PostLoginEvent;
 import net.md_5.bungee.api.plugin.Listener;
 import net.md_5.bungee.event.EventHandler;
+import net.md_5.bungee.event.EventPriority;
 
 import java.util.ArrayList;
 import java.util.UUID;
@@ -69,5 +67,18 @@ public class ProxyPlayerListener implements Listener {
         for (ProxiedPlayer p : new ArrayList<>(BungeeMain.getInstance().getLastPM().keySet())) {
             if (BungeeMain.getInstance().getLastPM().get(p).equals(player)) BungeeMain.getInstance().getLastPM().remove(p);
         }
+    }
+
+    @EventHandler(priority = EventPriority.HIGHEST)
+    public void onQuitLang(PostLoginEvent e) {
+        ProxiedPlayer player = e.getPlayer();
+        Account account = AccountProvider.getAccount(player.getUniqueId());
+        BungeeMain.getLangs().put(player, account.getBungeeLang());
+    }
+
+    @EventHandler(priority = EventPriority.HIGHEST)
+    public void onQuitLang(PlayerDisconnectEvent e) {
+        ProxiedPlayer player = e.getPlayer();
+        BungeeMain.getLangs().remove(player);
     }
 }
