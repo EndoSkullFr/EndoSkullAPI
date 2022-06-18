@@ -32,4 +32,17 @@ public interface MessageUtils {
             }
         }
     }
+
+    enum Paf implements MessageUtils {
+        ANY_FRIEND, ONLINE, OFFLINE, FLIST, FRIEND_SELF, ALREADY_FRIEND, ALREADY_FREQUEST,
+        FREQUESTS_DISABLE, CLICK_ACCEPT, FREQUEST_RECEIVE, FREQUEST_SEND, NOT_FRIEND, FRIEND_REMOVED, FRIEND_REMOVE,
+        NO_FREQUEST, NOW_FRIEND, FRIEND_ACCEPT, FRIEND_HELP;
+
+        private final static String path = "party-friend";
+
+        @Override
+        public String getPath() {
+            return path + "." + this.toString().toLowerCase().replace("_", "-");
+        }
+    }
 }

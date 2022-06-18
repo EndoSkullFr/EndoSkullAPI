@@ -101,3 +101,30 @@ global:
   api-help: "{line}\n§aSi vous souhaitez générer un token pour pouvoir utiliser notre api faîtes §b/api new\n§eSi vous souhaitez consulter la documentation rdv sur https://api.endoskull.fr\n{line}"
   api-already: "{line}\n§aVous avez déjà un token de générer, si vous souhaitez consulter la documentation rdv sur https://api.endoskull.fr\n§eSi vous souhaitez regénérer votre token faîtes §b/api new\n{line}"
 
+party-friend:
+  any-friend: "{line}\n§cVotre liste d'amis est vide\n§7Pour commencer à en ajouter faîtes §a/friend add (Pseudo)\n{line}"
+  online: "§a(Connecté)"
+  offline: "§c(Déconnecté)"
+  flist: "§a§lListe d'amis:"
+  friend-self: "{line}\n§cVous ne pouvez pas vous ajouter en ami\n{line}"
+  already-friend: "{line}\n§cVous êtes déjà amis avec ce joueur\n{line}"
+  already-frequest: "{line}\n§cVous avez déjà un demande d'ami en cours avec ce joueur\n{line}"
+  frequests-disable: "{line}\n§cCe joueur a desactivé ses demandes d'amis\n{line}"
+  click-accept: "§aCliquez pour accepter"
+  frequest-receive: "{sender} vient de vous envoyer une demande d'ami"
+  frequest-send: "{line}\n§aVous avez envoyé une demande d'ami à {target}\n{line}"
+  not-friend: "{line}\n§cVous n'êtes pas amis avec ce joueur\n{line}"
+  friend-removed: "{line}\n{player} §cvient de vous retirer de sa liste d'amis\n{line}"
+  friend-remove: "{line}\n§cVous n'est dorénavant plus amis avec {target}\n{line}"
+  no-frequest: "{line}\n§cVous n'avez pas de demande d'ami de la part de ce joueur\n{line}"
+  now-friend: "{line}\n§aVous êtes maintenant ami avec {player}\n{line}"
+  friend-accept: "{line}\n{player} §avient d'accepter votre demande d'ami\n{line}"
+  friend-help: |-
+    {line}
+    §aCommandes d'amis:
+    §e/friend accept (Pseudo) §8- §7Accepter une demande d'ami
+    §e/friend add (Pseudo) §8- §7Ajouter un joueur en ami
+    §e/friend list [Page] §8- §7Afficher votre liste d'amis
+    §e/friend settings §8- §7Ouvrir les paramètres liés aux amis
+    §e/friend requests §8- §7Afficher la liste des demandes d'amis
+    {line}

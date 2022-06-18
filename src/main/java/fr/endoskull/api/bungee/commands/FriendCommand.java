@@ -4,7 +4,9 @@ import com.google.common.io.ByteArrayDataOutput;
 import com.google.common.io.ByteStreams;
 import fr.endoskull.api.BungeeMain;
 import fr.endoskull.api.bungee.tasks.PAFTask;
+import fr.endoskull.api.bungee.utils.BungeeLang;
 import fr.endoskull.api.bungee.utils.BungeePlayerInfos;
+import fr.endoskull.api.commons.lang.MessageUtils;
 import fr.endoskull.api.commons.paf.FriendSettingsBungee;
 import fr.endoskull.api.commons.paf.FriendSettingsSpigot;
 import fr.endoskull.api.commons.paf.FriendUtils;
@@ -29,8 +31,9 @@ public class FriendCommand extends Command implements TabExecutor {
 
     @Override
     public void execute(CommandSender sender, String[] args) {
+        BungeeLang lang = BungeeLang.getLang(sender);
         if (!(sender instanceof ProxiedPlayer)) {
-            sender.sendMessage("§cVous devez être un joueur pour éxécuter cette commande");
+            sender.sendMessage(lang.getMessage(MessageUtils.Global.CONSOLE));
             return;
         }
         ProxiedPlayer player = (ProxiedPlayer) sender;
@@ -38,37 +41,31 @@ public class FriendCommand extends Command implements TabExecutor {
         if (args.length >= 1 && args[0].equalsIgnoreCase("list")) {
             List<UUID> friendsUUID = FriendUtils.getOrderedFriends(player.getUniqueId());
             if (friendsUUID.isEmpty()) {
-                player.sendMessage(new TextComponent(EndoSkullAPI.LINE + "\n" +
-                        "§cVotre liste d'amis est vide\n" +
-                        "§7Pour commencer à en ajouter faîtes §a/friend add (Pseudo\n" +
-                        EndoSkullAPI.LINE));
+                player.sendMessage(new TextComponent(lang.getMessage(MessageUtils.Paf.ANY_FRIEND)));
                 return;
             }
             StringBuilder friendsMessage = new StringBuilder();
             for (UUID uuid : friendsUUID) {
                 String name = BungeePlayerInfos.getNameFromUuid(uuid);
                 boolean online = ProxyServer.getInstance().getPlayer(name) != null;
-                friendsMessage.append("§7" + EndoSkullAPI.getPrefix(uuid) + name + " §8» " + (online ? "§a(Connecté)" : "§c(Déconnecté)") + "\n");
+                friendsMessage.append("§7" + EndoSkullAPI.getPrefix(uuid) + name + " §8» " + (online ? lang.getMessage(MessageUtils.Paf.ONLINE) : lang.getMessage(MessageUtils.Paf.OFFLINE)) + "\n");
             }
-            player.sendMessage(new TextComponent(EndoSkullAPI.LINE + "\n                    §a§lListe d'amis:\n" + friendsMessage + EndoSkullAPI.LINE));
+            player.sendMessage(new TextComponent(EndoSkullAPI.LINE + "\n                    " + lang.getMessage(MessageUtils.Paf.FLIST) + "\n" + friendsMessage + EndoSkullAPI.LINE));
             return;
         }
         if (args.length >= 2 && args[0].equalsIgnoreCase("add")) {
             String targetName = args[1];
             if (targetName.equalsIgnoreCase(player.getName())) {
-                player.sendMessage(new TextComponent(EndoSkullAPI.LINE + "\n§cVous ne pouvez pas vous ajouter en ami\n" +
-                        EndoSkullAPI.LINE));
+                player.sendMessage(new TextComponent(lang.getMessage(MessageUtils.Paf.FRIEND_SELF)));
                 return;
             }
             UUID targetUUID = BungeePlayerInfos.getUuidFromName(targetName);
             if (targetUUID == null) {
-                player.sendMessage(new TextComponent(EndoSkullAPI.LINE + "\n§cCe joueur n'existe pas\n" +
-                        EndoSkullAPI.LINE));
+                player.sendMessage(new TextComponent(lang.getMessage(MessageUtils.Global.UNKNOWN_PLAYER)));
                 return;
             }
             if (FriendUtils.areFriends(player.getUniqueId(), targetUUID)) {
-                player.sendMessage(new TextComponent(EndoSkullAPI.LINE + "\n§cVous êtes déjà amis avec ce joueur\n" +
-                        EndoSkullAPI.LINE));
+                player.sendMessage(new TextComponent(lang.getMessage(MessageUtils.Paf.ALREADY_FRIEND)));
                 return;
             }
             if (FriendUtils.hasRequestFrom(player.getUniqueId(), targetUUID)) {
@@ -76,27 +73,27 @@ public class FriendCommand extends Command implements TabExecutor {
                 return;
             }
             if (FriendUtils.hasRequestFrom(targetUUID, player.getUniqueId())) {
-                player.sendMessage(new TextComponent(EndoSkullAPI.LINE + "\n§cVous avez déjà un demande d'ami en cours avec ce joueur\n" + EndoSkullAPI.LINE));
+                player.sendMessage(new TextComponent(lang.getMessage(MessageUtils.Paf.ALREADY_FREQUEST)));
                 return;
             }
 
             if (!FriendUtils.getSetting(targetUUID, FriendSettingsBungee.FRIEND_REQUEST).equalsIgnoreCase("1")) {
-                player.sendMessage(new TextComponent(EndoSkullAPI.LINE + "\n§cCe joueur a desactivé ses demandes d'amis\n" + EndoSkullAPI.LINE));
+                player.sendMessage(new TextComponent(lang.getMessage(MessageUtils.Paf.FREQUESTS_DISABLE)));
                 return;
             }
 
             FriendUtils.addRequest(player.getUniqueId(), targetUUID);
             ProxiedPlayer target = ProxyServer.getInstance().getPlayer(targetUUID);
             if (target != null) {
-                TextComponent message = new TextComponent(EndoSkullAPI.LINE + "\n" + EndoSkullAPI.getPrefix(player.getUniqueId()) + player.getName() + " vient de vous envoyer une demande d'ami\n");
-                TextComponent accept = new TextComponent("§a[Accepter]");
+                TextComponent message = new TextComponent(EndoSkullAPI.LINE + "\n" + lang.getMessage(MessageUtils.Paf.FREQUEST_RECEIVE).replace("{sender}", EndoSkullAPI.getPrefix(player.getUniqueId()) + player.getName()) + "\n");
+                TextComponent accept = new TextComponent("§a[" + lang.getMessage(MessageUtils.Global.ACCEPT) + "]");
                 accept.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/friend accept " + player.getName()));
-                accept.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new ComponentBuilder("§aCliquez pour accepter").create()));
+                accept.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new ComponentBuilder(lang.getMessage(MessageUtils.Paf.CLICK_ACCEPT)).create()));
                 message.addExtra(accept);
                 message.addExtra("\n" + EndoSkullAPI.LINE);
                 target.sendMessage(message);
             }
-            player.sendMessage(new TextComponent(EndoSkullAPI.LINE + "\n§aVous avez envoyé une demande d'ami à " + EndoSkullAPI.getPrefix(targetUUID) + targetName + "\n" + EndoSkullAPI.LINE));
+            player.sendMessage(new TextComponent(lang.getMessage(MessageUtils.Paf.FREQUEST_SEND).replace("{target}", EndoSkullAPI.getPrefix(targetUUID) + targetName)));
             return;
         }
 
@@ -104,21 +101,20 @@ public class FriendCommand extends Command implements TabExecutor {
             String targetName = args[1];
             UUID targetUUID = BungeePlayerInfos.getUuidFromName(targetName);
             if (targetUUID == null) {
-                player.sendMessage(new TextComponent(EndoSkullAPI.LINE + "\n§cCe joueur n'existe pas\n" +
+                player.sendMessage(new TextComponent(EndoSkullAPI.LINE + "\n" + lang.getMessage(MessageUtils.Global.UNKNOWN_PLAYER) + "\n" +
                         EndoSkullAPI.LINE));
                 return;
             }
             if (!FriendUtils.areFriends(player.getUniqueId(), targetUUID)) {
-                player.sendMessage(new TextComponent(EndoSkullAPI.LINE + "\n§cVous n'êtes pas amis avec ce joueur\n" +
-                        EndoSkullAPI.LINE));
+                player.sendMessage(new TextComponent(lang.getMessage(MessageUtils.Paf.NOT_FRIEND)));
                 return;
             }
             FriendUtils.removeFriend(player.getUniqueId(), targetUUID);
             ProxiedPlayer target = ProxyServer.getInstance().getPlayer(targetUUID);
             if (target != null) {
-                target.sendMessage(new TextComponent(EndoSkullAPI.LINE + "\n" + EndoSkullAPI.getPrefix(player.getUniqueId()) + player.getName() + " §cvient de vous retirer de sa liste d'amis\n" + EndoSkullAPI.LINE));
+                target.sendMessage(new TextComponent(lang.getMessage(MessageUtils.Paf.FRIEND_REMOVED).replace("{player}", EndoSkullAPI.getPrefix(player.getUniqueId()) + player.getName())));
             }
-            player.sendMessage(new TextComponent(EndoSkullAPI.LINE + "\n§cVous n'est dorénavant plus amis avec " + EndoSkullAPI.getPrefix(targetUUID) + targetName + "\n" + EndoSkullAPI.LINE));
+            player.sendMessage(new TextComponent(lang.getMessage(MessageUtils.Paf.FRIEND_REMOVE).replace("{target}", EndoSkullAPI.getPrefix(targetUUID) + targetName)));
             return;
         }
 
@@ -126,20 +122,20 @@ public class FriendCommand extends Command implements TabExecutor {
             String targetName = args[1];
             UUID targetUUID = BungeePlayerInfos.getUuidFromName(targetName);
             if (targetUUID == null) {
-                player.sendMessage(new TextComponent(EndoSkullAPI.LINE + "\n§cCe joueur n'existe pas\n" +
+                player.sendMessage(new TextComponent(EndoSkullAPI.LINE + "\n" + lang.getMessage(MessageUtils.Global.UNKNOWN_PLAYER) + "\n" +
                         EndoSkullAPI.LINE).toLegacyText());
                 return;
             }
             if (!FriendUtils.hasRequestFrom(player.getUniqueId(), targetUUID)) {
-                player.sendMessage(new TextComponent(EndoSkullAPI.LINE + "\n§cVous n'avez pas de demande d'ami de la part de ce joueur\n" + EndoSkullAPI.LINE).toLegacyText());
+                player.sendMessage(new TextComponent(lang.getMessage(MessageUtils.Paf.NO_FREQUEST)).toLegacyText());
                 return;
             }
             FriendUtils.removeRequest(targetUUID, player.getUniqueId());
             FriendUtils.addFriend(targetUUID, player.getUniqueId());
-            player.sendMessage(new TextComponent(EndoSkullAPI.LINE + "\n§aVous êtes maintenant ami avec " + EndoSkullAPI.getPrefix(targetUUID) + targetName + "\n" + EndoSkullAPI.LINE).toLegacyText());
+            player.sendMessage(new TextComponent(lang.getMessage(MessageUtils.Paf.NOW_FRIEND).replace("{player}", EndoSkullAPI.getPrefix(targetUUID) + targetName)).toLegacyText());
             ProxiedPlayer target = ProxyServer.getInstance().getPlayer(targetUUID);
             if (target != null) {
-                target.sendMessage(new TextComponent(EndoSkullAPI.LINE + "\n" + EndoSkullAPI.getPrefix(player.getUniqueId()) + player.getName() + " §avient d'accepter votre demande d'ami\n" + EndoSkullAPI.LINE).toLegacyText());
+                target.sendMessage(new TextComponent(lang.getMessage(MessageUtils.Paf.FRIEND_ACCEPT).replace("{player}", EndoSkullAPI.getPrefix(player.getUniqueId()) + player.getName())).toLegacyText());
             }
             PAFTask.getFriendRequests().get(targetUUID).remove(player.getUniqueId());
             return;
@@ -165,13 +161,7 @@ public class FriendCommand extends Command implements TabExecutor {
             return;
         }
 
-        player.sendMessage(new TextComponent(EndoSkullAPI.LINE + "\n§aCommandes d'amis:\n" +
-                "§e/friend accept (Pseudo) §8- §7Accepter une demande d'ami\n" +
-                "§e/friend add (Pseudo) §8- §7Ajouter un joueur en ami\n" +
-                "§e/friend list [Page] §8- §7Afficher votre liste d'amis\n" +
-                "§e/friend settings §8- §7Ouvrir les paramètres liés aux amis\n" +
-                "§e/friend requests §8- §7Afficher la liste des demandes d'amis\n" +
-                EndoSkullAPI.LINE).toLegacyText());
+        player.sendMessage(new TextComponent(lang.getMessage(MessageUtils.Paf.FRIEND_HELP)).toLegacyText());
     }
 
     @Override
