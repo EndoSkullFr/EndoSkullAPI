@@ -1,9 +1,14 @@
 package fr.endoskull.api.bungee.commands;
 
+import com.google.common.base.Joiner;
+import fr.endoskull.api.bungee.utils.BungeeLang;
+import fr.endoskull.api.commons.lang.MessageUtils;
 import net.md_5.bungee.api.CommandSender;
 import net.md_5.bungee.api.ProxyServer;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
 import net.md_5.bungee.api.plugin.Command;
+
+import java.util.Arrays;
 
 public class OmgCommand extends Command {
     public OmgCommand() {
@@ -15,13 +20,9 @@ public class OmgCommand extends Command {
         if (!(sender instanceof ProxiedPlayer)) {
             if (args.length < 2) return;
             String username = args[0];
-            StringBuilder builder = new StringBuilder();
-            for (int i = 1; i < args.length ; i++) {
-                if (builder.length() > 0) builder.append(" ");
-                builder.append(args[i]);
-            }
+            String purchase = Joiner.on(' ').join(Arrays.copyOfRange(args, 1, args.length));
             for (ProxiedPlayer player : ProxyServer.getInstance().getPlayers()) {
-                player.sendMessage("§aUn maximum de remerciements pour §c" + username + " §apour son achat sur la boutique ! §7(" + builder + ")");
+                player.sendMessage(BungeeLang.getLang(player).getMessage(MessageUtils.Global.SHOP_BROADCAST).replace("{player}", username).replace("{purchase}", purchase));
             }
 
             return;

@@ -85,10 +85,10 @@ public class FriendCommand extends Command implements TabExecutor {
             FriendUtils.addRequest(player.getUniqueId(), targetUUID);
             ProxiedPlayer target = ProxyServer.getInstance().getPlayer(targetUUID);
             if (target != null) {
-                TextComponent message = new TextComponent(EndoSkullAPI.LINE + "\n" + lang.getMessage(MessageUtils.Paf.FREQUEST_RECEIVE).replace("{sender}", EndoSkullAPI.getPrefix(player.getUniqueId()) + player.getName()) + "\n");
-                TextComponent accept = new TextComponent("§a[" + lang.getMessage(MessageUtils.Global.ACCEPT) + "]");
+                TextComponent message = new TextComponent(EndoSkullAPI.LINE + "\n" + BungeeLang.getLang(target).getMessage(MessageUtils.Paf.FREQUEST_RECEIVE).replace("{sender}", EndoSkullAPI.getPrefix(player.getUniqueId()) + player.getName()) + "\n");
+                TextComponent accept = new TextComponent("§a[" + BungeeLang.getLang(target).getMessage(MessageUtils.Global.ACCEPT) + "]");
                 accept.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/friend accept " + player.getName()));
-                accept.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new ComponentBuilder(lang.getMessage(MessageUtils.Paf.CLICK_ACCEPT)).create()));
+                accept.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new ComponentBuilder(BungeeLang.getLang(target).getMessage(MessageUtils.Paf.CLICK_ACCEPT)).create()));
                 message.addExtra(accept);
                 message.addExtra("\n" + EndoSkullAPI.LINE);
                 target.sendMessage(message);
@@ -112,7 +112,7 @@ public class FriendCommand extends Command implements TabExecutor {
             FriendUtils.removeFriend(player.getUniqueId(), targetUUID);
             ProxiedPlayer target = ProxyServer.getInstance().getPlayer(targetUUID);
             if (target != null) {
-                target.sendMessage(new TextComponent(lang.getMessage(MessageUtils.Paf.FRIEND_REMOVED).replace("{player}", EndoSkullAPI.getPrefix(player.getUniqueId()) + player.getName())));
+                target.sendMessage(new TextComponent(BungeeLang.getLang(target).getMessage(MessageUtils.Paf.FRIEND_REMOVED).replace("{player}", EndoSkullAPI.getPrefix(player.getUniqueId()) + player.getName())));
             }
             player.sendMessage(new TextComponent(lang.getMessage(MessageUtils.Paf.FRIEND_REMOVE).replace("{target}", EndoSkullAPI.getPrefix(targetUUID) + targetName)));
             return;
@@ -135,7 +135,7 @@ public class FriendCommand extends Command implements TabExecutor {
             player.sendMessage(new TextComponent(lang.getMessage(MessageUtils.Paf.NOW_FRIEND).replace("{player}", EndoSkullAPI.getPrefix(targetUUID) + targetName)).toLegacyText());
             ProxiedPlayer target = ProxyServer.getInstance().getPlayer(targetUUID);
             if (target != null) {
-                target.sendMessage(new TextComponent(lang.getMessage(MessageUtils.Paf.FRIEND_ACCEPT).replace("{player}", EndoSkullAPI.getPrefix(player.getUniqueId()) + player.getName())).toLegacyText());
+                target.sendMessage(new TextComponent(BungeeLang.getLang(target).getMessage(MessageUtils.Paf.FRIEND_ACCEPT).replace("{player}", EndoSkullAPI.getPrefix(player.getUniqueId()) + player.getName())).toLegacyText());
             }
             PAFTask.getFriendRequests().get(targetUUID).remove(player.getUniqueId());
             return;

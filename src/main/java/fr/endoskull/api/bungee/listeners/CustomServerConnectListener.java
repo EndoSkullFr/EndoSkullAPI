@@ -2,6 +2,9 @@ package fr.endoskull.api.bungee.listeners;
 
 import de.dytanic.cloudnet.driver.CloudNetDriver;
 import de.dytanic.cloudnet.ext.bridge.player.IPlayerManager;
+import fr.endoskull.api.BungeeMain;
+import fr.endoskull.api.bungee.utils.BungeeLang;
+import fr.endoskull.api.commons.lang.MessageUtils;
 import fr.endoskull.api.commons.paf.Party;
 import fr.endoskull.api.commons.paf.PartyUtils;
 import fr.endoskull.api.commons.server.ServerManager;
@@ -29,7 +32,7 @@ public class CustomServerConnectListener implements Listener {
             String server = ServerManager.getServer(ServerType.LOBBY, 1);
             if (server == null) {
                 e.setCancelled(true);
-                player.disconnect(new TextComponent("§cAucun lobby de disponible"));
+                player.disconnect(new TextComponent(BungeeLang.getLang(player).getMessage(MessageUtils.Global.ANY_LOBBY)));
                 return;
             }
             e.setTarget(ProxyServer.getInstance().getServerInfo(server));
@@ -49,7 +52,7 @@ public class CustomServerConnectListener implements Listener {
                     String server = ServerManager.getServer(value, partySize);
                     if (server == null) {
                         e.setCancelled(true);
-                        player.sendMessage("§cAucun serveur de ce type n'est disponible ou aucun serveur ne peut acceuillir la taille de votre partie, merci de patienter");
+                        player.sendMessage(BungeeLang.getLang(player).getMessage(MessageUtils.Global.ANY_SERVER));
                         return;
                     }
                     e.setTarget(ProxyServer.getInstance().getServerInfo(server));

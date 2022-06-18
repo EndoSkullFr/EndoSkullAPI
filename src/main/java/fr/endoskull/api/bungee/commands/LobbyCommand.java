@@ -4,8 +4,10 @@ import com.google.common.io.ByteArrayDataOutput;
 import com.google.common.io.ByteStreams;
 import fr.endoskull.api.BungeeMain;
 import fr.endoskull.api.bungee.tasks.PAFTask;
+import fr.endoskull.api.bungee.utils.BungeeLang;
 import fr.endoskull.api.bungee.utils.BungeePlayerInfos;
 import fr.endoskull.api.commons.EndoSkullAPI;
+import fr.endoskull.api.commons.lang.MessageUtils;
 import fr.endoskull.api.commons.paf.FriendSettingsBungee;
 import fr.endoskull.api.commons.paf.FriendUtils;
 import net.md_5.bungee.api.CommandSender;
@@ -29,7 +31,7 @@ public class LobbyCommand extends Command {
     @Override
     public void execute(CommandSender sender, String[] args) {
         if (!(sender instanceof ProxiedPlayer)) {
-            sender.sendMessage("§cVous devez être un joueur pour éxécuter cette commande");
+            sender.sendMessage(BungeeLang.getLang(sender).getMessage(MessageUtils.Global.CONSOLE));
             return;
         }
         ProxiedPlayer player = (ProxiedPlayer) sender;

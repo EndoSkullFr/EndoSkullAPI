@@ -1,7 +1,9 @@
 package fr.endoskull.api.bungee.tasks;
 
+import fr.endoskull.api.bungee.utils.BungeeLang;
 import fr.endoskull.api.bungee.utils.BungeePlayerInfos;
 import fr.endoskull.api.commons.EndoSkullAPI;
+import fr.endoskull.api.commons.lang.MessageUtils;
 import fr.endoskull.api.commons.paf.FriendUtils;
 import fr.endoskull.api.commons.paf.PartyUtils;
 import net.md_5.bungee.api.ProxyServer;
@@ -24,11 +26,11 @@ public class PAFTask {
                     partyRequests.get(uuid).remove(receiverUUID);
                     ProxiedPlayer sender = ProxyServer.getInstance().getPlayer(uuid);
                     if (sender != null) {
-                        sender.sendMessage(new TextComponent(EndoSkullAPI.LINE + "\n§cLa demande de partie à " + EndoSkullAPI.getColor(receiverUUID) + BungeePlayerInfos.getNameFromUuid(receiverUUID) + " §ca expiré\n" + EndoSkullAPI.LINE).toLegacyText());
+                        sender.sendMessage(new TextComponent(BungeeLang.getLang(sender).getMessage(MessageUtils.Paf.PREQUEST_TO_EXPIRE).replace("{player}", EndoSkullAPI.getColor(receiverUUID) + BungeePlayerInfos.getNameFromUuid(receiverUUID))).toLegacyText());
                     }
                     ProxiedPlayer receiver = ProxyServer.getInstance().getPlayer(receiverUUID);
                     if (receiver != null) {
-                        receiver.sendMessage(new TextComponent(EndoSkullAPI.LINE + "\n§cLa demande de partie de " + EndoSkullAPI.getColor(uuid) + BungeePlayerInfos.getNameFromUuid(uuid) + " §ca expiré\n" + EndoSkullAPI.LINE).toLegacyText());
+                        receiver.sendMessage(new TextComponent(BungeeLang.getLang(receiver).getMessage(MessageUtils.Paf.PREQUEST_FROM_EXPIRE).replace("{player}", EndoSkullAPI.getColor(uuid) + BungeePlayerInfos.getNameFromUuid(uuid))).toLegacyText());
                     }
                 }
             }
@@ -40,11 +42,11 @@ public class PAFTask {
                     friendRequests.get(uuid).remove(receiverUUID);
                     ProxiedPlayer sender = ProxyServer.getInstance().getPlayer(uuid);
                     if (sender != null) {
-                        sender.sendMessage(new TextComponent(EndoSkullAPI.LINE + "\n§cLa demande d'ami à " + EndoSkullAPI.getColor(receiverUUID) + BungeePlayerInfos.getNameFromUuid(receiverUUID) + " §ca expiré\n" + EndoSkullAPI.LINE).toLegacyText());
+                        sender.sendMessage(new TextComponent(BungeeLang.getLang(sender).getMessage(MessageUtils.Paf.FREQUEST_TO_EXPIRE).replace("{player}", EndoSkullAPI.getColor(receiverUUID) + BungeePlayerInfos.getNameFromUuid(receiverUUID))).toLegacyText());
                     }
                     ProxiedPlayer receiver = ProxyServer.getInstance().getPlayer(receiverUUID);
                     if (receiver != null) {
-                        receiver.sendMessage(new TextComponent(EndoSkullAPI.LINE + "\n§cLa demande d'ami de " + EndoSkullAPI.getColor(uuid) + BungeePlayerInfos.getNameFromUuid(uuid) + " §ca expiré\n" + EndoSkullAPI.LINE).toLegacyText());
+                        receiver.sendMessage(new TextComponent(BungeeLang.getLang(receiver).getMessage(MessageUtils.Paf.FREQUEST_FROM_EXPIRE).replace("{player}", EndoSkullAPI.getColor(uuid) + BungeePlayerInfos.getNameFromUuid(uuid))).toLegacyText());
                     }
                 }
             }

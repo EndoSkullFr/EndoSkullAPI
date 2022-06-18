@@ -69,7 +69,7 @@ public class ProxyPing implements Listener {
         int version = e.getConnection().getVersion();
         if (version < 47/* || version > 754*/) {
             e.setCancelled(true);
-            e.setCancelReason("§cEndoSkull NetWork\n\n§7Le serveur est accessible uniquement à partir de la §c1.8\n\n§ehttps://discord.endoskull.fr");
+            e.setCancelReason("§cEndoSkull NetWork\n\n§c[1.8+]\n\n§ehttps://discord.endoskull.fr");
         }
     }
 

@@ -1,7 +1,9 @@
 package fr.endoskull.api.bungee.commands;
 
 import fr.endoskull.api.BungeeMain;
+import fr.endoskull.api.bungee.utils.BungeeLang;
 import fr.endoskull.api.commons.EndoSkullAPI;
+import fr.endoskull.api.commons.lang.MessageUtils;
 import fr.endoskull.api.commons.paf.FriendSettingsBungee;
 import fr.endoskull.api.commons.paf.FriendUtils;
 import net.md_5.bungee.api.CommandSender;
@@ -17,16 +19,16 @@ public class ReplyCommand extends Command {
 
     @Override
     public void execute(CommandSender sender, String[] args) {
+        BungeeLang lang = BungeeLang.getLang(sender);
         if (!(sender instanceof ProxiedPlayer)) {
-            sender.sendMessage("§cVous devez être un joueur pour éxécuter cette commande");
+            sender.sendMessage(lang.getMessage(MessageUtils.Global.CONSOLE));
             return;
         }
         ProxiedPlayer player = (ProxiedPlayer) sender;
         if (args.length >= 1) {
             ProxiedPlayer target = BungeeMain.getInstance().getLastPM().get(player);
             if (target == null) {
-                player.sendMessage(new TextComponent(EndoSkullAPI.LINE + "\n§cVous n'avez pas de joueur à qui envoyer un message\n" +
-                        EndoSkullAPI.LINE).toLegacyText());
+                player.sendMessage(new TextComponent(lang.getMessage(MessageUtils.Paf.REPLY_ANY)).toLegacyText());
                 return;
             }
             StringBuilder messageBuilder = new StringBuilder();
@@ -38,9 +40,7 @@ public class ReplyCommand extends Command {
             ProxyServer.getInstance().getPluginManager().dispatchCommand(player, "msg " + target.getName() + " " + message);
             return;
         }
-        player.sendMessage(new TextComponent(EndoSkullAPI.LINE + "\n§aUtilisation:\n" +
-                "§e/reply (Message)\n" +
-                EndoSkullAPI.LINE).toLegacyText());
+        player.sendMessage(new TextComponent(lang.getMessage(MessageUtils.Paf.REPLY_USAGE)).toLegacyText());
 
     }
 }

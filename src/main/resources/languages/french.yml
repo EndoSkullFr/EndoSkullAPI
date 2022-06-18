@@ -6,6 +6,7 @@ global:
   unknown-server: "§cCe type de serveur n'existe pas"
   any-server: "§cEndoSkull §8» §cAucun serveur de ce type n'est disponible ou aucun serveur ne peut acceuillir la taille de votre partie, merci de patienter"
   unknown-player: "§cEndoSkull §8» §cCe joueur n'existe pas"
+  offline-player: "§cEndoSkull §8» §cCe joueur n'est pas connecter"
   level: "{line}\n§eLevel : §6{level} §f| §eXp : §6{xp}§e/§6{levelup}\n{line}"
   vote: "{line}\n§eLien de la page de vote: §aendoskull.fr/vote\n{line}"
   discord: "{line}\n§eLien du discord: §adiscord.endoskull.fr\n{line}"
@@ -100,6 +101,12 @@ global:
   api-generated: "{line}\n§7Votre token est §8» §e{token}\n§7Pour consulter la documentation §8» §ehttps://api.endoskull.fr\n{line}"
   api-help: "{line}\n§aSi vous souhaitez générer un token pour pouvoir utiliser notre api faîtes §b/api new\n§eSi vous souhaitez consulter la documentation rdv sur https://api.endoskull.fr\n{line}"
   api-already: "{line}\n§aVous avez déjà un token de générer, si vous souhaitez consulter la documentation rdv sur https://api.endoskull.fr\n§eSi vous souhaitez regénérer votre token faîtes §b/api new\n{line}"
+  shop-broadcast: "§aUn maximum de remerciements pour §c{player} §apour son achat sur la boutique ! §7({purchase})"
+  any-lobby: "§cAucun lobby de disponible"
+  announcement: "§e§lANNONCE"
+  announcement-1: "§7Rejoignez le discord §e(discord.endoskull.fr)§7"
+  announcement-2: "§7Supportez nous en achetant un grade sur la boutique §e(/boutique)§7"
+  announcement-3: "§7Votez sur le serveur avec le §e/vote §7pour recevoir une clé vote"
 
 party-friend:
   any-friend: "{line}\n§cVotre liste d'amis est vide\n§7Pour commencer à en ajouter faîtes §a/friend add (Pseudo)\n{line}"
@@ -128,3 +135,15 @@ party-friend:
     §e/friend settings §8- §7Ouvrir les paramètres liés aux amis
     §e/friend requests §8- §7Afficher la liste des demandes d'amis
     {line}
+  msg-self: "{line}\n§cVous ne pouvez pas vous envoyer de message\n{line}"
+  msg-disable: "{line}\n§cCe joueur a desactivé les messages privés ne provenant pas de ses amis\n{line}"
+  msg: "§a§lMSG §8» "
+  msg-usage: "{line}\n§aUtilisation:\n§e/msg (Pseudo) (Message)\n{line}"
+  reply-any: "{line}\n§cVous n'avez pas de joueur à qui envoyer un message\n{line}"
+  reply-usage: "{line}\n§aUtilisation:\n§e/reply (Message)\n{line}"
+  friend-connect: "{player} §7vient de se §aconnecter"
+  friend-disconnect: "{player} §7vient de se §cdéconnecter"
+  prequest-to-expire: "{line}\n§cLa demande de partie à {player} §ca expiré\n{line}"
+  prequest-from-expire: "{line}\n§cLa demande de partie de {player} §ca expiré\n{line}"
+  frequest-to-expire: "{line}\n§cLa demande d'ami à {player} §ca expiré\n{line}"
+  frequest-from-expire: "{line}\n§cLa demande d'ami de {player} §ca expiré\n{line}"
