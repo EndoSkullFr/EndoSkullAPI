@@ -92,8 +92,8 @@ global:
     friend-notification: "Notifications de connection d'un ami"
     friend-notification-enable: "§7Vous §arecevrez §7de nouveau un message quand un ami se connecte"
     friend-notification-disable: "§7Vous §cne recevrez plus §7de message quand un ami se connecte"
-    click-for: "§7Cliquez pour"
-    enable: "§aActiver"
-    disable: "§cDésactiver"
-    friends: "§a§lAMIS §8» "
+  click-for: "§7Cliquez pour"
+  enable: "§aActiver"
+  disable: "§cDésactiver"
+  friends: "§a§lAMIS §8» "
 
