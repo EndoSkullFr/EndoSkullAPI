@@ -6,7 +6,7 @@ global:
   unknown-server: "§cCe type de serveur n'existe pas"
   any-server: "§cEndoSkull §8» §cAucun serveur de ce type n'est disponible ou aucun serveur ne peut acceuillir la taille de votre partie, merci de patienter"
   unknown-player: "§cEndoSkull §8» §cCe joueur n'existe pas"
-  offline-player: "§cEndoSkull §8» §cCe joueur n'est pas connecter"
+  offline-player: "§cEndoSkull §8» §cCe joueur n'est pas connecté"
   level: "{line}\n§eLevel : §6{level} §f| §eXp : §6{xp}§e/§6{levelup}\n{line}"
   vote: "{line}\n§eLien de la page de vote: §aendoskull.fr/vote\n{line}"
   discord: "{line}\n§eLien du discord: §adiscord.endoskull.fr\n{line}"
