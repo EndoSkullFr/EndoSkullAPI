@@ -32,7 +32,7 @@ public class ApiCommand extends Command {
         if (args.length >= 1 && args[0].equalsIgnoreCase("new")) {
             String token = generateToken();
             account.setProperty("api/token", token);
-            player.sendMessage(new TextComponent(BungeeLang.getLang(sender).getMessage(MessageUtils.Global.API_ALREADY).replace("{token}", token)).toLegacyText());
+            player.sendMessage(new TextComponent(BungeeLang.getLang(sender).getMessage(MessageUtils.Global.API_GENERATED).replace("{token}", token)).toLegacyText());
             TextComponent textComponent = new TextComponent(BungeeLang.getLang(sender).getMessage(MessageUtils.Global.CLICK_COPY));
             textComponent.setClickEvent(new ClickEvent(ClickEvent.Action.SUGGEST_COMMAND, token));
             player.sendMessage(textComponent);
