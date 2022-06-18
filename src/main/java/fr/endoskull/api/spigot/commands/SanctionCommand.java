@@ -1,8 +1,8 @@
 package fr.endoskull.api.spigot.commands;
 
 import fr.endoskull.api.spigot.inventories.SanctionGui;
-import fr.endoskull.api.spigot.utils.Languages;
-import fr.endoskull.api.spigot.utils.MessageUtils;
+import fr.endoskull.api.commons.lang.Languages;
+import fr.endoskull.api.commons.lang.MessageUtils;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;

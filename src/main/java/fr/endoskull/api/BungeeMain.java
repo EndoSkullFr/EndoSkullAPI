@@ -10,6 +10,7 @@ import fr.endoskull.api.commons.server.ServerType;
 import fr.endoskull.api.data.redis.JedisAccess;
 import fr.endoskull.api.data.redis.JedisManager;
 import fr.endoskull.api.data.sql.MySQL;
+import fr.endoskull.api.commons.lang.Languages;
 import litebans.api.Entry;
 import litebans.api.Events;
 import net.md_5.bungee.BungeeCord;
@@ -18,8 +19,13 @@ import net.md_5.bungee.api.config.ServerInfo;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
 import net.md_5.bungee.api.plugin.Plugin;
 import net.md_5.bungee.api.plugin.PluginManager;
+import net.md_5.bungee.config.Configuration;
+import net.md_5.bungee.config.ConfigurationProvider;
+import net.md_5.bungee.config.YamlConfiguration;
 import org.apache.commons.dbcp2.BasicDataSource;
 
+import java.io.File;
+import java.io.IOException;
 import java.net.InetSocketAddress;
 import java.util.HashMap;
 import java.util.UUID;
@@ -100,6 +106,15 @@ public class BungeeMain extends Plugin {
                 LitebansHandler.sendWebhookRemove(entry);
             }
         });
+
+        for (Languages value : Languages.values()) {
+            File file = new File(getDataFolder(), "languages/" + value.toString().toLowerCase() + ".yml");
+            try {
+                Configuration configuration = ConfigurationProvider.getProvider(YamlConfiguration.class).load(file);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
 
         super.onEnable();
     }

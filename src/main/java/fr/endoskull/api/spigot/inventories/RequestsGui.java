@@ -1,18 +1,16 @@
 package fr.endoskull.api.spigot.inventories;
 
-import fr.endoskull.api.bungee.utils.FriendRequest;
 import fr.endoskull.api.commons.EndoSkullAPI;
+import fr.endoskull.api.commons.lang.Languages;
+import fr.endoskull.api.commons.lang.MessageUtils;
 import fr.endoskull.api.commons.paf.FriendUtils;
 import fr.endoskull.api.spigot.utils.*;
-import org.apache.commons.codec.language.bm.Lang;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 
 import java.util.*;
-import java.util.concurrent.atomic.AtomicBoolean;
-import java.util.concurrent.atomic.AtomicInteger;
 
 public class RequestsGui extends CustomGui {
     private int[] glassSlot = {0,1,9,7,8,17,36,45,46,44,52,53};

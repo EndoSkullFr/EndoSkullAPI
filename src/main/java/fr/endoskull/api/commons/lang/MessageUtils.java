@@ -1,4 +1,4 @@
-package fr.endoskull.api.spigot.utils;
+package fr.endoskull.api.commons.lang;
 
 public interface MessageUtils {
     String getPath();

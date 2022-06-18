@@ -21,14 +21,6 @@ import java.util.UUID;
 
 public class CustomItemStack extends ItemStack {
 
-    public static CustomItemStack getBackGuiItem() {
-        return new CustomItemStack(Material.ARROW).setName("§aRetour");
-    }
-
-    public static CustomItemStack getCloseGuiItem() {
-        return new CustomItemStack(Material.BARRIER).setName("§cFermer");
-    }
-
     public CustomItemStack(ItemStack item, String displayName, String lore) {
         super(item);
     }

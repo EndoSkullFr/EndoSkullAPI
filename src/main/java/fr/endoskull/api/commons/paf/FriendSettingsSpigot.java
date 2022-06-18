@@ -1,6 +1,6 @@
 package fr.endoskull.api.commons.paf;
 
-import fr.endoskull.api.spigot.utils.MessageUtils;
+import fr.endoskull.api.commons.lang.MessageUtils;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 

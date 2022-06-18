@@ -2,7 +2,7 @@ package fr.endoskull.api.commons.account;
 
 import fr.endoskull.api.commons.boost.BoosterManager;
 import fr.endoskull.api.data.redis.JedisAccess;
-import fr.endoskull.api.spigot.utils.Languages;
+import fr.endoskull.api.commons.lang.Languages;
 import redis.clients.jedis.Jedis;
 
 import java.text.DecimalFormat;

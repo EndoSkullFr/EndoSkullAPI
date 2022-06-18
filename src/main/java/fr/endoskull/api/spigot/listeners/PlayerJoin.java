@@ -107,18 +107,6 @@ public class PlayerJoin implements Listener {
     }
 
     @EventHandler
-    public void onLogin(PlayerLoginEvent e) {
-        Player player = e.getPlayer();
-        if (main.getLoad() + 20 * 1000 > System.currentTimeMillis()) {
-            if (!player.isOp()) {
-                e.setKickMessage("§cEndoSkull Network\n\n" +
-                        "§fLe serveur auquel vous avez voulu vous connectez est en train\n" +
-                        "de redémarré, merci de retentez une connexion dans quelques secondes");
-            }
-        }
-    }
-
-    @EventHandler
     public void onLoginStaff(PlayerLoginEvent event){
         if (event.getResult().equals(PlayerLoginEvent.Result.KICK_FULL))
             if (event.getPlayer().hasPermission("endoskull.staff"))

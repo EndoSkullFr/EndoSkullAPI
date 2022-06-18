@@ -1,8 +1,7 @@
-package fr.endoskull.api.spigot.utils;
+package fr.endoskull.api.commons.lang;
 
 import fr.endoskull.api.Main;
 import fr.endoskull.api.commons.EndoSkullAPI;
-import fr.endoskull.api.spigot.commands.EndoSkullApiCommand;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
