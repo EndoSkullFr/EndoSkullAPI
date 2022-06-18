@@ -4,6 +4,8 @@ import de.dytanic.cloudnet.ext.bridge.ServiceInfoSnapshotUtil;
 import fr.endoskull.api.BungeeMain;
 import fr.endoskull.api.data.sql.MySQL;
 import net.md_5.bungee.api.ProxyServer;
+import net.md_5.bungee.api.event.PlayerDisconnectEvent;
+import net.md_5.bungee.api.event.PostLoginEvent;
 import net.md_5.bungee.api.event.ServerConnectedEvent;
 import net.md_5.bungee.api.plugin.Listener;
 import net.md_5.bungee.event.EventHandler;
@@ -14,6 +16,19 @@ public class ServerListener implements Listener {
 
     @EventHandler
     public void onServerChange(ServerConnectedEvent e) {
+        update();
+    }
+
+    @EventHandler
+    public void onJoin(PostLoginEvent e) {
+        update();
+    }
+    @EventHandler
+    public void onQuit(PlayerDisconnectEvent e) {
+        update();
+    }
+
+    private void update() {
         ProxyServer.getInstance().getScheduler().schedule(BungeeMain.getInstance(), () -> {
             for (String task : new String[]{"Lobby", "PvpKit", "Bedwars"}) {
                 final int onlineCount = ServiceInfoSnapshotUtil.getTaskOnlineCount(task);

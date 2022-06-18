@@ -1,2 +1,2 @@
 global:
-  about: "%line%\n§bEndoSkull §7is coded and maintained by §b§o@BebeDlaStreat\n§7Spigot: §e%server%\n§7Proxy: §eWaterfall 1.18\n§7We don't make every plugins but we are doing our best to code the main features\n%line%"
+  about: "{line}\n§bEndoSkull §7is coded and maintained by §b§o@BebeDlaStreat\n§7Spigot: §e{server}\n§7Proxy: §eWaterfall 1.18\n§7We don't make every plugins but we are doing our best to code the main features\n{line}"

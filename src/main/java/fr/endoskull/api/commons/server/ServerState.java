@@ -1,9 +1,9 @@
 package fr.endoskull.api.commons.server;
 
 public enum ServerState {
-    ONLINE("En ligne"),
-    SEMI_FULL("Presque plein"),
-    FULL("Plein");
+    ONLINE("§a✔"),
+    SEMI_FULL("§e✔"),
+    FULL("§c✘");
 
     private String displayName;
 

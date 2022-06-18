@@ -1,17 +1,15 @@
 package fr.endoskull.api.spigot.commands;
 
 import de.dytanic.cloudnet.driver.CloudNetDriver;
-import de.dytanic.cloudnet.ext.bridge.player.ICloudPlayer;
 import de.dytanic.cloudnet.ext.bridge.player.IPlayerManager;
 import fr.endoskull.api.Main;
 import fr.endoskull.api.commons.paf.Party;
 import fr.endoskull.api.commons.paf.PartyUtils;
 import fr.endoskull.api.commons.server.ServerManager;
 import fr.endoskull.api.commons.server.ServerType;
-import fr.endoskull.api.spigot.inventories.ServerInventory;
+import fr.endoskull.api.spigot.inventories.ServerGui;
 import fr.endoskull.api.spigot.utils.Languages;
 import fr.endoskull.api.spigot.utils.MessageUtils;
-import fr.endoskull.api.spigot.utils.PartyInfo;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -43,7 +41,7 @@ public class JoinCommand implements CommandExecutor {
             return false;
         }
         if (args.length > 1 && args[1].equalsIgnoreCase("gui")) {
-            new ServerInventory(serverType, main).open(player);
+            new ServerGui(serverType, main, player).open(player);
             return false;
         }
         int partySize = 1;

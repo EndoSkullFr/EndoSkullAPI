@@ -3,7 +3,6 @@ package fr.endoskull.api.spigot.inventories;
 import de.dytanic.cloudnet.driver.CloudNetDriver;
 import de.dytanic.cloudnet.driver.service.ServiceInfoSnapshot;
 import de.dytanic.cloudnet.ext.bridge.BridgeServiceProperty;
-import de.dytanic.cloudnet.ext.bridge.ServiceInfoSnapshotUtil;
 import de.dytanic.cloudnet.ext.bridge.player.IPlayerManager;
 import fr.endoskull.api.Main;
 import fr.endoskull.api.commons.server.ServerState;
@@ -11,8 +10,10 @@ import fr.endoskull.api.commons.server.ServerType;
 import fr.endoskull.api.data.redis.JedisAccess;
 import fr.endoskull.api.spigot.utils.CustomGui;
 import fr.endoskull.api.spigot.utils.CustomItemStack;
-import org.bukkit.Bukkit;
+import fr.endoskull.api.spigot.utils.Languages;
+import fr.endoskull.api.spigot.utils.MessageUtils;
 import org.bukkit.Material;
+import org.bukkit.entity.Player;
 import redis.clients.jedis.Jedis;
 
 import java.util.ArrayList;
@@ -20,13 +21,14 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
-public class ServerInventory extends CustomGui {
+public class ServerGui extends CustomGui {
     private Integer[] glass = {0,1,2,3,4,5,6,7,8,9,18,27,36,45,17,26,35,44,53};
     private final IPlayerManager playerManager = CloudNetDriver.getInstance().getServicesRegistry()
             .getFirstService(IPlayerManager.class);
 
-    public ServerInventory(ServerType serverType, Main main) {
-        super(getLines(serverType), "§a§lEndoSkull §8» §e§lServeurs");
+    public ServerGui(ServerType serverType, Main main, Player p) {
+        super(getLines(serverType), Languages.getLang(p).getMessage(MessageUtils.Global.GUI_SERVERS), p);
+        Languages lang = Languages.getLang(p);
         for (int i : glass) {
             if (i >= getLine() * 9) continue;
             setItem(i, new CustomItemStack(Material.STAINED_GLASS_PANE, 1, (byte) 7).setName("§r"));
@@ -46,8 +48,8 @@ public class ServerInventory extends CustomGui {
                 ServerState serverState = ServerState.valueOf(jedis.get(server));
                 ServiceInfoSnapshot serverInfo = CloudNetDriver.getInstance().getCloudServiceProvider().getCloudServices(serverType.getServerName()).stream().filter(serviceInfoSnapshot -> serviceInfoSnapshot.getName().equals(server)).findFirst().orElse(null);
                 setItem(i, new CustomItemStack(Material.WOOL, serverInfo.getProperty(BridgeServiceProperty.ONLINE_COUNT).orElse(0), (byte) (serverState == ServerState.ONLINE ? 5 : 14)).setName("§e§l" + server)
-                        .setLore("\n§7Statut §8» " + (serverState == ServerState.ONLINE ? "§a" : "§c") + serverState.getDisplayName() + "\n" +
-                                "§7Joueurs §8» §f" + serverInfo.getProperty(BridgeServiceProperty.ONLINE_COUNT).orElse(0) + "§7/§f" + serverInfo.getProperty(BridgeServiceProperty.MAX_PLAYERS).orElse(0)), player -> {
+                        .setLore("\n§7" + lang.getMessage(MessageUtils.Global.STATE) + "§8» " + serverState.getDisplayName() + "\n" +
+                                "§7" + lang.getMessage(MessageUtils.Global.PLAYERS) + " §8» §f" + serverInfo.getProperty(BridgeServiceProperty.ONLINE_COUNT).orElse(0) + "§7/§f" + serverInfo.getProperty(BridgeServiceProperty.MAX_PLAYERS).orElse(0)), player -> {
                     playerManager.getPlayerExecutor(player.getUniqueId()).connect(server);
                 });
                 i++;

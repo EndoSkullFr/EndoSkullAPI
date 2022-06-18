@@ -29,7 +29,7 @@ public class MoneyCommand implements CommandExecutor {
             if (!player.hasPermission("coins.edit") || args.length == 0) {
                 Account account;
                 account = new AccountProvider(player.getUniqueId()).getAccount();
-                player.sendMessage(Languages.getLang(sender).getMessage(MessageUtils.Global.COINS).replace("%coins%", String.valueOf(account.getSolde())));
+                player.sendMessage(Languages.getLang(sender).getMessage(MessageUtils.Global.COINS).replace("{coins}", String.valueOf(account.getSolde())));
                 return false;
             }
         }

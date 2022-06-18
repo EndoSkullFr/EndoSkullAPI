@@ -27,7 +27,7 @@ public enum Languages {
             }
             return Languages.FRENCH.getMessage(messageUtils);
         }
-        return Main.getLangFiles().get(this).getString(messageUtils.getPath()).replace("%line%", EndoSkullAPI.LINE);
+        return Main.getLangFiles().get(this).getString(messageUtils.getPath()).replace("{line}", EndoSkullAPI.LINE);
     }
 
     public static Languages getLang(CommandSender commandSender) {
