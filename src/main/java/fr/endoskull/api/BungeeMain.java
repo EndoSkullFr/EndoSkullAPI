@@ -112,6 +112,9 @@ public class BungeeMain extends Plugin {
                 getDataFolder().mkdir();
             }
             File file = new File(getDataFolder(), "languages/" + value.toString().toLowerCase() + ".yml");
+            if (!file.getParentFile().exists()) {
+                file.getParentFile().mkdir();
+            }
             if (!file.exists()) {
                 try {
                     file.createNewFile();
