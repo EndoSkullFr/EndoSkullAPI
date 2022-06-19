@@ -153,7 +153,7 @@ party-friend:
   already-party: "{line}\n§cVous êtes déjà dans une partie\n{line}"
   you-join-party:  "{line}\n§aVous avez rejoint la partie de {player}\n{line}"
   someone-join-party: "{line}\n{player} §avient de rejoindre la partie\n{line}"
-  party-self: "{line}\n§cVous ne pouvez pas vous inviter dans votre propre\n{line}"
+  party-self: "{line}\n§cVous ne pouvez pas vous inviter dans votre propre partie\n{line}"
   already-prequest: "{line}\n§cVous êtes déjà une demande de partie avec ce joueur\n{line}"
   party-disable: "{line}\n§cVous devez être ami avec ce joueur pour l'inviter dans votre partie\n{line}"
   already-in-party: "{line}\n§cCe joueur est déjà dans une partie\n{line}"
