@@ -19,7 +19,7 @@ public class AnnouncmentTask implements Runnable {
             player.sendMessage(new TextComponent("§r\n" + TextUtil.getCenteredMessage(lang.getMessage(MessageUtils.Global.ANNOUNCEMENT) + "\n" + TextUtil.getCenteredMessage(lang.getMessage(messages[index])) + "\n§r")).toLegacyText());
         }
         BungeeLang lang = BungeeLang.getLang(ProxyServer.getInstance().getConsole());
-        ProxyServer.getInstance().getConsole().sendMessage(new TextComponent("§r\n" + TextUtil.getCenteredMessage(lang.getMessage(MessageUtils.Global.ANNOUNCEMENT) + "\n" + TextUtil.getCenteredMessage(lang.getMessage(messages[index])) + "\n§r")).toLegacyText());
+        ProxyServer.getInstance().getConsole().sendMessage(new TextComponent("§r\n" + TextUtil.getCenteredMessage(lang.getMessage(MessageUtils.Global.ANNOUNCEMENT)) + "\n" + TextUtil.getCenteredMessage(lang.getMessage(messages[index])) + "\n§r").toLegacyText());
         index++;
     }
 }
