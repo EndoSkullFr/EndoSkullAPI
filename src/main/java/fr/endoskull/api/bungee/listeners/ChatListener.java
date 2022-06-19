@@ -1,6 +1,8 @@
 package fr.endoskull.api.bungee.listeners;
 
 import fr.endoskull.api.BungeeMain;
+import fr.endoskull.api.bungee.utils.BungeeLang;
+import fr.endoskull.api.commons.lang.MessageUtils;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
 import net.md_5.bungee.api.event.ChatEvent;
 import net.md_5.bungee.api.plugin.Listener;
@@ -30,7 +32,7 @@ public class ChatListener implements Listener {
         if (isEz(message)) {
             if (!sayEz.contains(player.getUniqueId())) {
                 sayEz.add(player.getUniqueId());
-                player.sendMessage("§cIl semblerait que votre message contienne le mot \"ez\". Si vous êtes surpris une nouvelle fois à le faire vous serez mute");
+                player.sendMessage(BungeeLang.getLang(player).getMessage(MessageUtils.Global.EZ_WARN));
             } else {
                 BungeeMain.getInstance().getProxy().getPluginManager().dispatchCommand(BungeeMain.getInstance().getProxy().getConsole(), "mute " + player.getName() + " 1h ez");
             }
@@ -45,7 +47,7 @@ public class ChatListener implements Listener {
         if (lastMessages.containsKey(player.getUniqueId())) {
             String lastMessage = lastMessages.get(player.getUniqueId());
             if (message.equalsIgnoreCase(lastMessage) || ((message.startsWith(lastMessage) || message.endsWith(lastMessage)) && difference(message.length(), lastMessage.length()) < 5)) {
-                player.sendMessage("§cMerci de ne pas spam le même message");
+                player.sendMessage(BungeeLang.getLang(player).getMessage(MessageUtils.Global.ANTI_SPAM));
                 e.setCancelled(true);
                 return;
             }

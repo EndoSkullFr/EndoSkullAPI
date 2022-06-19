@@ -107,6 +107,8 @@ global:
   announcement-1: "§7Rejoignez le discord §e(discord.endoskull.fr)§7"
   announcement-2: "§7Supportez nous en achetant un grade sur la boutique §e(/boutique)§7"
   announcement-3: "§7Votez sur le serveur avec le §e/vote §7pour recevoir une clé vote"
+  ez-warn: "§cIl semblerait que votre message contienne le mot \"ez\". Si vous êtes surpris une nouvelle fois à le faire vous serez mute"
+  anti-spam: "§cMerci de ne pas spam le même message"
 
 party-friend:
   any-friend: "{line}\n§cVotre liste d'amis est vide\n§7Pour commencer à en ajouter faîtes §a/friend add (Pseudo)\n{line}"
@@ -147,3 +149,49 @@ party-friend:
   prequest-from-expire: "{line}\n§cLa demande de partie de {player} §ca expiré\n{line}"
   frequest-to-expire: "{line}\n§cLa demande d'ami à {player} §ca expiré\n{line}"
   frequest-from-expire: "{line}\n§cLa demande d'ami de {player} §ca expiré\n{line}"
+  no-prequest: "{line}\n§cVous n'avez pas de demande de partie de la part de ce joueur\n{line}"
+  already-party: "{line}\n§cVous êtes déjà dans une partie\n{line}"
+  you-join-party:  "{line}\n§aVous avez rejoint la partie de {player}\n{line}"
+  someone-join-party: "{line}\n{player} §avient de rejoindre la partie\n{line}"
+  party-self: "{line}\n§cVous ne pouvez pas vous inviter dans votre propre\n{line}"
+  already-prequest: "{line}\n§cVous êtes déjà une demande de partie avec ce joueur\n{line}"
+  party-disable: "{line}\n§cVous devez être ami avec ce joueur pour l'inviter dans votre partie\n{line}"
+  already-in-party: "{line}\n§cCe joueur est déjà dans une partie\n{line}"
+  need-pleader: "{line}\n§cVous devez être le chef de votre partie\n{line}"
+  party-invite: "{line}\n{player} §avient de vous inviter dans la partie\n"
+  you-party-invite: "{line}\n§aVous avez invité {player} §adans votre partie\n{line}"
+  your-party-invite: "{line}\n{player} §avient d'être invité dans votre partie\n{line}"
+  no-party: "{line}\n§cVous n'êtes pas dans une partie\n{line}"
+  party-leader: "§7Chef: "
+  party-members: "§7Membre(s): "
+  party-leader-leave: "{line}\n§cVous êtes le chef de votre partie, faîtes /party transfer (Pseudo) avant\n{line}"
+  someone-pleave: "{line}\n{player} §cvient de quitter la partie\n{line}"
+  you-pleave: "{line}\n§aVous avez quitté votre partie\n{line}"
+  party-disband: "{line}\n{player} §cvient de dissoudre la partie\n{line}"
+  you-pdisband: "{line}\n§eVous avez dissout la partie\n{line}"
+  party-warp: "{line}\n{player} §cvient de vous envoyer sur son serveur\n{line}"
+  you-pwarp: "{line}\n§aVous avez envoyer les joueurs de votre partie sur votre serveur\n{line}"
+  ptransfer-self: "{line}\n§cVous ne pouvez pas vous transférer la partie à vous même\n{line}"
+  not-in-you-party: "{line}\n§cCe joueur n'est pas dans votre partie\n{line}"
+  new-pleader: "{line}\n{player} §aest le nouveau chef de la partie\n{line}"
+  pkick-selft: "{line}\n§cVous ne pouvez pas vous kick de votre propre partie\n{line}"
+  party-kick: "{line}\n§cVous avez été exclu de la partie\n{line}"
+  someone-pkick: "{line}\n{player} §cvient d'être exclu de la partie\n{line}"
+  everyone-online: "{line}\n§cTous les joueurs de la partie sont en lignes\n{line}"
+  party-kickoffline: "{line}\n§e{amount} §7joueur(s) hors ligne(s) vien(nen)t d'être exclu(s) de la partie\n{line}"
+  party-chat: "§a§lPARTIE §8» {player} §7» §f{message}"
+  party-help: |-
+    {line}
+    §aCommandes de parties:
+    §e/party accept (Pseudo) §8- §7Accepter une demande de partie
+    §e/party invite (Pseudo) §8- §7Inviter un joueur dans sa partie
+    §e/party list §8- §7Afficher les membres de votre partie
+    §e/party leave §8- §7Quitter votre partie
+    §e/party warp §8- §7Envoyer les joueurs de votre partie sur votre serveur
+    §e/party disband §8- §7Dissoudre votre partie
+    §e/party transfer (Pseudo) §8- §7Transférer votre partie
+    §e/party kick (Pseudo) §8- §7Retirer un joueur de la partie
+    §e/party kickoffline §8- §7Retirer les joueurs déconnectés de la parties
+    §e/party chat (Message) §8- §7Envoyer un message à tous les joueurs de la partie
+    §e/party settings §8- §7Ouvrir les paramètres liés aux parties
+    {line}
