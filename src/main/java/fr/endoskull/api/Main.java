@@ -221,4 +221,10 @@ public class Main extends JavaPlugin {
         return langFiles;
     }
 
+    public void reloadLangFiles() {
+        for (Languages value : Languages.values()) {
+            langFiles.put(value, YamlConfiguration.loadConfiguration(new File(getDataFolder(), "languages/" + value.toString().toLowerCase() + ".yml")));
+        }
+    }
+
 }
