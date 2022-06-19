@@ -12,7 +12,7 @@ import org.bukkit.entity.Player;
 
 public class SettingsGui extends CustomGui {
     public SettingsGui(Player p) {
-        super(4, "§cEndoSkull §8» §eParamètres", p);
+        super(4, Languages.getLang(p).getMessage(MessageUtils.Global.GUI_SETTINGS), p);
         Languages lang = Languages.getLang(p);
         p.playSound(p.getLocation(), Sound.ORB_PICKUP, 1f, 1f);
 
