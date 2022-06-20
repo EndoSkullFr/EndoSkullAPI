@@ -73,10 +73,11 @@ public class ProxyPlayerListener implements Listener {
         }
     }
 
-    @EventHandler(priority = EventPriority.LOWEST)
+    @EventHandler(priority = EventPriority.HIGHEST)
     public void onJoinLang(PostLoginEvent e) {
         ProxiedPlayer player = e.getPlayer();
         Account account = AccountProvider.getAccount(player.getUniqueId());
+        player.sendMessage(account.getBungeeLang());
         BungeeMain.getLangs().put(player, account.getBungeeLang());
     }
 
