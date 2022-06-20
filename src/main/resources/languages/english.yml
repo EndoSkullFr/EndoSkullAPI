@@ -1,2 +1,196 @@
 global:
-  about: "{line}\n§bEndoSkull §7is coded and maintained by §b§o@BebeDlaStreat\n§7Spigot: §e{server}\n§7Proxy: §eWaterfall 1.18\n§7We don't make every plugins but we are doing our best to code the main features\n{line}"
+  about: "{line}\n§bEndoSkull §7is developed and managed by §b§o@BebeDlaStreat\n§7Server: §e{server}\n§7Proxy: §eWaterfall 1.18\n§7We don't have only plugins made by us, but we try to make the most important feature of the server ourselves\n{line}"
+  console: "§cYou must be a player to execute this command"
+  click-hover: "§eClick to open"
+  less-permission: "§cEndoSkull §8» §cYou don't have permission to execute this command"
+  unknown-server: "§cThis server type doesn't exist"
+  any-server: "§cEndoSkull §8» §cNo server of this type is available or no server can host the size of your party, please wait"
+  unknown-player: "§cEndoSkull §8» §cThis player doesn't exist"
+  offline-player: "§cEndoSkull §8» §cThis player isn't connected"
+  level: "{line}\n§eLevel: §6{level} §f| §eXp: §6{xp}§e/§6{levelup}\n{line}"
+  vote: "{line}\n§eLink of voting page: §aendoskull.fr/vote\n{line}"
+  discord: "{line}\n§eLink of the Discord: §adiscord.endoskull.fr\n{line}"
+  coins: "{line}\n§eYou have §6{coins} §ecoins\n{line}"
+  vanish: "§aYou are now vanish"
+  unvanish: "§eYou are no longer vanish"
+  shop-ranks: "§aRanks"
+  shop-ranks-desc: "\n§7In this category, you'll find:\n§7► The §eVIP §7rank\n§7► The §eHero §7rank"
+  shop-keys: "§aKeys"
+  shop-keys-desc: "\n§7In this category, you'll find:\n§7► Ultimate Keys"
+  shop-bought: "{line}\n§eTo purchase this item, go on the online shop: §astore.endoskull.fr\n{line}"
+  shop-features: "§7Features list:"
+  shop-vip: "§eVIP Rank"
+  shop-vip-desc: |-
+
+    §7◇ A +50% coin booster
+    §7◇ §eVIP §7prefix in the Tab list
+    §7◇ Your nickname in §eyellow §7in the chat
+    §7◇ Access to the particle §lFire wings
+    §7◇ Access to /musics to play music in the lobby
+    §7◇ Access to Tier 2 kits in PvpKit
+
+    §7⇨ Price: §e€5
+  shop-hero: "§bHero Rank"
+  shop-hero-desc: |-
+
+    §7◇ Advantages of the previous rank
+    §7◇ A +100% coin booster
+    §7◇ §bHero §7prefix in the Tab list
+    §7◇ Your nickname §bcyan §7in the chat
+    §7◇ Access to /tag to create a custom tag
+    §7◇ Access to the particle §lDark sandals
+    §7◇ Access to Tier 3 kits in PvpKit
+
+    §7⇨ Price: §b€10
+  ultime-1: "§41 Ultimate Key"
+  ultime-5: "§45 Ultimate Keys"
+  ultime-10: "§410 Ultimate Keys"
+  ultime-1-desc: "\n§7⇨ Price: §4€2"
+  ultime-5-desc: "\n§7⇨ Price: §4€8.5"
+  ultime-10-desc: "\n§7⇨ Price: §4€15"
+  back: "§aBack"
+  gui-shop: "§c§lEndoSkull §8» §a§lShop"
+  gui-ranks: "§c§lEndoSkull §8» §a§lRanks"
+  gui-keys: "§c§lEndoSkull §8» §a§lKeys"
+  gui-booster: "§c§lEndoSkull §8» §d§lBoosters"
+  how-to-booster: "§a§lHow to get boosters ?"
+  how-to-booster-desc: |-
+
+    §aPERMANENT BOOSTER
+    §7→ §fWith the §bHero §frank §7(+100%) §fand the §eVIP §frank §7(+50%)
+
+    §aTEMPORARY BOOSTERS
+    §7→ §fWhen opening Ultimate Box §7(endoskull.fr/shop)
+    §7→ §fWhen opening Votes Box §7(endoskull.fr/vote)
+    §7→ §fDuring events organized by the staff
+  booster-line: "§a+{boost}% §funtil §7{date}\n"
+  booster-perm: "§dPERMANENT BOOSTER"
+  booster-no-perm: "§7→ §cYou don't have a permanent booster"
+  booster-perm-desc: "§7→ §fValue: §a+{boost}%"
+  booster-temp: "§dTEMPORARY BOOSTERS"
+  booster-no-temp: "§7→ §cYou don't have a temporary booster"
+  booster-temp-desc: "§7→ §fTotal: §a+{boost}%"
+  gui-frequests: "§cEndoSkull §8» §aFriends requests"
+  any-frequests: "§cYou don't have any friend requests"
+  previous-page: "§ePrevious page"
+  next-page: "§eNext page"
+  accept: "§aAccept"
+  deny: "§cDecline"
+  gui-servers: "§a§lEndoSkull §8» §e§lServers"
+  state: "State"
+  players: "Players"
+  gui-settings: "§cEndoSkull §8» §eSettings"
+  friend-settings:
+    friend-request: "Friends requests"
+    friend-request-enable: "§7You have §aenabled §7friends request"
+    friend-request-disable: "§7You have §cdisabled §7friend requests"
+    party-request: "Invitations to parties"
+    party-request-enable: "§7From now on, §aeveryone §7can invite you to their party"
+    party-request-disable: "§7From now on, only §cyour friends §7can invite you in their party"
+    private-message: "Private messages"
+    private-message-enable: "§7From now on, §aeveryone §7can send you private messages"
+    private-message-disable: "§7From now on, only §cyour friends §7can send you private message"
+    friend-notification: "Notifications of the connection of a friend"
+    friend-notification-enable: "§7From now on, you will §areceive §7a notification when your friend is online"
+    friend-notification-disable: "§7You will §ano longer receive §7notifications when your friend is online"
+  click-for: "§7Click for"
+  enable: "§aEnable"
+  disable: "§cDisable"
+  friends: "§a§lFRIENDS §8» "
+  click-copy: "§7(Click to copy)"
+  api-generated: "{line}\n§7Your token is §8» §e{token}\n§7To consult the documentation §8» §ehttps://api.endoskull.fr\n{line}"
+  api-help: "{line}\n§aIf you want to generate a token to use the Api §b/api new\n§eIf you wish to consult the documentation visit https://api.endoskull.fr\n{line}"
+  api-already: "{line}\n§aYou already have a token, for more information you can click this link https://api.endoskull.fr \n§eIf you would like to generate a new token do §b/api new\n{line}"
+  shop-broadcast: "§aMany thanks to §c{player} §afor his purchase in the shop ! §7({purchase})"
+  any-lobby: "§cNo lobby available"
+  announcement: "§e§lANNOUNCEMENT"
+  announcement-1: "§7Join the Discord §e(discord.endoskull.fr)§7"
+  announcement-2: "§7Consider Supporting us by buying a rank in the shop §e(/shop)§7"
+  announcement-3: "§7Vote for the server with §e/vote §7to get a voting key"
+  ez-warn: "§cIt seems that your message contains the word \"ez\". If you were surprised once again to do so, you will be muted"
+  anti-spam: "§cPlease do not spam the same messages"
+party-friend:
+  any-friend: "{line}\n§cYour friends list is empty\n§7To start adding friends §a/friend add (Pseudo)\n{line}"
+  online: "§a(Online)"
+  offline: "§c(Offline)"
+  flist: "§a§lFriends list:"
+  friend-self: "{line}\n§cYou can't add yourself\n{line}"
+  already-friend: "{line}\n§cYou are already friend with this player\n{line}"
+  already-frequest: "{line}\n§cYou already have a pending friend request for this player\n{line}"
+  frequests-disable: "{line}\n§cThis player has disabled their friend requests\n{line}"
+  click-accept: "§aClick to accept"
+  frequest-receive: "{sender} sent you a friend request"
+  frequest-send: "{line}\n§aYou sent a friend request to {target}\n{line}"
+  not-friend: "{line}\n§cYou aren't friend with this player\n{line}"
+  friend-removed: "{line}\n{player} §cremoved you from their friends list\n{line}"
+  friend-remove: "{line}\n§cYou are no longer friends with {target}\n{line}"
+  no-frequest: "{line}\n§cYou don't have any friend request from this player\n{line}"
+  now-friend: "{line}\n§aYou're now friend with {player}\n{line}"
+  friend-accept: "{line}\n{player} §ajust accepted your friend request\n{line}"
+  friend-help: |-
+    {line}
+    §aFriend commands: 
+    §e/friend accept (Pseudo) §8- §7Accept a friend request 
+    §e/friend add (Pseudo) §8- §7Add a new friend
+    §e/friend list  [Page] §8- §7Display your friend list 
+    §e/friend settings §8- §7Open the settings linked to friend
+    §e/friend requests §8-  §7Display the list of friend requests
+    {line}
+  msg-self: "{line}\n§cYou cannot send a message to yourself\n{line}"
+  msg-disable: "{line}\n§cThis player disabled private messages not from friends\n{line}"
+  msg: "§a§lMSG §8» "
+  msg-usage: "{line}\n§aUsage:\n§e/msg (Nickname) (Message)\n{line}"
+  reply-any: "{line}\n§cYou don't have a player to send a message to\n{line}"
+  reply-usage: "{line}\n§aUsage:\n§e/reply (Message)\n{line}"
+  friend-connect: "{player} §7just §aconnect"
+  friend-disconnect: "{player} §7just §cdisconnect"
+  prequest-to-expire: "{line}\n§cThe party request to {player} §chas expired\n{line}"
+  prequest-from-expire: "{line}\n§cThe party request of {player} §chas expired\n{line}"
+  frequest-to-expire: "{line}\n§cThe friend request to {player} §chas expired\n{line}"
+  frequest-from-expire: "{line}\n§cThe friend request of {player} §chas expired\n{line}"
+  no-prequest: "{line}\n§cYou haven't party request from this player\n{line}"
+  already-party: "{line}\n§cYou're already in a party\n{line}"
+  you-join-party: "{line}\n§aYou join the party of {player}\n{line}"
+  someone-join-party: "{line}\n{player} §ajust join the party\n{line}"
+  party-self: "{line}\n§cYou cannot invite yourself in your own party\n{line}"
+  already-prequest: "{line}\n§cYou already have a party request with this player\n{line}"
+  party-disable: "{line}\n§cYou have to be friend with this player to invite him in your party\n{line}"
+  already-in-party: "{line}\n§cThis player is already in a party\n{line}"
+  need-pleader: "{line}\n§cYou must be the party leader\n{line}"
+  party-invite: "{line}\n{player} §ajust invited your in his party"
+  you-party-invite: "{line}\n§aYou invited {player} §ain your party\n{line}"
+  your-party-invite: "{line}\n{player} §ajust got invited to your party\n{line}"
+  no-party: "{line}\n§cYou are not in a party\n{line}"
+  party-leader: "§7Leader: "
+  party-members: "§7Member(s): "
+  party-leader-leave: "{line}\n§cYou are the leader of your party, do /party transfer (Pseudo) before leaving\n{line}"
+  someone-pleave: "{line}\n{player} §cleft the party\n{line}"
+  you-pleave: "{line}\n§aYou have left your party\n{line}"
+  party-disband: "{line}\n{player} §cjust disband the party\n{line}"
+  you-pdisband: "{line}\n§eYou disbanded your party\n{line}"
+  party-warp: "{line}\n{player} §cjust send you to his server\n{line}"
+  you-pwarp: "{line}\n§aYou sent the players from your party to your server\n{line}"
+  ptransfer-self: "{line}\n§cYou can't transfer the party to yourself\n{line}"
+  not-in-you-party: "{line}\n§cThis player isn't in your party\n{line}"
+  new-pleader: "{line}\n{player} §ais the new leader of the party\n{line}"
+  pkick-selft: "{line}\n§cYou can't kick yourself\n{line}"
+  party-kick: "{line}\n§cYou were removed from your party\n{line}"
+  someone-pkick: "{line}\n{player} §chas been removed from the party\n{line}"
+  everyone-online: "{line}\n§cAll your party members are online\n{line}"
+  party-kickoffline: "{line}\n§e{amount} §7offline player(s) has/have been kicked out of the party\n{line}"
+  party-chat: "§a§lPARTY §8» {player} §7» §f{message}"
+  party-help: |-
+    {line}
+    §aParty commands:
+    §e/party accept (Pseudo) §8- §7Accepting a party request
+    §e/party invite (Pseudo) §8- §7Invite a player to your party
+    §e/party list §8- §7Display the members of your party
+    §e/party leave §8- §7Leave the party
+    §e/party warp §8- §7Send players from your party to your server
+    §e/party disband §8- §7Disband your party
+    §e/party transfer (Pseudo) §8- §7Transfer your party
+    §e/party kick (Pseudo) §8- §7Kick a player from your party
+    §e/party kickoffline §8- §7Kick offline players
+    §e/party chat (Message) §8- §7Send a message to your party members
+    §e/party settings §8- §7Open party settings
+    {line}
