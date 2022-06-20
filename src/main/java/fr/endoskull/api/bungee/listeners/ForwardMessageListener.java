@@ -4,6 +4,8 @@ import com.google.common.io.ByteArrayDataInput;
 import com.google.common.io.ByteArrayDataOutput;
 import com.google.common.io.ByteStreams;
 import fr.endoskull.api.BungeeMain;
+import fr.endoskull.api.commons.account.Account;
+import fr.endoskull.api.commons.account.AccountProvider;
 import net.md_5.bungee.BungeeCord;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
 import net.md_5.bungee.api.event.PluginMessageEvent;
@@ -27,6 +29,11 @@ public class ForwardMessageListener implements Listener {
                 String command = in.readUTF();
                 ProxiedPlayer player = (ProxiedPlayer) e.getReceiver();
                 BungeeCord.getInstance().getPluginManager().dispatchCommand(player, command);
+            }
+            if (action.equalsIgnoreCase("UpdateLanguage")) {
+                ProxiedPlayer player = (ProxiedPlayer) e.getReceiver();
+                Account account = AccountProvider.getAccount(player.getUniqueId());
+                BungeeMain.getLangs().put(player, account.getBungeeLang());
             }
         }
     }
