@@ -1,5 +1,6 @@
 package fr.endoskull.api;
 
+import fr.endoskull.api.commons.lang.MessageUtils;
 import fr.endoskull.api.commons.server.ServerState;
 import fr.endoskull.api.commons.server.ServerType;
 import fr.endoskull.api.data.redis.JedisAccess;
@@ -109,7 +110,7 @@ public class Main extends JavaPlugin {
     @Override
     public void onDisable() {
         for (Player pls : Bukkit.getOnlinePlayers()) {
-            pls.kickPlayer("§eEndoSkull §8>> §cLe serveur sur lequel vous étiez s'est arrêté");
+            pls.kickPlayer(langs.get(pls).getMessage(MessageUtils.Global.SERVER_STOP));
         }
         Jedis j = null;
         try {

@@ -180,6 +180,7 @@ party-friend:
   everyone-online: "{line}\n§cTous les joueurs de la partie sont en lignes\n{line}"
   party-kickoffline: "{line}\n§e{amount} §7joueur(s) hors ligne(s) vien(nen)t d'être exclu(s) de la partie\n{line}"
   party-chat: "§a§lPARTIE §8» {player} §7» §f{message}"
+  server-stop: "§eEndoSkull §8>> §cLe serveur sur lequel vous étiez s'est arrêté"
   party-help: |-
     {line}
     §aCommandes de parties:

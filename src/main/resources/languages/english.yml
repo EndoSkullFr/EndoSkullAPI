@@ -106,7 +106,7 @@ global:
   announcement: "§e§lANNOUNCEMENT"
   announcement-1: "§7Join the Discord §e(discord.endoskull.fr)§7"
   announcement-2: "§7Consider Supporting us by buying a rank in the shop §e(/shop)§7"
-  announcement-3: "§7Vote for the server with §e/vote §7to get a voting key"
+  announcement-3: "§7Vote for the server with §e/vote §7to receive a vote key"
   ez-warn: "§cIt seems that your message contains the word \"ez\". If you were surprised once again to do so, you will be muted"
   anti-spam: "§cPlease do not spam the same messages"
 party-friend:
@@ -179,6 +179,7 @@ party-friend:
   everyone-online: "{line}\n§cAll your party members are online\n{line}"
   party-kickoffline: "{line}\n§e{amount} §7offline player(s) has/have been kicked out of the party\n{line}"
   party-chat: "§a§lPARTY §8» {player} §7» §f{message}"
+  server-stop: "§eEndoSkull §8>> §cThe server you were on has shutdown"
   party-help: |-
     {line}
     §aParty commands:
