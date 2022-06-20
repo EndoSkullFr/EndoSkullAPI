@@ -16,7 +16,7 @@ public class AnnouncmentTask implements Runnable {
         if (messages.length <= index) index = 0;
         for (ProxiedPlayer player : ProxyServer.getInstance().getPlayers()) {
             BungeeLang lang = BungeeLang.getLang(player);
-            player.sendMessage(new TextComponent("§r\n" + TextUtil.getCenteredMessage(lang.getMessage(MessageUtils.Global.ANNOUNCEMENT) + "\n" + TextUtil.getCenteredMessage(lang.getMessage(messages[index])) + "\n§r")).toLegacyText());
+            player.sendMessage(new TextComponent("§r\n" + TextUtil.getCenteredMessage(lang.getMessage(MessageUtils.Global.ANNOUNCEMENT)) + "\n" + TextUtil.getCenteredMessage(lang.getMessage(messages[index])) + "\n§r").toLegacyText());
         }
         BungeeLang lang = BungeeLang.getLang(ProxyServer.getInstance().getConsole());
         ProxyServer.getInstance().getConsole().sendMessage(new TextComponent("§r\n" + TextUtil.getCenteredMessage(lang.getMessage(MessageUtils.Global.ANNOUNCEMENT)) + "\n" + TextUtil.getCenteredMessage(lang.getMessage(messages[index])) + "\n§r").toLegacyText());
