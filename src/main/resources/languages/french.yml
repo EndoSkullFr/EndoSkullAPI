@@ -86,7 +86,7 @@ global:
     friend-request-disable: "§7Vous avez §cdesactivé §7les demandes d'amis"
     party-request: "Invitations à des parties"
     party-request-enable: "§7Dorénavant, §atout le monde §7peut vous inviter dans sa partie"
-    party-request-disable: "§7Dorénavant, seulement §cvos amis §7peuvent vous inviter dans sa partie"
+    party-request-disable: "§7Dorénavant, seulement §cvos amis §7peuvent vous inviter dans leur partie"
     private-message: "Messages privés"
     private-message-enable: "§7Dorénavant, §atout le monde §7peut vous envoyer des messages privés"
     private-message-disable: "§7Dorénavant, seulement §cvos amis §7peuvent vous envoyer des messages privés"
