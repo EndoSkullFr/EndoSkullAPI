@@ -37,6 +37,7 @@ public class ProxyPlayerListener implements Listener {
                     account.setName(player.getName());
                     JedisManager.checkNoneName(player.getUniqueId(), player.getName());
                     account.setProperty("lastLogin", String.valueOf(System.currentTimeMillis()));
+                    BungeeMain.getLangs().put(player, account.getBungeeLang());
                 }
             } catch (Exception ex) {
                 ex.printStackTrace();
@@ -71,19 +72,6 @@ public class ProxyPlayerListener implements Listener {
         for (ProxiedPlayer p : new ArrayList<>(BungeeMain.getInstance().getLastPM().keySet())) {
             if (BungeeMain.getInstance().getLastPM().get(p).equals(player)) BungeeMain.getInstance().getLastPM().remove(p);
         }
-    }
-
-    @EventHandler(priority = EventPriority.HIGHEST)
-    public void onJoinLang(PostLoginEvent e) {
-        ProxiedPlayer player = e.getPlayer();
-        Account account = AccountProvider.getAccount(player.getUniqueId());
-        player.sendMessage(account.getBungeeLang().toString());
-        BungeeMain.getLangs().put(player, account.getBungeeLang());
-    }
-
-    @EventHandler(priority = EventPriority.HIGHEST)
-    public void onQuitLang(PlayerDisconnectEvent e) {
-        ProxiedPlayer player = e.getPlayer();
         BungeeMain.getLangs().remove(player);
     }
 }
