@@ -93,7 +93,7 @@ global:
     friend-notification: "Notifications of the connection of a friend"
     friend-notification-enable: "§7From now on, you will §areceive §7a notification when your friend is online"
     friend-notification-disable: "§7You will §ano longer receive §7notifications when your friend is online"
-  click-for: "§7Click for"
+  click-for: "§7Click to"
   enable: "§aEnable"
   disable: "§cDisable"
   friends: "§a§lFRIENDS §8» "
