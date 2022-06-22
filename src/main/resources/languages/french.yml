@@ -110,6 +110,7 @@ global:
   announcement-3: "§7Votez sur le serveur avec le §e/vote §7pour recevoir une clé vote"
   ez-warn: "§cIl semblerait que votre message contienne le mot \"ez\". Si vous êtes surpris une nouvelle fois à le faire vous serez mute"
   anti-spam: "§cMerci de ne pas spam le même message"
+  stp-usage: "{line}\n§aUtilisation:\n§e/stp (pseudo)\n{line}"
 
 party-friend:
   any-friend: "{line}\n§cVotre liste d'amis est vide\n§7Pour commencer à en ajouter faîtes §a/friend add (Pseudo)\n{line}"
@@ -181,7 +182,6 @@ party-friend:
   everyone-online: "{line}\n§cTous les joueurs de la partie sont en lignes\n{line}"
   party-kickoffline: "{line}\n§e{amount} §7joueur(s) hors ligne(s) vien(nen)t d'être exclu(s) de la partie\n{line}"
   party-chat: "§a§lPARTIE §8» {player} §7» §f{message}"
-  stp-usage: "{line}\n§aUtilisation:\n§e/stp (pseudo)\n{line}"
   party-help: |-
     {line}
     §aCommandes de parties:
