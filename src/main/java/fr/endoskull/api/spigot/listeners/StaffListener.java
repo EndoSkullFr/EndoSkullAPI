@@ -1,5 +1,6 @@
 package fr.endoskull.api.spigot.listeners;
 
+import fr.endoskull.api.Main;
 import fr.endoskull.api.commons.account.Account;
 import fr.endoskull.api.commons.account.AccountProvider;
 import fr.endoskull.api.spigot.utils.VanishUtils;
@@ -36,7 +37,9 @@ public class StaffListener implements Listener {
                 Player target = Bukkit.getPlayer(account.getProperty("serverTeleport"));
                 account.setProperty("serverTeleport", "");
                 if (target != null) {
-                    player.teleport(target);
+                    Bukkit.getScheduler().runTaskLater(Main.getInstance(), () -> {
+                        player.teleport(target);
+                    }, 5);
                 }
             }
 
