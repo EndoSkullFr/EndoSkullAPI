@@ -26,6 +26,9 @@ commands:
     aliases: [boost]
   boutique:
     description: ouvrir la boutique
+    aliases:
+      - shop
+      - store
   discord:
     aliases: [vote]
   lobby:
