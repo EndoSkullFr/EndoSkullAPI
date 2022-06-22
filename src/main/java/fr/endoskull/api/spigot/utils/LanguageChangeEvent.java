@@ -15,6 +15,10 @@ public class LanguageChangeEvent extends Event {
         return HANDLERS_LIST;
     }
 
+    public static HandlerList getHandlerList() {
+        return HANDLERS_LIST;
+    }
+
     public Languages getOldLang() {
         return oldLang;
     }
