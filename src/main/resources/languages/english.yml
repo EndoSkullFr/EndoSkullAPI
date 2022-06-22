@@ -1,4 +1,5 @@
 global:
+  server-stop: "§eEndoSkull §8>> §cThe server you were on has shutdown"
   about: "{line}\n§bEndoSkull §7is developed and managed by §b§o@BebeDlaStreat\n§7Server: §e{server}\n§7Proxy: §eWaterfall 1.18\n§7We don't have only plugins made by us, but we try to make the most important feature of the server ourselves\n{line}"
   console: "§cYou must be a player to execute this command"
   click-hover: "§eClick to open"
@@ -179,7 +180,6 @@ party-friend:
   everyone-online: "{line}\n§cAll your party members are online\n{line}"
   party-kickoffline: "{line}\n§e{amount} §7offline player(s) has/have been kicked out of the party\n{line}"
   party-chat: "§a§lPARTY §8» {player} §7» §f{message}"
-  server-stop: "§eEndoSkull §8>> §cThe server you were on has shutdown"
   party-help: |-
     {line}
     §aParty commands:
