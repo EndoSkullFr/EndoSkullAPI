@@ -16,8 +16,8 @@ import net.md_5.bungee.api.connection.ProxiedPlayer;
 import net.md_5.bungee.api.event.PlayerDisconnectEvent;
 import net.md_5.bungee.api.event.PostLoginEvent;
 import net.md_5.bungee.api.plugin.Listener;
+import net.md_5.bungee.connection.InitialHandler;
 import net.md_5.bungee.event.EventHandler;
-import net.md_5.bungee.event.EventPriority;
 
 import java.util.ArrayList;
 import java.util.UUID;
@@ -27,6 +27,7 @@ public class ProxyPlayerListener implements Listener {
     @EventHandler
     public void onProxyJoin(PostLoginEvent e) {
         ProxiedPlayer player = e.getPlayer();
+        player.sendMessage(((InitialHandler) player.getPendingConnection()).getHandshake().getHost());
 
         BungeeCord.getInstance().getScheduler().runAsync(BungeeMain.getInstance(), () -> {
             try {
