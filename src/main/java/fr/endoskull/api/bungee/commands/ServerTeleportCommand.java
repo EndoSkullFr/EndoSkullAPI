@@ -1,5 +1,8 @@
 package fr.endoskull.api.bungee.commands;
 
+import com.google.common.io.ByteArrayDataOutput;
+import com.google.common.io.ByteStreams;
+import fr.endoskull.api.BungeeMain;
 import fr.endoskull.api.bungee.utils.BungeeLang;
 import fr.endoskull.api.commons.account.Account;
 import fr.endoskull.api.commons.account.AccountProvider;
@@ -12,6 +15,7 @@ import net.md_5.bungee.api.connection.Server;
 import net.md_5.bungee.api.plugin.Command;
 
 import java.util.UUID;
+import java.util.concurrent.TimeUnit;
 
 public class ServerTeleportCommand extends Command {
     public ServerTeleportCommand() {
@@ -38,6 +42,13 @@ public class ServerTeleportCommand extends Command {
         Account account = AccountProvider.getAccount(player.getUniqueId());
         account.setProperty("serverTeleport", target.getName());
         Server server = target.getServer();
+        if (server.getInfo().getName().equals(player.getServer().getInfo().getName())) {
+            ByteArrayDataOutput out = ByteStreams.newDataOutput();
+            out.writeUTF("ServerTeleport");
+
+            player.getServer().sendData(BungeeMain.CHANNEL, out.toByteArray());
+            return;
+        }
         player.connect(server.getInfo());
 
 
