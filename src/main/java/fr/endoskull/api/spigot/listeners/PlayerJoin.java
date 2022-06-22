@@ -41,7 +41,7 @@ public class PlayerJoin implements Listener {
     @EventHandler
     public void onJoin(PlayerJoinEvent e) {
         Player player = e.getPlayer();
-        Bukkit.getScheduler().runTaskAsynchronously(main, () -> {
+        /*Bukkit.getScheduler().runTaskAsynchronously(main, () -> {
             ByteArrayOutputStream b = new ByteArrayOutputStream();
             DataOutputStream out = new DataOutputStream(b);
             try {
@@ -52,7 +52,7 @@ public class PlayerJoin implements Listener {
             }
             //UUID uuid = PlayerInfos.getUuidFromName(player.getName());
             //if (!main.getUuidsByName().containsKey(player)) main.getUuidsByName().put(player.getName(), uuid);
-        });
+        });*/
         EndoSkullAPI.loadPrefix(player.getUniqueId());
         if (!main.getServerType().isMultiArena() && main.getServerType() != ServerType.UNKNOW) {
             Jedis j = null;

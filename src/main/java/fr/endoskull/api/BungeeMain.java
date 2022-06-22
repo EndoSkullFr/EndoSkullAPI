@@ -68,6 +68,7 @@ public class BungeeMain extends Plugin {
         pm.registerCommand(this, new ApiCommand());
         pm.registerCommand(this, new UnloadCommand());
         pm.registerCommand(this, new LobbyCommand());
+        pm.registerCommand(this, new ServerTeleportCommand());
 
         initConnection();
         new JedisAccess("127.0.0.1", 6379, "FimfvtAKApReX1kBgukpVn6CFyZLXa6X5MYXB4ZBFSnUqOfAd6pzqTi4GCrWcX7qwl8TSNUIMHR5MyIw").initConnection();

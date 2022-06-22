@@ -181,6 +181,7 @@ party-friend:
   everyone-online: "{line}\n§cTous les joueurs de la partie sont en lignes\n{line}"
   party-kickoffline: "{line}\n§e{amount} §7joueur(s) hors ligne(s) vien(nen)t d'être exclu(s) de la partie\n{line}"
   party-chat: "§a§lPARTIE §8» {player} §7» §f{message}"
+  stp-usage: "{line}\n§aUtilisation:\n§e/stp (pseudo)\n{line}"
   party-help: |-
     {line}
     §aCommandes de parties:

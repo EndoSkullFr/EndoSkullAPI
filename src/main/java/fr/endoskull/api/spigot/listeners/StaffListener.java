@@ -30,11 +30,30 @@ public class StaffListener implements Listener {
                 VanishUtils.unvanish(player);
             }
         }
+        if (player.hasPermission("endoskull.stp")) {
+            Account account = AccountProvider.getAccount(player.getUniqueId());
+            if (!account.getProperty("serverTeleport", "").equalsIgnoreCase("")) {
+                Player target = Bukkit.getPlayer(account.getProperty("serverTeleport"));
+                account.setProperty("serverTeleport", "");
+                if (target != null) {
+                    player.teleport(target);
+                }
+            }
+
+        }
         for (Player onlinePlayer : Bukkit.getOnlinePlayers()) {
             if (onlinePlayer.equals(player)) continue;
             if (VanishUtils.isVanished(onlinePlayer)) {
                 VanishUtils.hidePlayer(onlinePlayer, player);
             }
+        }
+    }
+
+    @EventHandler(priority = EventPriority.HIGHEST)
+    public void onJoin(PlayerQuitEvent e) {
+        Player player = e.getPlayer();
+        if (VanishUtils.isVanished(player)) {
+            e.setQuitMessage(null);
         }
     }
 
