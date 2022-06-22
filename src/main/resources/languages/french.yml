@@ -1,4 +1,5 @@
 global:
+  server-stop: "§eEndoSkull §8>> §cLe serveur sur lequel vous étiez s'est arrêté"
   about: "{line}\n§bEndoSkull §7est développé et géré par §b§o@BebeDlaStreat\n§7Serveur: §e{server}\n§7Proxy: §eWaterfall 1.18\n§7Nous n'avons pas que des plugins fait par nous mais nous essayons de faire nous même les features les plus importantes du serveur\n{line}"
   console: "§cVous devez être un joueur pour éxécuter cette commande"
   click-hover: "§eCliquez pour ouvrir"
@@ -180,7 +181,6 @@ party-friend:
   everyone-online: "{line}\n§cTous les joueurs de la partie sont en lignes\n{line}"
   party-kickoffline: "{line}\n§e{amount} §7joueur(s) hors ligne(s) vien(nen)t d'être exclu(s) de la partie\n{line}"
   party-chat: "§a§lPARTIE §8» {player} §7» §f{message}"
-  server-stop: "§eEndoSkull §8>> §cLe serveur sur lequel vous étiez s'est arrêté"
   party-help: |-
     {line}
     §aCommandes de parties:
