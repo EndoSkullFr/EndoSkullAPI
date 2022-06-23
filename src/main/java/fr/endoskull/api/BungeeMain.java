@@ -37,7 +37,7 @@ public class BungeeMain extends Plugin {
     private HashMap<ProxiedPlayer, ProxiedPlayer> lastPM = new HashMap<>();
 
     private BasicDataSource connectionPool;
-    public static String CHANNEL = "EndoSkullChannel";
+    public static final String CHANNEL = "EndoSkullChannel";
     public static final String MESSAGE_CHANNEL = "commandforward:cmd";
     private static final HashMap<ProxiedPlayer, BungeeLang> langs = new HashMap<>();
     private static final HashMap<BungeeLang, Configuration> langFiles = new HashMap<>();

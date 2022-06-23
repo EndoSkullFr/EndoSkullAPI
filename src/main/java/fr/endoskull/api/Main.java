@@ -28,7 +28,7 @@ import java.util.HashMap;
 public class Main extends JavaPlugin {
     private static Main instance;
     private JedisAccess jedisAccess;
-    public static String CHANNEL = "EndoSkullChannel";
+    public static final String CHANNEL = "EndoSkullChannel";
     public static final String MESSAGE_CHANNEL = "commandforward:cmd";
     public final String PLUGIN_NAME_PREFIX = ChatColor.DARK_AQUA + "[" + ChatColor.GOLD + this.getName() + ChatColor.DARK_AQUA + "] ";
     private ServerType serverType;
@@ -153,6 +153,7 @@ public class Main extends JavaPlugin {
         getCommand("about").setExecutor(new AboutCommand());
         getCommand("key").setExecutor(new KeyCommand(this));
         getCommand("sanction").setExecutor(new SanctionCommand());
+        getCommand("report").setExecutor(new ReportCommand());
 
         getCommand("endoskullapi").setExecutor(new EndoSkullApiCommand(this));
     }

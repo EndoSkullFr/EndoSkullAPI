@@ -110,7 +110,10 @@ global:
   announcement-3: "§7Votez sur le serveur avec le §e/vote §7pour recevoir une clé vote"
   ez-warn: "§cIl semblerait que votre message contienne le mot \"ez\". Si vous êtes surpris une nouvelle fois à le faire vous serez mute"
   anti-spam: "§cMerci de ne pas spam le même message"
-  stp-usage: "{line}\n§aUtilisation:\n§e/stp (pseudo)\n{line}"
+  stp-usage: "{line}\n§aUtilisation:\n§e/stp (Pseudo)\n{line}"
+  report-usage: "{line}\n§aUtilisation:\n§e/report (Pseudo) [Raison]\n{line}"
+  report-send: "§a§lEndoSkull §8» §7Votre report vient d'être envoyé à l'équipe de modération. Merci !"
+  report-self: "{line}\n§cVous ne pouvez pas vous report\n{line}"
 
 party-friend:
   any-friend: "{line}\n§cVotre liste d'amis est vide\n§7Pour commencer à en ajouter faîtes §a/friend add (Pseudo)\n{line}"

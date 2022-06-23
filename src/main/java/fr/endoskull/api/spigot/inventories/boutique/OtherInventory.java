@@ -21,7 +21,7 @@ public class OtherInventory extends CustomGui {
         setItem(22, new CustomItemStack(Material.ENDER_CHEST, 5).setName(Languages.getLang(p).getMessage(MessageUtils.Global.ULTIME_5)).setLore(Languages.getLang(p).getMessage(MessageUtils.Global.ULTIME_5_DESC)), player -> BoutiqueInventory.sendStoreLink(player));
         setItem(23, new CustomItemStack(Material.ENDER_CHEST, 10).setName(Languages.getLang(p).getMessage(MessageUtils.Global.ULTIME_10)).setLore(Languages.getLang(p).getMessage(MessageUtils.Global.ULTIME_10_DESC)), player -> BoutiqueInventory.sendStoreLink(player));
 
-        setItem(40, new CustomItemStack(Material.ARROW).setName("§eRetour"), player -> {
+        setItem(40, new CustomItemStack(Material.ARROW).setName(Languages.getLang(p).getMessage(MessageUtils.Global.BACK)), player -> {
             player.playNote(player.getLocation(), Instrument.PIANO, Note.flat(1, Note.Tone.A));
             new BoutiqueInventory(player).open();
         });

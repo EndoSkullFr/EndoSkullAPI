@@ -1,9 +1,11 @@
 package fr.endoskull.api.commons;
 
+import fr.endoskull.api.data.redis.JedisAccess;
 import net.luckperms.api.LuckPerms;
 import net.luckperms.api.LuckPermsProvider;
 import net.luckperms.api.model.user.User;
 import net.luckperms.api.model.user.UserManager;
+import redis.clients.jedis.Jedis;
 
 import java.util.HashMap;
 import java.util.UUID;
@@ -54,5 +56,28 @@ public class EndoSkullAPI {
             prefix = prefix.substring(0, 2);
         }
         return prefix;
+    }
+
+    public static boolean isOnline(UUID uuid) {
+        Jedis j = null;
+        try {
+            j = JedisAccess.getUserpool().getResource();
+            return j.exists("account/" + uuid);
+        } finally {
+            j.close();
+        }
+    }
+
+    public static boolean isOnline(String name) {
+        Jedis j = null;
+        try {
+            j = JedisAccess.getUserpool().getResource();
+            for (String key : j.keys("account/*")) {
+                if (j.hget(key, "name").equalsIgnoreCase(name)) return true;
+            }
+            return false;
+        } finally {
+            j.close();
+        }
     }
 }

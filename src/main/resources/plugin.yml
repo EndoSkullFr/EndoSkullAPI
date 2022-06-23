@@ -55,3 +55,8 @@ commands:
   about:
   sanction:
     permission: endoskull.command.sanction
+  report:
+    permission: endoskull.report
+permissions:
+  endoskull.report:
+    default: true
