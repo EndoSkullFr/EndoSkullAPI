@@ -74,14 +74,16 @@ public class ReportsGui extends CustomGui {
                 player.closeInventory();
                 player.sendMessage("§eEndoSkull §8» §7Pour avez défini ce report comme §eIncertain");
             });
-            setItem(33, new CustomItemStack(Material.STAINED_CLAY, 1, (byte) 14).setName("§eDéfinir comme invalide"), player -> {
+            setItem(33, new CustomItemStack(Material.STAINED_CLAY, 1, (byte) 14).setName("§cDéfinir comme invalide"), player -> {
                 report.setResolved(true);
                 report.setResult(Report.Result.FALSE);
                 ReportUtils.saveReport(report);
                 player.closeInventory();
                 player.sendMessage("§eEndoSkull §8» §7Pour avez défini ce report comme §aInvalide");
             });
-            setItem(44, new CustomItemStack(Material.ARROW).setName(lang.getMessage(MessageUtils.Global.BACK)));
+            setItem(44, new CustomItemStack(Material.ARROW).setName(lang.getMessage(MessageUtils.Global.BACK)), player -> {
+                new ReportsGui(player, 0).open();
+            });
         }
     }
 }
