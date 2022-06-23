@@ -79,7 +79,7 @@ public class ReportsGui extends CustomGui {
                 report.setResult(Report.Result.FALSE);
                 ReportUtils.saveReport(report);
                 player.closeInventory();
-                player.sendMessage("§eEndoSkull §8» §7Pour avez défini ce report comme §aInvalide");
+                player.sendMessage("§eEndoSkull §8» §7Pour avez défini ce report comme §cInvalide");
             });
             setItem(44, new CustomItemStack(Material.ARROW).setName(lang.getMessage(MessageUtils.Global.BACK)), player -> {
                 new ReportsGui(player, 0).open();
