@@ -32,7 +32,7 @@ public class ReportsGui extends CustomGui {
         int i = 0;
         int j = 0;
         for (Report report : ReportUtils.loadReports()) {
-            while (j < 45*page) {
+            if (j < 45*page) {
                 j++;
                 continue;
             }
