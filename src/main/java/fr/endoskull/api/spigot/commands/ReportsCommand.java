@@ -28,7 +28,7 @@ public class ReportsCommand implements CommandExecutor {
         if (args.length > 0) {
             String uuid = args[0];
             for (Report report : ReportUtils.loadReports()) {
-                if (report.getUuid().toString().equalsIgnoreCase(uuid)) {
+                if (report.getUuid().toString().equalsIgnoreCase(uuid) && !report.isResolved()) {
                     new ReportsGui.SubReportGui(player, report).open();
                     return false;
                 }
