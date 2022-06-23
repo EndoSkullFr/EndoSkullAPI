@@ -20,6 +20,7 @@ import net.md_5.bungee.api.plugin.Listener;
 import net.md_5.bungee.event.EventHandler;
 
 import java.util.UUID;
+import java.util.concurrent.TimeUnit;
 
 public class ForwardMessageListener implements Listener {
     private BungeeMain main;
@@ -46,12 +47,17 @@ public class ForwardMessageListener implements Listener {
                 String senderName = in.readUTF();
                 String targetName = in.readUTF();
                 String reason = in.readUTF();
+                String uuid = in.readUTF();
                 for (ProxiedPlayer player : ProxyServer.getInstance().getPlayers()) {
                     if (player.hasPermission("endoskull.seereports")) {
-                        TextComponent message = new TextComponent("§c§lReports §8» §e" + senderName + " §7vient de report §e" + targetName + " §7pour §e" + reason);
-                        message.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/stp " + targetName));
-                        message.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new ComponentBuilder("§eCliquez pour vous téléporter").create()));
-                        player.sendMessage(message);
+                        ByteArrayDataOutput out = ByteStreams.newDataOutput();
+                        out.writeUTF("ReportShow");
+                        out.writeUTF(senderName);
+                        out.writeUTF(targetName);
+                        out.writeUTF(reason);
+                        out.writeUTF(uuid);
+
+                        player.getServer().sendData(BungeeMain.CHANNEL, out.toByteArray());
                     }
                 }
             }

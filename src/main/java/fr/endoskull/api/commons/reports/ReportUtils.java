@@ -11,22 +11,19 @@ import redis.clients.jedis.Jedis;
 
 import java.awt.*;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class ReportUtils {
     public static void createReport(Report report, Player player) {
-        Jedis j = null;
-        try {
-            j = JedisAccess.getUserpool().getResource();
-            j.sadd("reports", new Gson().toJson(report));
-        } finally {
-            j.close();
-        }
+        saveReport(report);
         //send plugin message -> check duel plugin
         ByteArrayDataOutput dataOutput = ByteStreams.newDataOutput();
         dataOutput.writeUTF("ReportSend");
         dataOutput.writeUTF(report.getReporterName());
         dataOutput.writeUTF(report.getTargetName());
         dataOutput.writeUTF(report.getReason());
+        dataOutput.writeUTF(report.getUuid().toString());
         player.sendPluginMessage(Main.getInstance(), Main.CHANNEL, dataOutput.toByteArray());
         DiscordWebhook webhook = new DiscordWebhook("https://discord.com/api/webhooks/983354998584913951/ZBIGUC1aKZr80zDaKmP5L1TNw4ohYKu9pG0fIvUW7PkkAPCety4KGomDh95P7P9QZal5");
         webhook.setAvatarUrl("https://www.ville-gravelines.fr/sites/default/files/field/image/report_1.png");
@@ -40,6 +37,45 @@ public class ReportUtils {
             webhook.execute();
         } catch (IOException ex) {
             ex.printStackTrace();
+        }
+    }
+
+    public static void saveReport(Report report) {
+        Jedis j = null;
+        try {
+            j = JedisAccess.getUserpool().getResource();
+            j.set("report:" + report.getUuid(), new Gson().toJson(report));
+        } finally {
+            j.close();
+        }
+    }
+
+    public static void delReport(Report report) {
+        Jedis j = null;
+        try {
+            j = JedisAccess.getUserpool().getResource();
+            j.del("report:" + report.getUuid());
+        } finally {
+            j.close();
+        }
+    }
+
+    public static List<Report> loadReports() {
+        Jedis j = null;
+        try {
+            j = JedisAccess.getUserpool().getResource();
+            List<Report> reports = new ArrayList<>();
+            for (String key : j.keys("report:")) {
+                Report report = new Gson().fromJson(j.get(key), Report.class);
+                if (report.getCreatedOn() < System.currentTimeMillis() - 604800000) {
+                    delReport(report);
+                } else {
+                    reports.add(report);
+                }
+            }
+            return reports;
+        } finally {
+            j.close();
         }
     }
 }

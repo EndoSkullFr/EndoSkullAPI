@@ -7,6 +7,10 @@ import fr.endoskull.api.commons.account.Account;
 import fr.endoskull.api.commons.account.AccountProvider;
 import fr.endoskull.api.spigot.inventories.RequestsGui;
 import fr.endoskull.api.spigot.inventories.SettingsGui;
+import net.md_5.bungee.api.chat.ClickEvent;
+import net.md_5.bungee.api.chat.ComponentBuilder;
+import net.md_5.bungee.api.chat.HoverEvent;
+import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.messaging.PluginMessageListener;
@@ -32,6 +36,16 @@ public class BungeeMessageListener implements PluginMessageListener {
                         player.teleport(target);
                     }
                 }
+            }
+            if (sub.equalsIgnoreCase("ReportShow")) {
+                String senderName = in.readUTF();
+                String targetName = in.readUTF();
+                String reason = in.readUTF();
+                String uuid = in.readUTF();
+                TextComponent message = new TextComponent("§c§lReports §8» §e" + senderName + " §7vient de report §e" + targetName + " §7pour §e" + reason);
+                message.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/reports " + uuid));
+                message.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new ComponentBuilder("§eCliquez pour voir").create()));
+                player.spigot().sendMessage(message);
             }
         }
     }

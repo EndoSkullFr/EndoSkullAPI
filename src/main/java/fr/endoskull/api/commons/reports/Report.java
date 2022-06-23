@@ -9,15 +9,21 @@ public class Report {
     private String targetName;
     private String reason;
     private UUID uuid;
+    private long createdOn;
+    private boolean resolved;
+    private Result result;
 
     public Report() {};
 
-    public Report(UUID reporterUUID, String reporterName, UUID targetUUID, String targetName, String reason) {
+    public Report(UUID reporterUUID, String reporterName, UUID targetUUID, String targetName, String reason, long createdOn, boolean resolved, Result result) {
         this.reporterUUID = reporterUUID;
         this.reporterName = reporterName;
         this.targetUUID = targetUUID;
         this.targetName = targetName;
         this.reason = reason;
+        this.createdOn = createdOn;
+        this.resolved = resolved;
+        this.result = result;
         this.uuid = UUID.randomUUID();
     }
 
@@ -43,5 +49,29 @@ public class Report {
 
     public UUID getUuid() {
         return uuid;
+    }
+
+    public long getCreatedOn() {
+        return createdOn;
+    }
+
+    public boolean isResolved() {
+        return resolved;
+    }
+
+    public Result getResult() {
+        return result;
+    }
+
+    public void setResolved(boolean resolved) {
+        this.resolved = resolved;
+    }
+
+    public void setResult(Result result) {
+        this.result = result;
+    }
+
+    public static enum Result {
+        VALID, UNCERTAIN, FALSE;
     }
 }

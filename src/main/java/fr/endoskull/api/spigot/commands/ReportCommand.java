@@ -1,7 +1,6 @@
 package fr.endoskull.api.spigot.commands;
 
 import com.google.common.base.Joiner;
-import fr.endoskull.api.commons.EndoSkullAPI;
 import fr.endoskull.api.commons.lang.MessageUtils;
 import fr.endoskull.api.commons.reports.Report;
 import fr.endoskull.api.commons.reports.ReportUtils;
@@ -41,7 +40,7 @@ public class ReportCommand implements CommandExecutor {
         }
         if (args.length > 1) {
             String reason = Joiner.on(' ').join(Arrays.copyOfRange(args, 1, args.length));
-            Report report = new Report(player.getUniqueId(), player.getName(), targetUuid, targetName, reason);
+            Report report = new Report(player.getUniqueId(), player.getName(), targetUuid, targetName, reason, System.currentTimeMillis(), false, null);
             ReportUtils.createReport(report, player);
             player.sendMessage(lang.getMessage(MessageUtils.Global.REPORT_SEND));
         } else {

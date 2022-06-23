@@ -154,6 +154,7 @@ public class Main extends JavaPlugin {
         getCommand("key").setExecutor(new KeyCommand(this));
         getCommand("sanction").setExecutor(new SanctionCommand());
         getCommand("report").setExecutor(new ReportCommand());
+        getCommand("reports").setExecutor(new ReportsCommand());
 
         getCommand("endoskullapi").setExecutor(new EndoSkullApiCommand(this));
     }

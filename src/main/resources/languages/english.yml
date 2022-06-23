@@ -15,7 +15,7 @@ global:
   vanish: "§aYou are now vanish"
   unvanish: "§eYou are no longer vanish"
   shop-ranks: "§aRanks"
-  shop-ranks-desc: "\n§7In this category, you'll find:\n§7► The §eVIP §7rank\n§7► The §eHero §7rank"
+  shop-ranks-desc: "\n§7In this category, you'll find:\n§7► The §eVIP §7rank\n§7► The §bHero §7rank"
   shop-keys: "§aKeys"
   shop-keys-desc: "\n§7In this category, you'll find:\n§7► Ultimate Keys"
   shop-bought: "{line}\n§eTo purchase this item, go on the online shop: §astore.endoskull.fr\n{line}"
@@ -37,7 +37,7 @@ global:
     §7◇ Advantages of the previous rank
     §7◇ A +100% coin booster
     §7◇ §bHero §7prefix in the Tab list
-    §7◇ Your nickname §bcyan §7in the chat
+    §7◇ Your nickname in §bcyan §7in the chat
     §7◇ Access to /tag to create a custom tag
     §7◇ Access to the particle §lDark sandals
     §7◇ Access to Tier 3 kits in PvpKit

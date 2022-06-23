@@ -57,6 +57,8 @@ commands:
     permission: endoskull.command.sanction
   report:
     permission: endoskull.report
+  reports:
+    permission: endoskull.managereports
 permissions:
   endoskull.report:
     default: true
