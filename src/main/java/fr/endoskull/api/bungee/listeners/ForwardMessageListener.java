@@ -48,9 +48,10 @@ public class ForwardMessageListener implements Listener {
                 String reason = in.readUTF();
                 for (ProxiedPlayer player : ProxyServer.getInstance().getPlayers()) {
                     if (player.hasPermission("endoskull.seereports")) {
-                        TextComponent accept = new TextComponent("§c§lReports §8» §e" + senderName + " §7vient de report §e" + targetName + " §7pour §e" + reason);
-                        accept.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/stp " + targetName));
-                        accept.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new ComponentBuilder("§eCliquez pour vous téléporter").create()));
+                        TextComponent message = new TextComponent("§c§lReports §8» §e" + senderName + " §7vient de report §e" + targetName + " §7pour §e" + reason);
+                        message.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/stp " + targetName));
+                        message.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new ComponentBuilder("§eCliquez pour vous téléporter").create()));
+                        player.sendMessage(message);
                     }
                 }
             }
