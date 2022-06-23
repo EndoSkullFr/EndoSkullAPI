@@ -32,10 +32,13 @@ public class ReportsGui extends CustomGui {
         int i = 0;
         int j = 0;
         for (Report report : ReportUtils.loadReports()) {
-            while (j < 45*page) j++;
+            while (j < 45*page) {
+                j++;
+                continue;
+            }
             if (i >= 45) break;
             if (report.isResolved()) continue;
-            setItem(i, CustomItemStack.getPlayerSkull(report.getTargetName()).setLore("\n§7Par §e" + report.getReporterName() + "\n§7Pour §e" + report.getReason()), player -> {
+            setItem(i, CustomItemStack.getPlayerSkull(report.getTargetName()).setName("§a" + report.getTargetName()).setLore("\n§7Par §e" + report.getReporterName() + "\n§7Pour §e" + report.getReason()), player -> {
                 new SubReportGui(player, report).open();
             });
             i++;
