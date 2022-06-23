@@ -65,12 +65,8 @@ public class ReportUtils {
         try {
             j = JedisAccess.getUserpool().getResource();
             List<Report> reports = new ArrayList<>();
-            System.out.println("chargement");
-            System.out.println(j.keys("report:"));
-            for (String key : j.keys("report:")) {
-                System.out.println(key);
+            for (String key : j.keys("report:*")) {
                 Report report = new Gson().fromJson(j.get(key), Report.class);
-                System.out.println(report.getUuid());
                 if (report.getCreatedOn() < System.currentTimeMillis() - 604800000) {
                     delReport(report);
                 } else {
