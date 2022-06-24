@@ -29,7 +29,7 @@ public class ReportCommand implements CommandExecutor {
             return false;
         }
         String targetName = args[0];
-        if (targetName.equalsIgnoreCase(player.getName()) && false) {
+        if (targetName.equalsIgnoreCase(player.getName())) {
             player.sendMessage(lang.getMessage(MessageUtils.Global.REPORT_SELF));
             return false;
         }

@@ -8,6 +8,9 @@ import fr.endoskull.api.commons.EndoSkullAPI;
 import fr.endoskull.api.commons.lang.MessageUtils;
 import fr.endoskull.api.commons.paf.FriendSettingsBungee;
 import fr.endoskull.api.commons.paf.FriendUtils;
+import fr.endoskull.api.commons.paf.Party;
+import fr.endoskull.api.commons.paf.PartyUtils;
+import fr.endoskull.api.commons.server.ServerType;
 import fr.endoskull.api.data.redis.JedisManager;
 import net.md_5.bungee.BungeeCord;
 import net.md_5.bungee.api.ProxyServer;
@@ -15,11 +18,13 @@ import net.md_5.bungee.api.chat.TextComponent;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
 import net.md_5.bungee.api.event.PlayerDisconnectEvent;
 import net.md_5.bungee.api.event.PostLoginEvent;
+import net.md_5.bungee.api.event.ServerConnectEvent;
 import net.md_5.bungee.api.plugin.Listener;
 import net.md_5.bungee.event.EventHandler;
 
 import java.util.ArrayList;
 import java.util.UUID;
+import java.util.concurrent.TimeUnit;
 
 public class ProxyPlayerListener implements Listener {
 
@@ -72,5 +77,23 @@ public class ProxyPlayerListener implements Listener {
             if (BungeeMain.getInstance().getLastPM().get(p).equals(player)) BungeeMain.getInstance().getLastPM().remove(p);
         }
         BungeeMain.getLangs().remove(player);
+    }
+
+    @EventHandler
+    public void onSwitch(ServerConnectEvent e) {
+        ProxiedPlayer player = e.getPlayer();
+        if (e.getTarget().getName().startsWith(ServerType.LOBBY.getServerName())) return;
+        if (PartyUtils.isInParty(player.getUniqueId())) {
+            Party party = PartyUtils.getParty(player.getUniqueId());
+            if (party.getLeader().equals(player.getUniqueId())) {
+                BungeeMain.getInstance().getProxy().getScheduler().schedule(BungeeMain.getInstance(), () -> {
+                    for (UUID uuid : party.getMembers()) {
+                        ProxiedPlayer member = ProxyServer.getInstance().getPlayer(uuid);
+                        if (member == null) continue;
+                        member.connect(player.getServer().getInfo());
+                    }
+                }, 500, TimeUnit.MILLISECONDS);
+            }
+        }
     }
 }
