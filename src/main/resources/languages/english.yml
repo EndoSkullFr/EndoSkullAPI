@@ -30,7 +30,7 @@ global:
     §7◇ Access to /musics to play music in the lobby
     §7◇ Access to Tier 2 kits in PvpKit
 
-    §7⇨ Price: §e€5
+    §7⇨ Price: §e10€
   shop-hero: "§bHero Rank"
   shop-hero-desc: |-
 
@@ -42,13 +42,13 @@ global:
     §7◇ Access to the particle §lDark sandals
     §7◇ Access to Tier 3 kits in PvpKit
 
-    §7⇨ Price: §b€10
+    §7⇨ Price: §b20€
   ultime-1: "§41 Ultimate Key"
   ultime-5: "§45 Ultimate Keys"
   ultime-10: "§410 Ultimate Keys"
-  ultime-1-desc: "\n§7⇨ Price: §4€2"
-  ultime-5-desc: "\n§7⇨ Price: §4€8.5"
-  ultime-10-desc: "\n§7⇨ Price: §4€15"
+  ultime-1-desc: "\n§7⇨ Price: §42€"
+  ultime-5-desc: "\n§7⇨ Price: §48.5€"
+  ultime-10-desc: "\n§7⇨ Price: §415€"
   back: "§aBack"
   gui-shop: "§c§lEndoSkull §8» §a§lShop"
   gui-ranks: "§c§lEndoSkull §8» §a§lRanks"
