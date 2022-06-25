@@ -85,11 +85,14 @@ public class ProxyPlayerListener implements Listener {
         if (e.getTarget().getName().startsWith(ServerType.LOBBY.getServerName())) return;
         boolean warp = false;
         String name = e.getTarget().getName();
+        System.out.println(name);
         if (!name.contains("-")) return;
         name = name.split("-")[0];
+        System.out.println(name);
         for (ServerType value : ServerType.values()) {
             if (value.getServerName().equalsIgnoreCase(name)) warp = true;
         }
+        System.out.println(warp);
         if (!warp) return;
         if (PartyUtils.isInParty(player.getUniqueId())) {
             Party party = PartyUtils.getParty(player.getUniqueId());
