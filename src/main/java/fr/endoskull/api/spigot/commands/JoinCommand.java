@@ -40,6 +40,10 @@ public class JoinCommand implements CommandExecutor {
             player.sendMessage(Languages.getLang(sender).getMessage(MessageUtils.Global.UNKNOWN_SERVER));
             return false;
         }
+        if (!player.hasPermission("endoskull.join." + serverType.toString().toLowerCase())) {
+            player.sendMessage(Languages.getLang(player).getMessage(MessageUtils.Global.LESS_PERMISSION));
+            return false;
+        }
         if (!serverType.isMultiArena() && args.length > 1 && args[1].equalsIgnoreCase("gui")) {
             new ServerGui(serverType, main, player).open(player);
             return false;
