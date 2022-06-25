@@ -15,6 +15,35 @@ import java.util.List;
 public class ServerManager {
 
     public static String getServer(ServerType serverType, int playerNumber) {
+        if (serverType.isMultiArena()) {
+            return getMultiArenaServer(serverType, playerNumber);
+        } else {
+            return getClassicServer(serverType, playerNumber);
+        }
+    }
+
+    private static String getMultiArenaServer(ServerType serverType, int playerNumber) {
+        Jedis j = null;
+        try {
+            j = JedisAccess.getServerpool().getResource();
+            String server = null;
+            for (String key : j.keys("server/" + serverType.getServerName() + "-*")) {
+                String name = key.substring(7);
+                if (Integer.parseInt(j.get("online/" + name)) + playerNumber > Integer.parseInt(j.get("max/" + name))) continue;
+                if (server == null) {
+                    server = name;
+                } else if (serverType.isLowIsBest() && Integer.parseInt(j.get("online/" + server)) > Integer.parseInt(j.get("online/" + name)) || !serverType.isLowIsBest() && Integer.parseInt(j.get("online/" + server)) < Integer.parseInt(j.get("online/" + name))) {
+                    server = name;
+                }
+            }
+            if (server == null) return null;
+            return j.get("server/" + server);
+        } finally {
+            j.close();
+        }
+    }
+
+    private static String getClassicServer(ServerType serverType, int playerNumber) {
         Jedis j = null;
         try {
             j = JedisAccess.getServerpool().getResource();
@@ -40,7 +69,6 @@ public class ServerManager {
         } finally {
             j.close();
         }
-
     }
 
 }
