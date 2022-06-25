@@ -5,7 +5,7 @@ import java.util.Arrays;
 public enum ServerType {
     LOBBY("Lobby", true, 24, false, true),
     PVPKIT("PvpKit", false, 24, false, true),
-    BEDWARSSOLO("BedwarsSolo", false, 32, true, false),
+    BEDWARS("Bedwars", false, 32, true, false),
     UNKNOW("none", false, 16, false, false);
 
     private String serverName;
