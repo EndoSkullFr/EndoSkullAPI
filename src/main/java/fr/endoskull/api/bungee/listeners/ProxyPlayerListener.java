@@ -32,7 +32,7 @@ public class ProxyPlayerListener implements Listener {
     public void onProxyJoin(PostLoginEvent e) {
         ProxiedPlayer player = e.getPlayer();
 
-        BungeeCord.getInstance().getScheduler().runAsync(BungeeMain.getInstance(), () -> {
+        /*BungeeCord.getInstance().getScheduler().runAsync(BungeeMain.getInstance(), () -> {
             try {
                 if (!JedisManager.isLoad(player.getUniqueId())) {
                     AccountProvider.loadAccount(player.getUniqueId());
@@ -47,7 +47,21 @@ public class ProxyPlayerListener implements Listener {
                 ex.printStackTrace();
                 player.disconnect(new TextComponent("§cAccount Loading Error"));
             }
-        });
+        });*/
+        try {
+            if (!JedisManager.isLoad(player.getUniqueId())) {
+                AccountProvider.loadAccount(player.getUniqueId());
+                AccountProvider accountProvider = new AccountProvider(player.getUniqueId());
+                Account account = accountProvider.getAccount();
+                account.setName(player.getName());
+                JedisManager.checkNoneName(player.getUniqueId(), player.getName());
+                account.setProperty("lastLogin", String.valueOf(System.currentTimeMillis()));
+                BungeeMain.getLangs().put(player, account.getBungeeLang());
+            }
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            player.disconnect(new TextComponent("§cAccount Loading Error"));
+        }
         for (UUID friendUUID : FriendUtils.getFriends(player.getUniqueId())) {
             ProxiedPlayer friend = ProxyServer.getInstance().getPlayer(friendUUID);
             if (friend == null) continue;
