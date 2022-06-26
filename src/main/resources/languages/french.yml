@@ -9,8 +9,8 @@ global:
   unknown-player: "§cEndoSkull §8» §cCe joueur n'existe pas"
   offline-player: "§cEndoSkull §8» §cCe joueur n'est pas connecté"
   level: "{line}\n§eLevel : §6{level} §f| §eXp : §6{xp}§e/§6{levelup}\n{line}"
-  vote: "{line}\n§eLien de la page de vote: §aendoskull.fr/vote\n{line}"
-  discord: "{line}\n§eLien du discord: §adiscord.endoskull.fr\n{line}"
+  vote: "{line}\n§eLien de la page de vote: §aendoskull.net/vote\n{line}"
+  discord: "{line}\n§eLien du discord: §adiscord.endoskull.net\n{line}"
   coins: "{line}\n§eVous avez §6{coins} §ecoins\n{line}"
   vanish: "§aVous êtes désormais vanish"
   unvanish: "§eVous n'êtes désormais plus vanish"
@@ -18,7 +18,7 @@ global:
   shop-ranks-desc: "\n§7Dans cette catégorie, vous trouverez:\n§7► Le grade §eVIP\n§7► Le grade §bHero"
   shop-keys: "§aClés"
   shop-keys-desc: "\n§7Dans cette catégorie, vous trouverez:\n§7► Des Clé Ultimes"
-  shop-bought: "{line}\n§ePour acheter cet article, rendez-vous sur la boutique en ligne: §astore.endoskull.fr\n{line}"
+  shop-bought: "{line}\n§ePour acheter cet article, rendez-vous sur la boutique en ligne: §astore.endoskull.net\n{line}"
   shop-features: "§7Liste de ses fonctionnalités:"
   shop-vip: "§eGrade VIP"
   shop-vip-desc: |-
@@ -61,8 +61,8 @@ global:
     §7→ §fAvec le grade §bHero §7(+100%) §fet le grade §eVIP §7(+50%)
     
     §aBOOSTERS TEMPORAIRES
-    §7→ §fEn ouvrant des Box Ultimes §7(endoskull.fr/shop)
-    §7→ §fEn ouvrant des Box Votes §7(endoskull.fr/vote)
+    §7→ §fEn ouvrant des Box Ultimes §7(endoskull.net/shop)
+    §7→ §fEn ouvrant des Box Votes §7(endoskull.net/vote)
     §7→ §fLors d'évènements organisés par le staff
   booster-line: "§a+{boost}% §fjusqu'au §7{date}\n"
   booster-perm: "§dBOOSTER PERMANENT"
@@ -99,13 +99,13 @@ global:
   disable: "§cDésactiver"
   friends: "§a§lAMIS §8» "
   click-copy: "§7(Cliquez pour copier)"
-  api-generated: "{line}\n§7Votre token est §8» §e{token}\n§7Pour consulter la documentation §8» §ehttps://api.endoskull.fr\n{line}"
-  api-help: "{line}\n§aSi vous souhaitez générer un token pour pouvoir utiliser notre api faîtes §b/api new\n§eSi vous souhaitez consulter la documentation rdv sur https://api.endoskull.fr\n{line}"
-  api-already: "{line}\n§aVous avez déjà un token de générer, si vous souhaitez consulter la documentation rdv sur https://api.endoskull.fr\n§eSi vous souhaitez regénérer votre token faîtes §b/api new\n{line}"
+  api-generated: "{line}\n§7Votre token est §8» §e{token}\n§7Pour consulter la documentation §8» §ehttps://api.endoskull.net\n{line}"
+  api-help: "{line}\n§aSi vous souhaitez générer un token pour pouvoir utiliser notre api faîtes §b/api new\n§eSi vous souhaitez consulter la documentation rdv sur https://api.endoskull.net\n{line}"
+  api-already: "{line}\n§aVous avez déjà un token de générer, si vous souhaitez consulter la documentation rdv sur https://api.endoskull.net\n§eSi vous souhaitez regénérer votre token faîtes §b/api new\n{line}"
   shop-broadcast: "§aUn maximum de remerciements pour §c{player} §apour son achat sur la boutique ! §7({purchase})"
   any-lobby: "§cAucun lobby de disponible"
   announcement: "§e§lANNONCE"
-  announcement-1: "§7Rejoignez le discord §e(discord.endoskull.fr)§7"
+  announcement-1: "§7Rejoignez le discord §e(discord.endoskull.net)§7"
   announcement-2: "§7Supportez nous en achetant un grade sur la boutique §e(/boutique)§7"
   announcement-3: "§7Votez sur le serveur avec le §e/vote §7pour recevoir une clé vote"
   ez-warn: "§cIl semblerait que votre message contienne le mot \"ez\". Si vous êtes surpris une nouvelle fois à le faire vous serez mute"

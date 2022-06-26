@@ -19,13 +19,13 @@ public class LinkCommand implements CommandExecutor {
         if (label.equalsIgnoreCase("discord")) {
             TextComponent msg = new TextComponent(TextComponent.fromLegacyText(Languages.getLang(sender).getMessage(MessageUtils.Global.DISCORD)));
             msg.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new ComponentBuilder(Languages.getLang(sender).getMessage(MessageUtils.Global.CLICK_HOVER)).create()));
-            msg.setClickEvent(new ClickEvent(ClickEvent.Action.OPEN_URL, "http://discord.endoskull.fr"));
+            msg.setClickEvent(new ClickEvent(ClickEvent.Action.OPEN_URL, "http://discord.endoskull.net"));
             player.spigot().sendMessage(msg);
         }
         if (label.equalsIgnoreCase("vote")) {
             TextComponent msg = new TextComponent(TextComponent.fromLegacyText(Languages.getLang(sender).getMessage(MessageUtils.Global.VOTE)));
             msg.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new ComponentBuilder(Languages.getLang(sender).getMessage(MessageUtils.Global.CLICK_HOVER)).create()));
-            msg.setClickEvent(new ClickEvent(ClickEvent.Action.OPEN_URL, "http://endoskull.fr/vote"));
+            msg.setClickEvent(new ClickEvent(ClickEvent.Action.OPEN_URL, "http://endoskull.net/vote"));
             player.spigot().sendMessage(msg);
         }
         return false;

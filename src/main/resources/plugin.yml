@@ -1,7 +1,7 @@
 name: EndoSkullCore
 version: 1.0
 description: Core of EndoSkull
-website: https://endoskull.fr
+website: https://endoskull.net
 author: BebeDlaStreat
 main: fr.endoskull.api.Main
 softdepend:

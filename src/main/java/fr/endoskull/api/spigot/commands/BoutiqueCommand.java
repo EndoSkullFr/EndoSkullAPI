@@ -25,10 +25,10 @@ public class BoutiqueCommand implements CommandExecutor {
         Player player = (Player) sender;
         if (args.length > 0 && args[0].equalsIgnoreCase("link")) {
             TextComponent msg = new TextComponent(TextComponent.fromLegacyText("§7§m--------------------------------------------------\n" +
-                    ChatColor.YELLOW + ChatColor.BOLD + "EndoSkull " + ChatColor.DARK_GRAY + "» " + ChatColor.GREEN + "endoskull.fr/shop\n" +
+                    ChatColor.YELLOW + ChatColor.BOLD + "EndoSkull " + ChatColor.DARK_GRAY + "» " + ChatColor.GREEN + "endoskull.net/shop\n" +
                     "§7§m--------------------------------------------------"));
             msg.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new ComponentBuilder(Languages.getLang(sender).getMessage(MessageUtils.Global.CLICK_HOVER)).create()));
-            msg.setClickEvent(new ClickEvent(ClickEvent.Action.OPEN_URL, "http://endoskull.fr/shop"));
+            msg.setClickEvent(new ClickEvent(ClickEvent.Action.OPEN_URL, "http://endoskull.net/shop"));
             player.spigot().sendMessage(msg);
             return false;
         }

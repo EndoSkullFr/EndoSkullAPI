@@ -33,7 +33,7 @@ public class BoutiqueInventory extends CustomGui {
         player.playSound(player.getLocation(), Sound.LEVEL_UP, 3.0f, 0.5f);
         TextComponent msg = new TextComponent(TextComponent.fromLegacyText(Languages.getLang(player).getMessage(MessageUtils.Global.SHOP_BOUGHT)));
         msg.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new ComponentBuilder(Languages.getLang(player).getMessage(MessageUtils.Global.CLICK_HOVER)).create()));
-        msg.setClickEvent(new ClickEvent(ClickEvent.Action.OPEN_URL, "https://store.endoskull.fr"));
+        msg.setClickEvent(new ClickEvent(ClickEvent.Action.OPEN_URL, "https://store.endoskull.net"));
         player.spigot().sendMessage(msg);
     }
 }

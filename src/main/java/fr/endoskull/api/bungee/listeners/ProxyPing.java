@@ -30,9 +30,9 @@ public class ProxyPing implements Listener {
         /*String[] hoverText = {
                 "§7§m------------------------",
                 "",
-                "§6Discord §7⋙ §9discord.endoskull.fr",
-                "§6Site Web §7⋙ §dwww.endoskull.fr",
-                "§6Boutique §7⋙ §ashop.endoskull.fr",
+                "§6Discord §7⋙ §9discord.endoskull.net",
+                "§6Site Web §7⋙ §dwww.endoskull.net",
+                "§6Boutique §7⋙ §ashop.endoskull.net",
                 "",
                 "§7§m------------------------",
         };
@@ -56,7 +56,7 @@ public class ProxyPing implements Listener {
         serverPing.setVersion(protocol);
 
         if (MaintenanceUtils.isInMaintenance("Global")) {
-            serverPing.setDescription("§c§lEndoSkull » Maintenance en cours" + "\n" + "§7Plus d'infos §8» §adiscord.endoskull.fr");
+            serverPing.setDescription("§c§lEndoSkull » Maintenance en cours" + "\n" + "§7Plus d'infos §8» §adiscord.endoskull.net");
         } else {
 
         }
@@ -69,7 +69,7 @@ public class ProxyPing implements Listener {
         int version = e.getConnection().getVersion();
         if (version < 47/* || version > 754*/) {
             e.setCancelled(true);
-            e.setCancelReason("§cEndoSkull NetWork\n\n§c[1.8+]\n\n§ehttps://discord.endoskull.fr");
+            e.setCancelReason("§cEndoSkull NetWork\n\n§c[1.8+]\n\n§ehttps://discord.endoskull.net");
         }
     }
 
@@ -78,7 +78,7 @@ public class ProxyPing implements Listener {
 
         if(MaintenanceUtils.isInMaintenance("Global") && !MaintenanceUtils.isWhitelisted(e.getConnection().getName())){
             e.setCancelled(true);
-            e.setCancelReason(new ComponentBuilder("§c§lEndoSkull Maintenance\n\n§7Plus d'infos §8» §adiscord.endoskull.fr").create());
+            e.setCancelReason(new ComponentBuilder("§c§lEndoSkull Maintenance\n\n§7Plus d'infos §8» §adiscord.endoskull.net").create());
         }
     }
 }
