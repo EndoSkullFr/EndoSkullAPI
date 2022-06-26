@@ -91,10 +91,6 @@
             <id>dmulloy2-repo</id>
             <url>https://repo.dmulloy2.net/repository/public/</url>
         </repository>
-        <repository>
-            <id>json</id>
-            <url>https://mvnrepository.com/artifact/org.json/json</url>
-        </repository>
     </repositories>
 
     <dependencies>
@@ -226,14 +222,13 @@
             <artifactId>LiteBansAPI</artifactId>
             <version>0.3.5</version>
             <scope>provided</scope>
-        </dependency>
+        </dependency><!-- https://mvnrepository.com/artifact/com.googlecode.json-simple/json-simple -->
         <dependency>
-            <groupId>org.json</groupId>
-            <artifactId>json</artifactId>
-            <version>20220320</version>
+            <groupId>com.googlecode.json-simple</groupId>
+            <artifactId>json-simple</artifactId>
+            <version>1.1.1</version>
             <scope>compile</scope>
         </dependency>
-
     </dependencies>
 
 </project>
