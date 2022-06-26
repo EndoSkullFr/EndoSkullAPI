@@ -2,11 +2,11 @@ package fr.endoskull.api.bungee.commands;
 
 import fr.endoskull.api.BungeeMain;
 import fr.endoskull.api.bungee.utils.BungeeLang;
+import fr.endoskull.api.bungee.utils.BungeePlayerInfos;
 import fr.endoskull.api.commons.account.Account;
 import fr.endoskull.api.commons.account.AccountProvider;
 import fr.endoskull.api.commons.lang.MessageUtils;
 import fr.endoskull.api.data.redis.JedisManager;
-import fr.endoskull.api.spigot.utils.SpigotPlayerInfos;
 import net.md_5.bungee.api.CommandSender;
 import net.md_5.bungee.api.ProxyServer;
 import net.md_5.bungee.api.plugin.Command;
@@ -26,7 +26,7 @@ public class KeyCommand extends Command {
                 return;
             }
             String targetName = args[1];
-            UUID targetUUID = SpigotPlayerInfos.getUuidFromName(targetName);
+            UUID targetUUID = BungeePlayerInfos.getUuidFromName(targetName);
             if (targetUUID == null) {
                 sender.sendMessage(BungeeLang.getLang(sender).getMessage(MessageUtils.Global.UNKNOWN_PLAYER));
                 return;

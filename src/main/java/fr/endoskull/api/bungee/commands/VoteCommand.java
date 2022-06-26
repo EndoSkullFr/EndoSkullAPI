@@ -20,11 +20,16 @@ import org.json.simple.parser.ParseException;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.UUID;
 
 public class VoteCommand extends Command {
     public VoteCommand() {
         super("vote");
     }
+
+    private final List<UUID> loading = new ArrayList<>();
 
     @Override
     public void execute(CommandSender sender, String[] args) {
@@ -41,33 +46,40 @@ public class VoteCommand extends Command {
             player.sendMessage(msg);
             return;
         }
-        if (args.length > 0 && args[0].equalsIgnoreCase("claim")) {
+        if (args.length > 0 && args[0].equalsIgnoreCase("claim") && !loading.contains(player.getUniqueId())) {
+            player.sendMessage(lang.getMessage(MessageUtils.Global.VOTE_LOADING));
+            loading.add(player.getUniqueId());
             ProxyServer.getInstance().getScheduler().runAsync(BungeeMain.getInstance(), () -> {
                 String url = "https://serveur-prive.net/api/vote/json/O6EAaRCpSJTlL2X/" + player.getAddress().getHostName();
                 try {
                     String json = IOUtils.toString(new URL(url));
                     if(json.isEmpty()) {
                         player.sendMessage(lang.getMessage(MessageUtils.Global.VOTE_ERROR));
+                        loading.remove(player.getUniqueId());
                         return;
                     }
                     JSONObject object = (JSONObject) JSONValue.parseWithException(json);
 
                     if (!((String) object.get("status")).equalsIgnoreCase("1")) {
                         player.sendMessage(lang.getMessage(MessageUtils.Global.NO_VOTE));
+                        loading.remove(player.getUniqueId());
                         return;
                     }
                     String vote = (String) object.get("vote");
                     Account account = AccountProvider.getAccount(player.getUniqueId());
                     if (vote.equalsIgnoreCase(account.getProperty("lastVote", "0"))) {
                         player.sendMessage(lang.getMessage(MessageUtils.Global.VOTE_ALREADY));
+                        loading.remove(player.getUniqueId());
                         return;
                     }
                     ProxyServer.getInstance().getPluginManager().dispatchCommand(ProxyServer.getInstance().getConsole(), "key add " + player.getName() + " vote 1");
                     account.setProperty("lastVote", vote);
                     player.sendMessage(lang.getMessage(MessageUtils.Global.VOTE_CLAIM));
+                    loading.remove(player.getUniqueId());
 
                 } catch (IOException | ParseException | NullPointerException e) {
                     player.sendMessage(lang.getMessage(MessageUtils.Global.VOTE_ERROR));
+                    loading.remove(player.getUniqueId());
                 }
             });
             return;
