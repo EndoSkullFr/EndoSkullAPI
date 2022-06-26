@@ -151,7 +151,6 @@ public class Main extends JavaPlugin {
         getCommand("booster").setExecutor(new BoosterCommand(this));
         getCommand("staff").setExecutor(new StaffCommand());
         getCommand("about").setExecutor(new AboutCommand());
-        getCommand("key").setExecutor(new KeyCommand(this));
         getCommand("sanction").setExecutor(new SanctionCommand());
         getCommand("report").setExecutor(new ReportCommand());
         getCommand("reports").setExecutor(new ReportsCommand());

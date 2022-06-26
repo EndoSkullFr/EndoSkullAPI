@@ -18,8 +18,6 @@ commands:
     description: reload la config
   boxset:
     permission: box.set
-  key:
-    permission: key.edit
   coins:
     aliases: [money, bal, balance, solde]
   booster:

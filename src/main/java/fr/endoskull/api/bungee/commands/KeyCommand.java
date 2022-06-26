@@ -1,29 +1,26 @@
-package fr.endoskull.api.spigot.commands;
+package fr.endoskull.api.bungee.commands;
 
-import fr.endoskull.api.Main;
+import fr.endoskull.api.BungeeMain;
+import fr.endoskull.api.bungee.utils.BungeeLang;
 import fr.endoskull.api.commons.account.Account;
 import fr.endoskull.api.commons.account.AccountProvider;
-import fr.endoskull.api.data.redis.JedisManager;
-import fr.endoskull.api.spigot.utils.Languages;
 import fr.endoskull.api.commons.lang.MessageUtils;
+import fr.endoskull.api.data.redis.JedisManager;
 import fr.endoskull.api.spigot.utils.SpigotPlayerInfos;
-import org.bukkit.Bukkit;
-import org.bukkit.command.Command;
-import org.bukkit.command.CommandExecutor;
-import org.bukkit.command.CommandSender;
+import net.md_5.bungee.api.CommandSender;
+import net.md_5.bungee.api.ProxyServer;
+import net.md_5.bungee.api.plugin.Command;
 
 import java.util.UUID;
 
-public class KeyCommand implements CommandExecutor {
-    private Main main;
-    public KeyCommand(Main main) {
-        this.main = main;
+public class KeyCommand extends Command {
+    public KeyCommand() {
+        super("key", "endoskull.key.edit");
     }
 
-
     @Override
-    public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
-        Bukkit.getScheduler().runTaskAsynchronously(main, () -> {
+    public void execute(CommandSender sender, String[] args) {
+        ProxyServer.getInstance().getScheduler().runAsync(BungeeMain.getInstance(), () -> {
             if (args.length < 4) {
                 sender.sendMessage("§cEndoSkull §8» §c/key add/set/remove {player} {clé} {number}");
                 return;
@@ -31,7 +28,7 @@ public class KeyCommand implements CommandExecutor {
             String targetName = args[1];
             UUID targetUUID = SpigotPlayerInfos.getUuidFromName(targetName);
             if (targetUUID == null) {
-                sender.sendMessage(Languages.getLang(sender).getMessage(MessageUtils.Global.UNKNOWN_PLAYER));
+                sender.sendMessage(BungeeLang.getLang(sender).getMessage(MessageUtils.Global.UNKNOWN_PLAYER));
                 return;
             }
             if (!JedisManager.isLoad(targetUUID)) AccountProvider.loadAccount(targetUUID);
@@ -61,6 +58,5 @@ public class KeyCommand implements CommandExecutor {
                 }
             }
         });
-        return false;
     }
 }
