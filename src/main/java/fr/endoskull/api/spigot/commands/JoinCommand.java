@@ -41,7 +41,7 @@ public class JoinCommand implements CommandExecutor {
             return false;
         }
         if (!player.hasPermission("endoskull.join." + serverType.toString().toLowerCase())) {
-            player.sendMessage(Languages.getLang(player).getMessage(MessageUtils.Global.LESS_PERMISSION));
+            player.sendMessage(Languages.getLang(player).getMessage(MessageUtils.Global.SERVER_MAINTENANCE));
             return false;
         }
         if (!serverType.isMultiArena() && args.length > 1 && args[1].equalsIgnoreCase("gui")) {
