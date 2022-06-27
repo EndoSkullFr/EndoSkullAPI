@@ -8,6 +8,7 @@ import fr.endoskull.api.spigot.classement.ClassementTask;
 import fr.endoskull.api.data.sql.MySQL;
 import fr.endoskull.api.spigot.commands.*;
 import fr.endoskull.api.spigot.listeners.*;
+import fr.endoskull.api.spigot.tasks.StaffRunnable;
 import fr.endoskull.api.spigot.utils.AntiTabComplete;
 import fr.endoskull.api.spigot.utils.Languages;
 import org.apache.commons.dbcp2.BasicDataSource;
@@ -66,6 +67,7 @@ public class Main extends JavaPlugin {
         //new EndoSkullPlaceholder().register();
         //new CloudNetExpansion().register();
 
+        Bukkit.getScheduler().runTaskTimer(this, new StaffRunnable(), 20, 20);
         Bukkit.getScheduler().runTaskTimerAsynchronously(this, new ClassementTask(this), 100, 20 * 20);
 
         createServerFile();

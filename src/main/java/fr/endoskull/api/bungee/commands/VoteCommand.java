@@ -60,7 +60,7 @@ public class VoteCommand extends Command {
                     }
                     JSONObject object = (JSONObject) JSONValue.parseWithException(json);
 
-                    if (!((String) object.get("status")).equalsIgnoreCase("1")) {
+                    if (!((String) object.get("status")).equalsIgnoreCase("1") || !((String) object.get("pseudo")).equalsIgnoreCase(player.getName())) {
                         player.sendMessage(lang.getMessage(MessageUtils.Global.NO_VOTE));
                         loading.remove(player.getUniqueId());
                         return;
