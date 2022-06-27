@@ -39,11 +39,10 @@ public class VanishUtils {
             lastEffects.put(player, player.getActivePotionEffects());
         }
 
-        for (PotionEffect activePotionEffect : player.getActivePotionEffects()) {
-            player.removePotionEffect(activePotionEffect.getType());
-        }
-
         Bukkit.getScheduler().runTaskLater(Main.getInstance(), () -> {
+            for (PotionEffect activePotionEffect : player.getActivePotionEffects()) {
+                player.removePotionEffect(activePotionEffect.getType());
+            }
             player.addPotionEffect(new PotionEffect(PotionEffectType.INVISIBILITY, Integer.MAX_VALUE, 0, false, false));
             player.addPotionEffect(new PotionEffect(PotionEffectType.NIGHT_VISION, Integer.MAX_VALUE, 0, false, false));
             player.getInventory().clear();
