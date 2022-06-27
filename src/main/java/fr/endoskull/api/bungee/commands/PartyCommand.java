@@ -133,7 +133,7 @@ public class PartyCommand extends Command implements TabExecutor {
             for (UUID member : party.getMembers()) {
                 members.add(EndoSkullAPI.getColor(member) + BungeePlayerInfos.getNameFromUuid(member));
             }
-            partyMessage.append(lang.getMessage(MessageUtils.Paf.PARTY_MEMBERS) + members.toString().replace("[", "").replace("]", "").replace(",", ", ")).append("\n");
+            partyMessage.append(lang.getMessage(MessageUtils.Paf.PARTY_MEMBERS) + members.toString().replace("[", "").replace("]", "").replace(",", "§7, ")).append("\n");
             partyMessage.append(EndoSkullAPI.LINE);
 
             player.sendMessage(new TextComponent(partyMessage.toString()).toLegacyText());

@@ -11,6 +11,8 @@ softdepend:
 commands:
   level:
     aliases: [xp]
+  key:
+    permission: endoskull.key.edit
   permission:
     aliases: [perm, perms, permissions]
     permission: rank.permission.edit
