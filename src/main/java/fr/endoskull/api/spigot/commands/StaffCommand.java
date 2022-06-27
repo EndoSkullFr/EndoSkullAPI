@@ -16,6 +16,20 @@ public class StaffCommand implements CommandExecutor {
             return false;
         }
         Player player = (Player) sender;
+        if (args.length > 0 && args[0].equalsIgnoreCase("on")) {
+            if (!VanishUtils.isVanished(player)) {
+                VanishUtils.vanish(player, true);
+                player.sendMessage(Languages.getLang(sender).getMessage(MessageUtils.Global.VANISH));
+            }
+            return false;
+        }
+        if (args.length > 0 && args[0].equalsIgnoreCase("off")) {
+            if (VanishUtils.isVanished(player)) {
+                VanishUtils.unvanish(player);
+                player.sendMessage(Languages.getLang(sender).getMessage(MessageUtils.Global.VANISH));
+            }
+            return false;
+        }
         if (VanishUtils.isVanished(player)) {
             VanishUtils.unvanish(player);
             player.sendMessage(Languages.getLang(sender).getMessage(MessageUtils.Global.UNVANISH));
