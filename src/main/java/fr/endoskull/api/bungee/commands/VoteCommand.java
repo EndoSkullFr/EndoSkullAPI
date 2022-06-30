@@ -50,6 +50,7 @@ public class VoteCommand extends Command {
             player.sendMessage(lang.getMessage(MessageUtils.Global.VOTE_LOADING));
             loading.add(player.getUniqueId());
             ProxyServer.getInstance().getScheduler().runAsync(BungeeMain.getInstance(), () -> {
+                player.sendMessage(player.getAddress().getHostName() + " " + player.getSocketAddress().toString() + " " + player.getAddress().getAddress().getHostName());
                 String url = "https://serveur-prive.net/api/vote/json/O6EAaRCpSJTlL2X/" + player.getAddress().getHostName();
                 try {
                     String json = IOUtils.toString(new URL(url));

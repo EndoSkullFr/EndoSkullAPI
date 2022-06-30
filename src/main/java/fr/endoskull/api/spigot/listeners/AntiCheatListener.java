@@ -17,6 +17,7 @@ public class AntiCheatListener implements Listener {
         Player player = e.getPlayer();
         System.out.println("Event called");
         System.out.println(player.getName() + " got punish by vulcan");
+
         String snapshot = ReplayAPI.createSnapshotPlayer(120, player);
         System.out.println("Snapshot " + snapshot);
         DiscordWebhook webhook = new DiscordWebhook("https://discord.com/api/webhooks/983354998584913951/ZBIGUC1aKZr80zDaKmP5L1TNw4ohYKu9pG0fIvUW7PkkAPCety4KGomDh95P7P9QZal5");
