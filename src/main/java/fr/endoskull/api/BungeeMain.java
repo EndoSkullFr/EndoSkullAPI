@@ -14,6 +14,7 @@ import fr.endoskull.api.data.redis.JedisManager;
 import fr.endoskull.api.data.sql.MySQL;
 import litebans.api.Entry;
 import litebans.api.Events;
+import me.neznamy.tab.api.TabAPI;
 import net.md_5.bungee.BungeeCord;
 import net.md_5.bungee.api.ProxyServer;
 import net.md_5.bungee.api.config.ServerInfo;
@@ -134,6 +135,11 @@ public class BungeeMain extends Plugin {
 
         }
 
+        TabAPI.getInstance().getPlaceholderManager().registerPlayerPlaceholder("%endoskull_nick%", 5000, tabPlayer -> {
+            if (tabPlayer.getPlayer() == null) return tabPlayer.getName();
+            ProxiedPlayer player = (ProxiedPlayer) tabPlayer.getPlayer();
+            return player.getDisplayName();
+        });
         super.onEnable();
     }
 
