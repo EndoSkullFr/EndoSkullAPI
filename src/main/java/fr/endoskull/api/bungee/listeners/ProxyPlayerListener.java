@@ -6,6 +6,7 @@ import fr.endoskull.api.commons.account.Account;
 import fr.endoskull.api.commons.account.AccountProvider;
 import fr.endoskull.api.commons.EndoSkullAPI;
 import fr.endoskull.api.commons.lang.MessageUtils;
+import fr.endoskull.api.commons.nick.NickData;
 import fr.endoskull.api.commons.paf.FriendSettingsBungee;
 import fr.endoskull.api.commons.paf.FriendUtils;
 import fr.endoskull.api.commons.paf.Party;
@@ -91,6 +92,7 @@ public class ProxyPlayerListener implements Listener {
             if (BungeeMain.getInstance().getLastPM().get(p).equals(player)) BungeeMain.getInstance().getLastPM().remove(p);
         }
         BungeeMain.getLangs().remove(player);
+        NickData.unnick(player.getUniqueId());
     }
 
     @EventHandler

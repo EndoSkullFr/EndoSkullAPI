@@ -83,7 +83,7 @@ public class EndoSkullCommand implements CommandExecutor, TabCompleter {
         if (sender instanceof Player) {
             Player player = (Player) sender;
             if (args.length > 0 && args[0].equalsIgnoreCase("nick")) {
-                NickUtils.nick(player);
+                NickUtils.initNick(player);
                 player.sendMessage("§eEndoSkull §8» §aVous êtes à présent nick");
             }
             if (args.length > 0 && args[0].equalsIgnoreCase("unnick")) {

@@ -1,6 +1,8 @@
 package fr.endoskull.api.spigot.utils;
 
+import com.github.javafaker.Faker;
 import com.mojang.authlib.properties.Property;
+import fr.endoskull.api.commons.nick.NickData;
 import org.apache.commons.io.IOUtils;
 import org.bukkit.entity.Player;
 import org.json.simple.JSONArray;
@@ -10,30 +12,42 @@ import org.json.simple.parser.ParseException;
 
 import java.io.IOException;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 
 public class NickUtils {
 
     private static final Random r = new Random();
 
-    public static void nick(Player player) {
-        setRandomSkin(player);
-    }
-
-    public static void unnick(Player player) {
-        resetSkin(player);
-    }
-
-    private static void setRandomSkin(Player player) {
+    public static void initNick(Player player) {
+        String name = new Faker(Locale.FRANCE).superhero().name();
         Property property = getRandomSkin();
         if (property == null) {
             player.sendMessage("§cErreur");
             return;
         }
+        String value = property.getValue();
+        String signature = property.getSignature();
+        NickData.nick(player.getUniqueId(), name, value, signature);
+        nick(player, name, value, signature);
+    }
+
+    public static void nick(Player player, String name, String value, String signature) {
+        player.setDisplayName(name);
+        NickData.nick(player.getUniqueId(), name, value, signature);
+    }
+
+    public static void unnick(Player player) {
+        resetSkin(player);
+        NickData.unnick(player.getUniqueId());
+    }
+
+    private static Property setRandomSkin(Player player) {
+        Property property = getRandomSkin();
+        if (property == null) {
+            return null;
+        }
         SkinChangerAPI.change(player, new Property("textures", property.getValue(), property.getSignature()));
+        return property;
     }
 
     private static void resetSkin(Player player) {

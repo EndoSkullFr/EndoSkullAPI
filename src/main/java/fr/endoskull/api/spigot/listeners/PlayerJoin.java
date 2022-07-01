@@ -4,6 +4,7 @@ import fr.endoskull.api.Main;
 import fr.endoskull.api.commons.EndoSkullAPI;
 import fr.endoskull.api.commons.account.Account;
 import fr.endoskull.api.commons.account.AccountProvider;
+import fr.endoskull.api.commons.nick.NickData;
 import fr.endoskull.api.commons.server.ServerState;
 import fr.endoskull.api.commons.server.ServerType;
 import fr.endoskull.api.data.redis.JedisAccess;
@@ -37,8 +38,9 @@ public class PlayerJoin implements Listener {
         Player player = e.getPlayer();
         Account account = AccountProvider.getAccount(player.getUniqueId());
         Main.getLangs().put(player, account.getLang());
-        if (player.hasPermission("endoskull.nick")) {
-            NickUtils.nick(player);
+        if (NickData.isNicked(player.getUniqueId())) {
+            String[] nickInfo = NickData.getNickInfo(player.getUniqueId());
+            NickUtils.nick(player, nickInfo[0], nickInfo[1], nickInfo[2]);
         }
     }
 

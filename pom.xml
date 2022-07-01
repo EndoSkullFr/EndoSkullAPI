@@ -235,7 +235,11 @@
             <version>2.11.0</version>
             <scope>compile</scope>
         </dependency>
-
+        <dependency>
+            <groupId>com.github.javafaker</groupId>
+            <artifactId>javafaker</artifactId>
+            <version>1.0.1</version>
+        </dependency>
     </dependencies>
 
 </project>
