@@ -1,7 +1,10 @@
 package fr.endoskull.api.spigot.utils;
 
 import com.github.javafaker.Faker;
+import com.google.common.io.ByteArrayDataOutput;
+import com.google.common.io.ByteStreams;
 import com.mojang.authlib.properties.Property;
+import fr.endoskull.api.Main;
 import fr.endoskull.api.commons.nick.NickData;
 import org.apache.commons.io.IOUtils;
 import org.bukkit.entity.Player;
@@ -19,7 +22,7 @@ public class NickUtils {
     private static final Random r = new Random();
 
     public static void initNick(Player player) {
-        String name = new Faker(Locale.FRANCE).superhero().name();
+        String name = new Faker(Locale.FRANCE).funnyName().name();
         Property property = getRandomSkin();
         if (property == null) {
             player.sendMessage("§cErreur");
@@ -29,16 +32,24 @@ public class NickUtils {
         String signature = property.getSignature();
         NickData.nick(player.getUniqueId(), name, value, signature);
         nick(player, name, value, signature);
+        ByteArrayDataOutput out = ByteStreams.newDataOutput();
+        out.writeUTF("Nick");
+        out.writeUTF(player.getUniqueId().toString());
+        player.sendPluginMessage(Main.getInstance(), Main.CHANNEL, out.toByteArray());
     }
 
     public static void nick(Player player, String name, String value, String signature) {
         player.setDisplayName(name);
-        NickData.nick(player.getUniqueId(), name, value, signature);
+        SkinChangerAPI.change(player, new Property("textures", value, signature));
     }
 
     public static void unnick(Player player) {
         resetSkin(player);
         NickData.unnick(player.getUniqueId());
+        ByteArrayDataOutput out = ByteStreams.newDataOutput();
+        out.writeUTF("UnNick");
+        out.writeUTF(player.getUniqueId().toString());
+        player.sendPluginMessage(Main.getInstance(), Main.CHANNEL, out.toByteArray());
     }
 
     private static Property setRandomSkin(Player player) {

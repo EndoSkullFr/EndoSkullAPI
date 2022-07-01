@@ -8,6 +8,7 @@ import fr.endoskull.api.bungee.utils.BungeeLang;
 import fr.endoskull.api.commons.account.Account;
 import fr.endoskull.api.commons.account.AccountProvider;
 import fr.endoskull.api.commons.lang.MessageUtils;
+import fr.endoskull.api.commons.nick.NickData;
 import net.md_5.bungee.BungeeCord;
 import net.md_5.bungee.api.ProxyServer;
 import net.md_5.bungee.api.chat.ClickEvent;
@@ -59,6 +60,20 @@ public class ForwardMessageListener implements Listener {
 
                         player.getServer().sendData(BungeeMain.CHANNEL, out.toByteArray());
                     }
+                }
+            }
+            if (action.equalsIgnoreCase("Nick")) {
+                UUID uuid = UUID.fromString(in.readUTF());
+                ProxiedPlayer player = ProxyServer.getInstance().getPlayer(uuid);
+                if (player != null) {
+                    player.setDisplayName(NickData.getNickInfo(player.getUniqueId())[0]);
+                }
+            }
+            if (action.equalsIgnoreCase("UnNick")) {
+                UUID uuid = UUID.fromString(in.readUTF());
+                ProxiedPlayer player = ProxyServer.getInstance().getPlayer(uuid);
+                if (player != null) {
+                    player.setDisplayName(player.getName());
                 }
             }
         }
