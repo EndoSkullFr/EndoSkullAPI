@@ -2,6 +2,7 @@ package fr.endoskull.api.spigot.commands;
 
 import fr.endoskull.api.Main;
 import fr.endoskull.api.data.redis.JedisAccess;
+import fr.endoskull.api.spigot.utils.NickUtils;
 import org.apache.commons.io.FileUtils;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -79,6 +80,17 @@ public class EndoSkullCommand implements CommandExecutor, TabCompleter {
             }
             return false;
         }
+        if (sender instanceof Player) {
+            Player player = (Player) sender;
+            if (args.length > 0 && args[0].equalsIgnoreCase("nick")) {
+                NickUtils.nick(player);
+                player.sendMessage("§eEndoSkull §8» §aVous êtes à présent nick");
+            }
+            if (args.length > 0 && args[0].equalsIgnoreCase("unnick")) {
+                NickUtils.unnick(player);
+                player.sendMessage("§eEndoSkull §8» §aVous n'êtes plus à présent nick");
+            }
+        }
         return false;
     }
 
@@ -88,7 +100,7 @@ public class EndoSkullCommand implements CommandExecutor, TabCompleter {
     public List<String> onTabComplete(CommandSender sender, Command cmd, String label, String[] args) {
         if (args.length == 1) {
             List<String> result = new ArrayList<>();
-            for (String s : Arrays.asList("deploy")) {
+            for (String s : Arrays.asList("deploy", "nick", "unnick")) {
                 if (s.startsWith(args[0])) result.add(s);
             }
             return result;
