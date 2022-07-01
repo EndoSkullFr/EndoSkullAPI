@@ -7,6 +7,7 @@ import fr.endoskull.api.commons.account.AccountProvider;
 import fr.endoskull.api.commons.server.ServerState;
 import fr.endoskull.api.commons.server.ServerType;
 import fr.endoskull.api.data.redis.JedisAccess;
+import fr.endoskull.api.spigot.utils.NickUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -36,6 +37,9 @@ public class PlayerJoin implements Listener {
         Player player = e.getPlayer();
         Account account = AccountProvider.getAccount(player.getUniqueId());
         Main.getLangs().put(player, account.getLang());
+        if (player.hasPermission("endoskull.nick")) {
+            NickUtils.nick(player);
+        }
     }
 
     @EventHandler
