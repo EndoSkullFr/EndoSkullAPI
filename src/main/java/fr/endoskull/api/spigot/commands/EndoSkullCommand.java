@@ -4,6 +4,7 @@ import fr.endoskull.api.Main;
 import fr.endoskull.api.data.redis.JedisAccess;
 import fr.endoskull.api.spigot.utils.NickUtils;
 import org.apache.commons.io.FileUtils;
+import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -83,12 +84,16 @@ public class EndoSkullCommand implements CommandExecutor, TabCompleter {
         if (sender instanceof Player) {
             Player player = (Player) sender;
             if (args.length > 0 && args[0].equalsIgnoreCase("nick")) {
-                NickUtils.initNick(player);
-                player.sendMessage("§eEndoSkull §8» §aVous êtes à présent nick");
+                Bukkit.getScheduler().runTaskAsynchronously(main, () -> {
+                    NickUtils.initNick(player);
+                    player.sendMessage("§eEndoSkull §8» §aVous êtes à présent nick");
+                });
             }
             if (args.length > 0 && args[0].equalsIgnoreCase("unnick")) {
-                NickUtils.unnick(player);
-                player.sendMessage("§eEndoSkull §8» §aVous n'êtes plus à présent nick");
+                Bukkit.getScheduler().runTaskAsynchronously(main, () -> {
+                    NickUtils.unnick(player);
+                    player.sendMessage("§eEndoSkull §8» §aVous n'êtes plus à présent nick");
+                });
             }
         }
         return false;
