@@ -11,7 +11,6 @@ import fr.endoskull.api.spigot.listeners.*;
 import fr.endoskull.api.spigot.tasks.StaffRunnable;
 import fr.endoskull.api.spigot.utils.AntiTabComplete;
 import fr.endoskull.api.spigot.utils.Languages;
-import me.neznamy.tab.api.TabAPI;
 import org.apache.commons.dbcp2.BasicDataSource;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -106,12 +105,6 @@ public class Main extends JavaPlugin {
             saveResource("languages/" + value.toString().toLowerCase() + ".yml", false);
             langFiles.put(value, YamlConfiguration.loadConfiguration(new File(getDataFolder(), "languages/" + value.toString().toLowerCase() + ".yml")));
         }
-
-        TabAPI.getInstance().getPlaceholderManager().registerPlayerPlaceholder("%endoskull_nick%", 5000, tabPlayer -> {
-            if (tabPlayer.getPlayer() == null) return tabPlayer.getName();
-            Player player = (Player) tabPlayer.getPlayer();
-            return player.getDisplayName();
-        });
 
         super.onEnable();
     }
