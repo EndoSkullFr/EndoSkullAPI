@@ -16,6 +16,7 @@ import org.bukkit.entity.Player;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class ReportsGui extends CustomGui {
@@ -98,7 +99,7 @@ public class ReportsGui extends CustomGui {
             });
         }
 
-        public static String getFormattedMessage(HashMap<Long, String> messages) {
+        public static String getFormattedMessage(LinkedHashMap<Long, String> messages) {
             String[] lines = new String[messages.size()];
             SimpleDateFormat sdf = new SimpleDateFormat("kk:mm:ss");
             AtomicInteger i = new AtomicInteger();

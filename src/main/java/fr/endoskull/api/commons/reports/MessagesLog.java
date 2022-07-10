@@ -12,23 +12,23 @@ public class MessagesLog {
         return messagesLog.get(uuid);
     }
 
-    private final HashMap<Long, String> messages = new HashMap<>();
+    private final LinkedHashMap<Long, String> messages = new LinkedHashMap<>();
 
-    public HashMap<Long, String> getMessages() {
+    public LinkedHashMap<Long, String> getMessages() {
         return messages;
     }
 
-    public HashMap<Long, String> getLastMessages(int amount) {
+    public LinkedHashMap<Long, String> getLastMessages(int amount) {
         return getLastMessages(amount, System.currentTimeMillis());
     }
 
-    public HashMap<Long, String> getLastMessages(int amount, long time) {
+    public LinkedHashMap<Long, String> getLastMessages(int amount, long time) {
         List<Long> timeStamps = new ArrayList<>(messages.keySet());
         Collections.sort(timeStamps, Collections.reverseOrder());
         for (Long aLong : new ArrayList<>(timeStamps)) {
             if (aLong > time) timeStamps.remove(aLong);
         }
-        HashMap<Long, String> result = new HashMap<>();
+        LinkedHashMap<Long, String> result = new LinkedHashMap<>();
         int i = 0;
         for (Long timeStamp : timeStamps) {
             if (i >= amount) break;
