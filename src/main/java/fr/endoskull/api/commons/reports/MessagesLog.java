@@ -1,15 +1,35 @@
 package fr.endoskull.api.commons.reports;
 
+import fr.endoskull.api.data.sql.MySQL;
+
+import java.sql.SQLException;
 import java.util.*;
+import java.util.concurrent.CompletableFuture;
 
 public class MessagesLog {
-    private static final HashMap<UUID, MessagesLog> messagesLog = new HashMap<>();
 
-    public static MessagesLog get(UUID uuid) {
-        if (!messagesLog.containsKey(uuid)) {
-            messagesLog.put(uuid, new MessagesLog());
-        }
-        return messagesLog.get(uuid);
+    public static CompletableFuture<MessagesLog> get(UUID uuid) {
+        CompletableFuture<MessagesLog> completableFuture = new CompletableFuture<>();
+        MySQL.getInstance().query("SELECT * FROM chatlog WHERE `uuid`='" + uuid + "'", rs -> {
+            MessagesLog messagesLog = new MessagesLog();
+            try {
+                while (rs.next()) {
+                    messagesLog.getMessages().put(rs.getLong("time"), rs.getString("message"));
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+            completableFuture.complete(messagesLog);
+        });
+        return completableFuture;
+    }
+
+    public static void log(UUID uuid, String message) {
+        log(uuid, System.currentTimeMillis(), message);
+    }
+
+    public static void log(UUID uuid, long time, String message) {
+        MySQL.getInstance().update("INSERT INTO `chatlog`(`uuid`, `time`, `message`) VALUES ('" + uuid + "', " + time + ", '" + message.replace("'", "\\'") + "')");
     }
 
     private final LinkedHashMap<Long, String> messages = new LinkedHashMap<>();

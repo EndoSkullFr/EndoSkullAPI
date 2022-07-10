@@ -38,11 +38,6 @@ public class BungeeMessageListener implements PluginMessageListener {
                     }
                 }
             }
-            if (sub.equals("LogMessage")) {
-                String message = in.readUTF();
-                long timeMillis = in.readLong();
-                MessagesLog.get(player.getUniqueId()).getMessages().put(timeMillis, message);
-            }
             if (sub.equalsIgnoreCase("ReportShow")) {
                 String senderName = in.readUTF();
                 String targetName = in.readUTF();

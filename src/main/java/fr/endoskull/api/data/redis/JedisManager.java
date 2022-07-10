@@ -168,6 +168,16 @@ public class JedisManager {
             mySQL = Main.getInstance().getMySQL();
         }
         mySQL.update("INSERT INTO " + TABLE + " (uuid, name, level, xp, solde, first_join) VALUES ('" + uuid + "', '" + "none" + "', '" + 1 + "', '" + 0 + "', '" + 100 + "', '" + System.currentTimeMillis() + "')");
+
+        MySQL.getInstance().query("SELECT COUNT(uuid) FROM `accounts`", rs -> {
+            try {
+                if (rs.next()) {
+                    MySQL.getInstance().update("INSERT INTO `account_count` (`accounts`) VALUES ('" + rs.getLong("COUNT(uuid)") + "')");
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        });
     }
 
     public static boolean isLoad(UUID uuid) {

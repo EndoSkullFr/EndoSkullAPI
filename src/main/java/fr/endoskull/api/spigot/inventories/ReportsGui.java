@@ -59,15 +59,19 @@ public class ReportsGui extends CustomGui {
             super(5, "Report " + report.getTargetName(), p);
             Languages lang = Languages.getLang(p);
             p.playSound(p.getLocation(), Sound.NOTE_PLING, 1, 1);
-            setItem(12, CustomItemStack.getPlayerSkull(report.getTargetName()).setName("§c" + report.getTargetName())
-                    .setLore("\n§fHistorique du chat (report):\n" + getFormattedMessage(MessagesLog.get(report.getTargetUUID()).getLastMessages(5, report.getCreatedOn())) + "\n§fHistorique du chat (actuel):\n" + getFormattedMessage(MessagesLog.get(report.getTargetUUID()).getLastMessages(5)) +
-                            "\n\n§e» Cliquez pour se téléporter à ce joueur"), player -> {
-                Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "forward " + player.getName() + " stp " + report.getTargetName());
+            MessagesLog.get(report.getTargetUUID()).thenAccept(messagesLog -> {
+                setItem(12, CustomItemStack.getPlayerSkull(report.getTargetName()).setName("§c" + report.getTargetName())
+                        .setLore("\n§eHistorique du chat (report):\n" + getFormattedMessage(messagesLog.getLastMessages(5, report.getCreatedOn())) + "\n§eHistorique du chat (actuel):\n" + getFormattedMessage(messagesLog.getLastMessages(5)) +
+                                "\n\n§e» Cliquez pour se téléporter à ce joueur"), player -> {
+                    Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "forward " + player.getName() + " stp " + report.getTargetName());
+                });
             });
-            setItem(14, CustomItemStack.getPlayerSkull(report.getReporterName()).setName("§a" + report.getReporterName())
-                    .setLore("\n§fHistorique du chat (report):\n" + getFormattedMessage(MessagesLog.get(report.getReporterUUID()).getLastMessages(5, report.getCreatedOn())) + "\n§fHistorique du chat (actuel):\n" + getFormattedMessage(MessagesLog.get(report.getReporterUUID()).getLastMessages(5)) +
-                            "\n\n§e» Cliquez pour se téléporter à ce joueur"), player -> {
-                Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "forward " + player.getName() + " stp " + report.getReporterName());
+            MessagesLog.get(report.getReporterUUID()).thenAccept(messagesLog -> {
+                setItem(14, CustomItemStack.getPlayerSkull(report.getReporterName()).setName("§a" + report.getReporterName())
+                        .setLore("\n§eHistorique du chat (report):\n" + getFormattedMessage(messagesLog.getLastMessages(5, report.getCreatedOn())) + "\n§eHistorique du chat (actuel):\n" + getFormattedMessage(messagesLog.getLastMessages(5)) +
+                                "\n\n§e» Cliquez pour se téléporter à ce joueur"), player -> {
+                    Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "forward " + player.getName() + " stp " + report.getReporterName());
+                });
             });
             setItem(29, new CustomItemStack(Material.STAINED_CLAY, 1, (byte) 5).setName("§aDéfinir comme valide"), player -> {
                 //report.setResolved(true);
@@ -104,7 +108,7 @@ public class ReportsGui extends CustomGui {
             SimpleDateFormat sdf = new SimpleDateFormat("kk:mm:ss");
             AtomicInteger i = new AtomicInteger();
             messages.forEach((aLong, s) -> {
-                lines[i.get()] = "§f" + sdf.format(new Date(aLong)) + " : " + s;
+                lines[i.get()] = "§7" + sdf.format(new Date(aLong)) + ": §f" + s;
                 i.getAndIncrement();
             });
             return Joiner.on("\n").join(lines);

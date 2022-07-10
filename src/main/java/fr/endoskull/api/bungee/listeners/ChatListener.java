@@ -6,6 +6,7 @@ import fr.endoskull.api.BungeeMain;
 import fr.endoskull.api.bungee.utils.BungeeLang;
 import fr.endoskull.api.commons.lang.MessageUtils;
 import fr.endoskull.api.commons.reports.MessagesLog;
+import net.md_5.bungee.api.ProxyServer;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
 import net.md_5.bungee.api.event.ChatEvent;
 import net.md_5.bungee.api.plugin.Listener;
@@ -33,15 +34,6 @@ public class ChatListener implements Listener {
         if (e.isCommand()) return;
         String message = e.getMessage();
         long timeMillis = System.currentTimeMillis();
-        MessagesLog.get(player.getUniqueId()).getMessages().put(timeMillis, message);
-        ByteArrayDataOutput out = ByteStreams.newDataOutput();
-        out.writeUTF("LogMessage");
-        out.writeUTF(message);
-        out.writeLong(timeMillis);
-
-        BungeeMain.getInstance().getProxy().getScheduler().schedule(BungeeMain.getInstance(), () -> {
-            player.getServer().sendData(BungeeMain.CHANNEL, out.toByteArray());
-        }, 0, TimeUnit.SECONDS);
         message = getUnFlood(message);
         if (isEz(message)) {
             if (!sayEz.contains(player.getUniqueId())) {
@@ -68,6 +60,10 @@ public class ChatListener implements Listener {
         }
         lastMessages.put(player.getUniqueId(), message);
         e.setMessage(message);
+        String finalMessage = message;
+        ProxyServer.getInstance().getScheduler().runAsync(BungeeMain.getInstance(), () -> {
+            MessagesLog.log(player.getUniqueId(), timeMillis, finalMessage);
+        });
     }
 
     private boolean isEz(String message) {
