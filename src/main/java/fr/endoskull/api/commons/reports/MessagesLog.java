@@ -28,19 +28,21 @@ public class MessagesLog {
         for (Long aLong : new ArrayList<>(timeStamps)) {
             if (aLong > time) timeStamps.remove(aLong);
         }
-        LinkedHashMap<Long, String> resultReversed = new LinkedHashMap<>();
+        LinkedHashMap<Long, String> result = new LinkedHashMap<>();
         int i = 0;
         for (Long timeStamp : timeStamps) {
             if (i >= amount) break;
-            resultReversed.put(timeStamp, messages.get(timeStamp));
+            result.put(timeStamp, messages.get(timeStamp));
             i++;
         }
-        LinkedHashMap<Long, String> result = new LinkedHashMap<>();
-        List<Long> longs = new ArrayList<>(resultReversed.keySet());
-        Collections.reverse(longs);
-        for (Long aLong : longs) {
-            result.put(aLong, resultReversed.get(aLong));
-        }
-        return result;
+        return reverseMap(result);
+    }
+
+    public static <T, Q> LinkedHashMap<T, Q> reverseMap(LinkedHashMap<T, Q> toReverse) {
+        LinkedHashMap<T, Q> reversedMap = new LinkedHashMap<>();
+        List<T> reverseOrderedKeys = new ArrayList<>(toReverse.keySet());
+        Collections.reverse(reverseOrderedKeys);
+        reverseOrderedKeys.forEach((key)->reversedMap.put(key,toReverse.get(key)));
+        return reversedMap;
     }
 }
