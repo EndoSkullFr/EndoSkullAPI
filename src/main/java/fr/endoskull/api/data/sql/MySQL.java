@@ -45,7 +45,7 @@ public class MySQL {
         update("CREATE TABLE IF NOT EXISTS online_count ( service VARCHAR(255) , `online` INT , `date` TIMESTAMP DEFAULT CURRENT_TIMESTAMP )");
         update("CREATE TABLE IF NOT EXISTS discord_count ( `members` INT , `date` TIMESTAMP DEFAULT CURRENT_TIMESTAMP )");
         update("CREATE TABLE IF NOT EXISTS account_count ( `accounts` INT , `date` TIMESTAMP DEFAULT CURRENT_TIMESTAMP )");
-        update("CREATE TABLE IF NOT EXISTS chatlog ( `#` INT NOT NULL , uuid VARCHAR(255) , time BIGINT , message TEXT )");
+        update("CREATE TABLE IF NOT EXISTS chatlog ( `#` INT NOT NULL AUTO_INCREMENT PRIMARY KEY , uuid VARCHAR(255) , time BIGINT , message TEXT )");
     }
 
     public void update(String qry){
