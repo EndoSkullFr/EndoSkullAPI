@@ -103,7 +103,7 @@ public class ReportsGui extends CustomGui {
             SimpleDateFormat sdf = new SimpleDateFormat("kk:mm:ss");
             AtomicInteger i = new AtomicInteger();
             messages.forEach((aLong, s) -> {
-                lines[i.get()] = "§f" + sdf.format(new Date(aLong)) + " : " + messages;
+                lines[i.get()] = "§f" + sdf.format(new Date(aLong)) + " : " + s;
                 i.getAndIncrement();
             });
             return Joiner.on("\n").join(lines);
