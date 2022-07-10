@@ -5,6 +5,7 @@ import com.google.common.io.ByteStreams;
 import fr.endoskull.api.Main;
 import fr.endoskull.api.commons.account.Account;
 import fr.endoskull.api.commons.account.AccountProvider;
+import fr.endoskull.api.commons.reports.MessagesLog;
 import fr.endoskull.api.spigot.inventories.RequestsGui;
 import fr.endoskull.api.spigot.inventories.SettingsGui;
 import net.md_5.bungee.api.chat.ClickEvent;
@@ -36,6 +37,11 @@ public class BungeeMessageListener implements PluginMessageListener {
                         player.teleport(target);
                     }
                 }
+            }
+            if (sub.equals("LogMessage")) {
+                String message = in.readUTF();
+                long timeMillis = in.readLong();
+                MessagesLog.get(player.getUniqueId()).getMessages().put(timeMillis, message);
             }
             if (sub.equalsIgnoreCase("ReportShow")) {
                 String senderName = in.readUTF();

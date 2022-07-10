@@ -1,8 +1,11 @@
 package fr.endoskull.api.bungee.listeners;
 
+import com.google.common.io.ByteArrayDataOutput;
+import com.google.common.io.ByteStreams;
 import fr.endoskull.api.BungeeMain;
 import fr.endoskull.api.bungee.utils.BungeeLang;
 import fr.endoskull.api.commons.lang.MessageUtils;
+import fr.endoskull.api.commons.reports.MessagesLog;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
 import net.md_5.bungee.api.event.ChatEvent;
 import net.md_5.bungee.api.plugin.Listener;
@@ -14,11 +17,12 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.*;
+import java.util.concurrent.TimeUnit;
 
 public class ChatListener implements Listener {
     private List<UUID> sayEz = new ArrayList<>();
     private HashMap<UUID, String> lastMessages = new HashMap<>();
-    private String[] badWords = {"fuck", "connard", "connard", "con", "fdp", "ta mère", "pute", "encule", "enculé", "batard", "batar", "negro", "nègre", "nigga", "merde", "shit", "pd", "tchoin", "salop", "salaud", "salau", "salo", "adopté", "suce", "bite", "couille", "couilles", "bites", "nique", "niqué", "niquer", "ntm", "ntr"};
+    private String[] badWords = {"fuck", "connard", "connard", "con", "fdp", "tg", "ftg", "ta mère", "pute", "encule", "enculé", "batard", "batar", "negro", "nègre", "nigga", "merde", "shit", "pd", "tchoin", "salop", "salaud", "salau", "salo", "adopté", "suce", "bite", "couille", "couilles", "bites", "nique", "niqué", "niquer", "ntm", "ntr"};
 
     @EventHandler(priority = EventPriority.LOWEST)
     public void onChat(ChatEvent e) {
@@ -28,6 +32,16 @@ public class ChatListener implements Listener {
         addLog(player.getUniqueId(), player.getName() + " » " + e.getMessage());
         if (e.isCommand()) return;
         String message = e.getMessage();
+        long timeMillis = System.currentTimeMillis();
+        MessagesLog.get(player.getUniqueId()).getMessages().put(timeMillis, message);
+        ByteArrayDataOutput out = ByteStreams.newDataOutput();
+        out.writeUTF("LogMessage");
+        out.writeUTF(message);
+        out.writeLong(timeMillis);
+
+        BungeeMain.getInstance().getProxy().getScheduler().schedule(BungeeMain.getInstance(), () -> {
+            player.getServer().sendData(BungeeMain.CHANNEL, out.toByteArray());
+        }, 0, TimeUnit.SECONDS);
         message = getUnFlood(message);
         if (isEz(message)) {
             if (!sayEz.contains(player.getUniqueId())) {

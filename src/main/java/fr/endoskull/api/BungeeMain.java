@@ -8,6 +8,7 @@ import fr.endoskull.api.bungee.tasks.OnlineCountTask;
 import fr.endoskull.api.bungee.tasks.PAFTask;
 import fr.endoskull.api.bungee.utils.BungeeLang;
 import fr.endoskull.api.bungee.utils.LitebansHandler;
+import fr.endoskull.api.commons.reports.MessagesLog;
 import fr.endoskull.api.commons.server.ServerType;
 import fr.endoskull.api.data.redis.JedisAccess;
 import fr.endoskull.api.data.redis.JedisManager;

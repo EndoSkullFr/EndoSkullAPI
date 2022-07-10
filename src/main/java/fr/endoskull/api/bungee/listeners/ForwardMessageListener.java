@@ -9,6 +9,8 @@ import fr.endoskull.api.commons.account.Account;
 import fr.endoskull.api.commons.account.AccountProvider;
 import fr.endoskull.api.commons.lang.MessageUtils;
 import fr.endoskull.api.commons.nick.NickData;
+import fr.endoskull.api.commons.reports.Report;
+import fr.endoskull.api.commons.reports.ReportUtils;
 import net.md_5.bungee.BungeeCord;
 import net.md_5.bungee.api.ProxyServer;
 import net.md_5.bungee.api.chat.ClickEvent;
@@ -60,6 +62,18 @@ public class ForwardMessageListener implements Listener {
 
                         player.getServer().sendData(BungeeMain.CHANNEL, out.toByteArray());
                     }
+                }
+            }
+            if (action.equalsIgnoreCase("ReportResolved")) {
+                String uuid = in.readUTF();
+                Report report = ReportUtils.loadReport(UUID.fromString(uuid));
+                if (report != null) {
+                    if (!report.isResolved()) return;
+                    ProxiedPlayer player = ProxyServer.getInstance().getPlayer(report.getReporterUUID());
+                    if (player == null) return;
+                    BungeeLang lang = BungeeLang.getLang(player);
+                    String result = lang.getMessage(report.getResult().getMessage());
+                    player.sendMessage(lang.getMessage(MessageUtils.Global.REPORT_RESOLVED).replace("{result}", result));
                 }
             }
             if (action.equalsIgnoreCase("Nick")) {

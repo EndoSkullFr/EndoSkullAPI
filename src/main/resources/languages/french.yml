@@ -120,6 +120,10 @@ global:
   no-vote: "§a§lEndoSkull §8» §cNous n'avez pas voter pour le serveur"
   vote-already: "§a§lEndoSkull §8» §cVous avez déjà récupérer votre récompense de vote"
   vote-claim: "§a§lEndoSkull §8» §aVous avez récupérer votre récompense de vote ! (+1 Clé Vote)"
+  valid: "§aValide"
+  uncertain: "§eIncertain"
+  false: "§cFaux"
+  report-resolved: "§a§lEndoSkull §8» §7Votre report vient d'être traité comme {result}"
 
 party-friend:
   any-friend: "{line}\n§cVotre liste d'amis est vide\n§7Pour commencer à en ajouter faîtes §a/friend add (Pseudo)\n{line}"

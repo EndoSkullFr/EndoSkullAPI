@@ -1,5 +1,7 @@
 package fr.endoskull.api.commons.reports;
 
+import fr.endoskull.api.commons.lang.MessageUtils;
+
 import java.util.UUID;
 
 public class Report {
@@ -72,6 +74,16 @@ public class Report {
     }
 
     public static enum Result {
-        VALID, UNCERTAIN, FALSE;
+        VALID(MessageUtils.Global.VALID), UNCERTAIN(MessageUtils.Global.UNCERTAIN), FALSE(MessageUtils.Global.FALSE);
+
+        private MessageUtils message;
+
+        Result(MessageUtils message) {
+            this.message = message;
+        }
+
+        public MessageUtils getMessage() {
+            return message;
+        }
     }
 }

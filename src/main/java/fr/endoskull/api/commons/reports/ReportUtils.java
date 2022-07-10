@@ -13,11 +13,11 @@ import java.awt.*;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 public class ReportUtils {
     public static void createReport(Report report, Player player) {
         saveReport(report);
-        //send plugin message -> check duel plugin
         ByteArrayDataOutput dataOutput = ByteStreams.newDataOutput();
         dataOutput.writeUTF("ReportSend");
         dataOutput.writeUTF(report.getReporterName());
@@ -38,6 +38,16 @@ public class ReportUtils {
         } catch (IOException ex) {
             ex.printStackTrace();
         }
+    }
+
+    public static void resolveReport(Report report, Player player, Report.Result result) {
+        report.setResolved(true);
+        report.setResult(result);
+        saveReport(report);
+        ByteArrayDataOutput dataOutput = ByteStreams.newDataOutput();
+        dataOutput.writeUTF("ReportResolved");
+        dataOutput.writeUTF(report.getUuid().toString());
+        player.sendPluginMessage(Main.getInstance(), Main.CHANNEL, dataOutput.toByteArray());
     }
 
     public static void saveReport(Report report) {
@@ -77,5 +87,19 @@ public class ReportUtils {
         } finally {
             j.close();
         }
+    }
+
+    public static Report loadReport(UUID uuid) {
+        Jedis j = null;
+        try {
+            j = JedisAccess.getUserpool().getResource();
+            if (j.exists("report:" + uuid)) {
+                Report report = new Gson().fromJson(j.get("report:" + uuid), Report.class);
+                return report;
+            }
+        } finally {
+            j.close();
+        }
+        return null;
     }
 }

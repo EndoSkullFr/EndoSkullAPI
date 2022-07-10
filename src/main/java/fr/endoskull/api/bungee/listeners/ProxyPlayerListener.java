@@ -11,6 +11,7 @@ import fr.endoskull.api.commons.paf.FriendSettingsBungee;
 import fr.endoskull.api.commons.paf.FriendUtils;
 import fr.endoskull.api.commons.paf.Party;
 import fr.endoskull.api.commons.paf.PartyUtils;
+import fr.endoskull.api.commons.reports.MessagesLog;
 import fr.endoskull.api.commons.server.ServerType;
 import fr.endoskull.api.data.redis.JedisManager;
 import net.md_5.bungee.BungeeCord;

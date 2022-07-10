@@ -1,6 +1,8 @@
 package fr.endoskull.api.spigot.inventories;
 
+import com.google.common.base.Joiner;
 import fr.endoskull.api.commons.lang.MessageUtils;
+import fr.endoskull.api.commons.reports.MessagesLog;
 import fr.endoskull.api.commons.reports.Report;
 import fr.endoskull.api.commons.reports.ReportUtils;
 import fr.endoskull.api.spigot.utils.CustomGui;
@@ -10,6 +12,11 @@ import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class ReportsGui extends CustomGui {
     public ReportsGui(Player p, int page) {
@@ -52,38 +59,54 @@ public class ReportsGui extends CustomGui {
             Languages lang = Languages.getLang(p);
             p.playSound(p.getLocation(), Sound.NOTE_PLING, 1, 1);
             setItem(12, CustomItemStack.getPlayerSkull(report.getTargetName()).setName("§c" + report.getTargetName())
-                    .setLore("\n§fHistorique du chat:\n...\n\n§e» Cliquez pour se téléporter à ce joueur"), player -> {
+                    .setLore("\n§fHistorique du chat (report):\n" + getFormattedMessage(MessagesLog.get(report.getTargetUUID()).getLastMessages(5, report.getCreatedOn())) + "\n§fHistorique du chat (actuel):\n" + getFormattedMessage(MessagesLog.get(report.getTargetUUID()).getLastMessages(5)) +
+                            "\n\n§e» Cliquez pour se téléporter à ce joueur"), player -> {
                 Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "forward " + player.getName() + " stp " + report.getTargetName());
             });
             setItem(14, CustomItemStack.getPlayerSkull(report.getReporterName()).setName("§a" + report.getReporterName())
-                    .setLore("\n§fHistorique du chat:\n...\n\n§e» Cliquez pour se téléporter à ce joueur"), player -> {
+                    .setLore("\n§fHistorique du chat (report):\n" + getFormattedMessage(MessagesLog.get(report.getReporterUUID()).getLastMessages(5, report.getCreatedOn())) + "\n§fHistorique du chat (actuel):\n" + getFormattedMessage(MessagesLog.get(report.getReporterUUID()).getLastMessages(5)) +
+                            "\n\n§e» Cliquez pour se téléporter à ce joueur"), player -> {
                 Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "forward " + player.getName() + " stp " + report.getReporterName());
             });
             setItem(29, new CustomItemStack(Material.STAINED_CLAY, 1, (byte) 5).setName("§aDéfinir comme valide"), player -> {
-                report.setResolved(true);
-                report.setResult(Report.Result.VALID);
-                ReportUtils.saveReport(report);
+                //report.setResolved(true);
+                //report.setResult(Report.Result.VALID);
+                //ReportUtils.saveReport(report);
+                ReportUtils.resolveReport(report, player, Report.Result.VALID);
                 player.closeInventory();
                 player.sendMessage("§eEndoSkull §8» §7Pour avez défini ce report comme §aValide");
                 player.performCommand("sanction " + report.getTargetName());
             });
             setItem(31, new CustomItemStack(Material.STAINED_CLAY, 1, (byte) 4).setName("§eDéfinir comme incertain"), player -> {
-                report.setResolved(true);
-                report.setResult(Report.Result.UNCERTAIN);
-                ReportUtils.saveReport(report);
+                //report.setResolved(true);
+                //report.setResult(Report.Result.UNCERTAIN);
+                //ReportUtils.saveReport(report);
+                ReportUtils.resolveReport(report, player, Report.Result.UNCERTAIN);
                 player.closeInventory();
                 player.sendMessage("§eEndoSkull §8» §7Pour avez défini ce report comme §eIncertain");
             });
             setItem(33, new CustomItemStack(Material.STAINED_CLAY, 1, (byte) 14).setName("§cDéfinir comme invalide"), player -> {
-                report.setResolved(true);
-                report.setResult(Report.Result.FALSE);
-                ReportUtils.saveReport(report);
+                //report.setResolved(true);
+                //report.setResult(Report.Result.FALSE);
+                //ReportUtils.saveReport(report);
+                ReportUtils.resolveReport(report, player, Report.Result.FALSE);
                 player.closeInventory();
                 player.sendMessage("§eEndoSkull §8» §7Pour avez défini ce report comme §cInvalide");
             });
             setItem(44, new CustomItemStack(Material.ARROW).setName(lang.getMessage(MessageUtils.Global.BACK)), player -> {
                 new ReportsGui(player, 0).open();
             });
+        }
+
+        public static String getFormattedMessage(HashMap<Long, String> messages) {
+            String[] lines = new String[messages.size()];
+            SimpleDateFormat sdf = new SimpleDateFormat("kk:mm:ss");
+            AtomicInteger i = new AtomicInteger();
+            messages.forEach((aLong, s) -> {
+                lines[i.get()] = "§f" + sdf.format(new Date(aLong)) + " : " + messages;
+                i.getAndIncrement();
+            });
+            return Joiner.on("\n").join(lines);
         }
     }
 }
