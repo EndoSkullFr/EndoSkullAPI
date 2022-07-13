@@ -42,9 +42,11 @@ public class StreamCommand implements CommandExecutor {
         UserManager userManager = luckPerms.getUserManager();
         User user = userManager.getUser(player.getUniqueId());
         if (user.data().contains(Node.builder("group.stream-mode").build(), NodeEqualityPredicate.EXACT).asBoolean()) {
-            player.sendMessage("stream");
+            user.data().remove(Node.builder("group.stream-mode").build());
+            player.sendMessage("§eEndoSkull §8» §aMode streamer retiré");
         } else {
-            player.sendMessage("pas stream");
+            user.data().add(Node.builder("group.stream-mode").build());
+            player.sendMessage("§eEndoSkull §8» §aMode streamer ajouté");
         }
 
         return false;
