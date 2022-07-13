@@ -8,6 +8,7 @@ import fr.endoskull.api.commons.reports.ReportUtils;
 import fr.endoskull.api.spigot.utils.CustomGui;
 import fr.endoskull.api.spigot.utils.CustomItemStack;
 import fr.endoskull.api.spigot.utils.Languages;
+import fr.endoskull.api.spigot.utils.SpigotReportUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.Sound;
@@ -77,7 +78,8 @@ public class ReportsGui extends CustomGui {
                 //report.setResolved(true);
                 //report.setResult(Report.Result.VALID);
                 //ReportUtils.saveReport(report);
-                ReportUtils.resolveReport(report, player, Report.Result.VALID);
+                ReportUtils.resolveReport(report, Report.Result.VALID);
+                SpigotReportUtils.sendResolvedPluginMessage(player, report);
                 player.closeInventory();
                 player.sendMessage("§eEndoSkull §8» §7Pour avez défini ce report comme §aValide");
                 player.performCommand("sanction " + report.getTargetName());
@@ -86,7 +88,8 @@ public class ReportsGui extends CustomGui {
                 //report.setResolved(true);
                 //report.setResult(Report.Result.UNCERTAIN);
                 //ReportUtils.saveReport(report);
-                ReportUtils.resolveReport(report, player, Report.Result.UNCERTAIN);
+                ReportUtils.resolveReport(report, Report.Result.UNCERTAIN);
+                SpigotReportUtils.sendResolvedPluginMessage(player, report);
                 player.closeInventory();
                 player.sendMessage("§eEndoSkull §8» §7Pour avez défini ce report comme §eIncertain");
             });
@@ -94,7 +97,8 @@ public class ReportsGui extends CustomGui {
                 //report.setResolved(true);
                 //report.setResult(Report.Result.FALSE);
                 //ReportUtils.saveReport(report);
-                ReportUtils.resolveReport(report, player, Report.Result.FALSE);
+                ReportUtils.resolveReport(report, Report.Result.FALSE);
+                SpigotReportUtils.sendResolvedPluginMessage(player, report);
                 player.closeInventory();
                 player.sendMessage("§eEndoSkull §8» §7Pour avez défini ce report comme §cInvalide");
             });

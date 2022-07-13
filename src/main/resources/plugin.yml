@@ -59,6 +59,8 @@ commands:
     permission: endoskull.report
   reports:
     permission: endoskull.managereports
+  stream:
+    permission: endoskull.stream
 permissions:
   endoskull.report:
     default: true

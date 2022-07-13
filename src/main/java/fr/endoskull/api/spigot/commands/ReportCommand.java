@@ -7,6 +7,7 @@ import fr.endoskull.api.commons.reports.ReportUtils;
 import fr.endoskull.api.spigot.inventories.ReportGui;
 import fr.endoskull.api.spigot.utils.Languages;
 import fr.endoskull.api.spigot.utils.SpigotPlayerInfos;
+import fr.endoskull.api.spigot.utils.SpigotReportUtils;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -41,7 +42,8 @@ public class ReportCommand implements CommandExecutor {
         if (args.length > 1) {
             String reason = Joiner.on(' ').join(Arrays.copyOfRange(args, 1, args.length));
             Report report = new Report(player.getUniqueId(), player.getName(), targetUuid, targetName, reason, System.currentTimeMillis(), false, null);
-            ReportUtils.createReport(report, player);
+            ReportUtils.createReport(report);
+            SpigotReportUtils.sendCreatedPluginMessage(player, report);
             player.sendMessage(lang.getMessage(MessageUtils.Global.REPORT_SEND));
         } else {
             new ReportGui(targetName, player).open();

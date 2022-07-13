@@ -3,10 +3,8 @@ package fr.endoskull.api.commons.reports;
 import com.google.common.io.ByteArrayDataOutput;
 import com.google.common.io.ByteStreams;
 import com.google.gson.Gson;
-import fr.endoskull.api.Main;
 import fr.endoskull.api.commons.miscellaneous.DiscordWebhook;
 import fr.endoskull.api.data.redis.JedisAccess;
-import org.bukkit.entity.Player;
 import redis.clients.jedis.Jedis;
 
 import java.awt.*;
@@ -16,15 +14,15 @@ import java.util.List;
 import java.util.UUID;
 
 public class ReportUtils {
-    public static void createReport(Report report, Player player) {
+    public static void createReport(Report report) {
         saveReport(report);
-        ByteArrayDataOutput dataOutput = ByteStreams.newDataOutput();
+        /*ByteArrayDataOutput dataOutput = ByteStreams.newDataOutput();
         dataOutput.writeUTF("ReportSend");
         dataOutput.writeUTF(report.getReporterName());
         dataOutput.writeUTF(report.getTargetName());
         dataOutput.writeUTF(report.getReason());
         dataOutput.writeUTF(report.getUuid().toString());
-        player.sendPluginMessage(Main.getInstance(), Main.CHANNEL, dataOutput.toByteArray());
+        player.sendPluginMessage(Main.getInstance(), Main.CHANNEL, dataOutput.toByteArray());*/
         DiscordWebhook webhook = new DiscordWebhook("https://discord.com/api/webhooks/983354998584913951/ZBIGUC1aKZr80zDaKmP5L1TNw4ohYKu9pG0fIvUW7PkkAPCety4KGomDh95P7P9QZal5");
         webhook.setAvatarUrl("https://www.ville-gravelines.fr/sites/default/files/field/image/report_1.png");
         webhook.setUsername("Report");
@@ -40,14 +38,14 @@ public class ReportUtils {
         }
     }
 
-    public static void resolveReport(Report report, Player player, Report.Result result) {
+    public static void resolveReport(Report report, Report.Result result) {
         report.setResolved(true);
         report.setResult(result);
         saveReport(report);
-        ByteArrayDataOutput dataOutput = ByteStreams.newDataOutput();
+        /*ByteArrayDataOutput dataOutput = ByteStreams.newDataOutput();
         dataOutput.writeUTF("ReportResolved");
         dataOutput.writeUTF(report.getUuid().toString());
-        player.sendPluginMessage(Main.getInstance(), Main.CHANNEL, dataOutput.toByteArray());
+        player.sendPluginMessage(Main.getInstance(), Main.CHANNEL, dataOutput.toByteArray());*/
     }
 
     public static void saveReport(Report report) {
